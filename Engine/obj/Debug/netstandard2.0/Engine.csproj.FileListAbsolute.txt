@@ -1,0 +1,9 @@
+C:\Git\Chess\Engine\bin\Debug\netstandard2.0\Engine.deps.json
+C:\Git\Chess\Engine\bin\Debug\netstandard2.0\Engine.dll
+C:\Git\Chess\Engine\bin\Debug\netstandard2.0\Engine.pdb
+C:\Git\Chess\Engine\obj\Debug\netstandard2.0\Engine.csprojAssemblyReference.cache
+C:\Git\Chess\Engine\obj\Debug\netstandard2.0\Engine.csproj.CoreCompileInputs.cache
+C:\Git\Chess\Engine\obj\Debug\netstandard2.0\Engine.AssemblyInfoInputs.cache
+C:\Git\Chess\Engine\obj\Debug\netstandard2.0\Engine.AssemblyInfo.cs
+C:\Git\Chess\Engine\obj\Debug\netstandard2.0\Engine.dll
+C:\Git\Chess\Engine\obj\Debug\netstandard2.0\Engine.pdb
