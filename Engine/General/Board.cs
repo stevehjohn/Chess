@@ -75,9 +75,6 @@ namespace Engine.General
                         case Type.Rook:
                             sb.Append("R");
                             break;
-                        default:
-                            sb.Append("-");
-                            break;
                     }
                 }
 
