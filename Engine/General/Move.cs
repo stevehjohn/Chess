@@ -2,7 +2,7 @@
 {
     public class Move
     {
-        public int Left { get; set; }
+        public int Strafe { get; set; }
 
         public int Forward { get; set; }
     }

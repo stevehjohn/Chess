@@ -13,7 +13,7 @@ namespace Engine.Pieces
 
         public Position Position { get; set; }
 
-        public abstract List<Position> PossibleMoves(Board board);
+        public abstract List<Move> PossibleMoves(Board board);
 
         public bool Captured { get; set; }
 
