@@ -7,7 +7,7 @@ namespace Engine.Pieces
     {
         public override Type Type => Type.Pawn;
 
-        public override List<Move> PossibleMoves(Board board)
+        public override List<Position> PossibleMoves(Board board)
         {
             throw new System.NotImplementedException();
         }
