@@ -2,7 +2,7 @@
 {
     public enum Side
     {
-        Black,
-        White
+        White = -1,
+        Black = 1
     }
 }

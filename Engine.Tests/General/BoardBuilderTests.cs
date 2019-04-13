@@ -14,14 +14,14 @@ namespace Engine.Tests.General
 
             Assert.That(board.Dump(), Is.EqualTo(new[]
                                                  {
-                                                     "RNBQKBNR",
-                                                     "PPPPPPPP",
-                                                     "--------",
-                                                     "--------",
-                                                     "--------",
-                                                     "--------",
-                                                     "PPPPPPPP",
-                                                     "RNBKQBNR"
+                                                     "♜♞♝♛♚♝♞♜",
+                                                     "♟♟♟♟♟♟♟♟",
+                                                     "        ",
+                                                     "        ",
+                                                     "        ",
+                                                     "        ",
+                                                     "♙♙♙♙♙♙♙♙",
+                                                     "♖♘♗♕♔♗♘♖"
                                                  }));
         }
     }

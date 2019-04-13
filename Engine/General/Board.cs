@@ -43,39 +43,48 @@ namespace Engine.General
         {
             var result = new List<string>();
 
-            for (var y = 0; y < 8; y++)
+            for (var column = 0; column < 8; column++)
             {
                 var sb = new StringBuilder();
 
-                for (var x = 0; x < 8; x++)
+                for (var row = 0; row < 8; row++)
                 {
-                    if (Squares[x, y] == null)
+                    if (Squares[row, column] == null)
                     {
-                        sb.Append("-");
+                        sb.Append(" ");
                         continue;
                     }
 
-                    switch (Squares[x, y].Type)
+                    var piece = ' ';
+
+                    switch (Squares[row, column].Type)
                     {
                         case Type.Bishop:
-                            sb.Append("B");
+                            piece = '♗';
                             break;
                         case Type.King:
-                            sb.Append("K");
+                            piece = '♔';
                             break;
                         case Type.Knight:
-                            sb.Append("N");
+                            piece = '♘';
                             break;
                         case Type.Pawn:
-                            sb.Append("P");
+                            piece = '♙';
                             break;
                         case Type.Queen:
-                            sb.Append("Q");
+                            piece = '♕';
                             break;
                         case Type.Rook:
-                            sb.Append("R");
+                            piece ='♖';
                             break;
                     }
+
+                    if (Squares[row, column].Side == Side.Black)
+                    {
+                        piece += '\u0006';
+                    }
+
+                    sb.Append(piece);
                 }
 
                 result.Add(sb.ToString());

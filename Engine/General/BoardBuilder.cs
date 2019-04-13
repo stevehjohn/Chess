@@ -41,8 +41,8 @@ namespace Engine.General
             board.AddPiece(Type.Queen, new Position(0, 3), Side.Black);
             board.AddPiece(Type.King, new Position(0, 4), Side.Black);
 
-            board.AddPiece(Type.Queen, new Position(7, 4), Side.White);
-            board.AddPiece(Type.King, new Position(7, 3), Side.White);
+            board.AddPiece(Type.Queen, new Position(7, 3), Side.White);
+            board.AddPiece(Type.King, new Position(7, 4), Side.White);
 
             return board;
         }
