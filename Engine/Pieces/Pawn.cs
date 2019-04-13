@@ -7,6 +7,8 @@ namespace Engine.Pieces
     {
         public override Type Type => Type.Pawn;
 
+        public override int Value => 1;
+
         public override List<Position> PossibleMoves(Board board)
         {
             var builder = new PossibleMoveBuilder(board, Side);

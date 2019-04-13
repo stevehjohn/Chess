@@ -7,6 +7,8 @@ namespace Engine.Pieces
     {
         public override Type Type => Type.King;
 
+        public override int Value => int.MaxValue;
+
         public override List<Position> PossibleMoves(Board board)
         {
             throw new System.NotImplementedException();

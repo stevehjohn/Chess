@@ -9,6 +9,8 @@ namespace Engine.Pieces
 
         public abstract Type Type { get; }
 
+        public abstract int Value { get; }
+
         public int NumberOfMoves { get; set; }
 
         public Position Position { get; set; }
