@@ -42,11 +42,11 @@ namespace Engine.General
                 {
                     return;
                 }
+            }
 
-                if (_board.Squares[newPosition.Row, newPosition.Column].Side == _side)
-                {
-                    return;
-                }
+            if (_board.Squares[newPosition.Row, newPosition.Column] != null && _board.Squares[newPosition.Row, newPosition.Column].Side == _side)
+            {
+                return;
             }
 
             PossibleMoves.Add(newPosition);
