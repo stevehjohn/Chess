@@ -17,7 +17,7 @@ namespace Engine.General
             _side = side;
         }
 
-        public void AddMove(Position currentPosition, int forward, int right, bool mustBeEmpty = false, bool mustNotBeEmpty = false)
+        public void AddMove(Position currentPosition, int forward, int right, bool mustBeEmpty = false, bool mustContainOpponent = false)
         {
             if (_side == Side.White)
             {
@@ -36,9 +36,17 @@ namespace Engine.General
                 return;
             }
 
-            if (mustNotBeEmpty && _board.Squares[newPosition.Row, newPosition.Column] == null)
+            if (mustContainOpponent)
             {
-                return;
+                if (_board.Squares[newPosition.Row, newPosition.Column] == null)
+                {
+                    return;
+                }
+
+                if (_board.Squares[newPosition.Row, newPosition.Column].Side == _side)
+                {
+                    return;
+                }
             }
 
             PossibleMoves.Add(newPosition);
