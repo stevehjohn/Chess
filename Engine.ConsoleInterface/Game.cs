@@ -17,7 +17,7 @@ namespace Engine.ConsoleInterface
 
             Title = "Chess";
             OutputEncoding = Encoding.Unicode;
-            BackgroundColor = ConsoleColor.DarkYellow;
+            BackgroundColor = ConsoleColor.Black;
             ForegroundColor = ConsoleColor.White;
 
             Clear();
