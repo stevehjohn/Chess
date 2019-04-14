@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Type = Engine.Pieces.Type;
+// ReSharper disable StringLiteralTypo
 
 namespace Engine.General
 {
@@ -42,14 +43,14 @@ namespace Engine.General
         public string[] Dump()
         {
             var result = new List<string>();
-
-            for (var column = 0; column < 8; column++)
+ 
+            for (var row = 0; row < 8; row++)
             {
                 var sb = new StringBuilder();
 
-                for (var row = 0; row < 8; row++)
+                for (var column = 0; column < 8; column++)
                 {
-                    if (Squares[row, column] == null)
+                    if (Squares[column, row] == null)
                     {
                         sb.Append(" ");
                         continue;
@@ -57,7 +58,7 @@ namespace Engine.General
 
                     var piece = ' ';
 
-                    switch (Squares[row, column].Type)
+                    switch (Squares[column, row].Type)
                     {
                         case Type.Bishop:
                             piece = '♗';
@@ -79,7 +80,7 @@ namespace Engine.General
                             break;
                     }
 
-                    if (Squares[row, column].Side == Side.Black)
+                    if (Squares[column, row].Side == Side.Black)
                     {
                         piece += '\u0006';
                     }
