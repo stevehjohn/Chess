@@ -11,7 +11,18 @@ namespace Engine.Pieces
 
         public override List<Position> PossibleMoves(Board board)
         {
-            throw new System.NotImplementedException();
+            var builder = new PossibleMoveBuilder(board, Side);
+
+            builder.AddMove(Position, -1, -1);
+            builder.AddMove(Position, -1, 0);
+            builder.AddMove(Position, -1, 1);
+            builder.AddMove(Position, 0, 1);
+            builder.AddMove(Position, 1, 1);
+            builder.AddMove(Position, 1, 0);
+            builder.AddMove(Position, 1, -1);
+            builder.AddMove(Position, 0, -1);
+
+            return builder.PossibleMoves;
         }
     }
 }
