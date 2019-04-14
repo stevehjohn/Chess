@@ -51,5 +51,39 @@ namespace Engine.General
 
             PossibleMoves.Add(newPosition);
         }
+
+        public void AddDirection(Position currentPosition, int forward, int right)
+        {
+            if (_side == Side.White)
+            {
+                forward = -forward;
+            }
+
+            for (var i = 1; i < 8; i++)
+            {
+                var row = currentPosition.Row + forward * i;
+                var column = currentPosition.Column + right * i;
+
+                if (row < 0 || row > 7 || column < 0 || column > 7)
+                {
+                    break;
+                }
+
+                var target = _board.Squares[row, column];
+
+                if (target == null)
+                {
+                    PossibleMoves.Add(new Position(row, column));
+                    continue;
+                }
+
+                if (target.Side != _side)
+                {
+                    PossibleMoves.Add(new Position(row, column));
+                }
+
+                break;
+            }
+        }
     }
 }
