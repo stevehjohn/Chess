@@ -32,7 +32,7 @@ namespace Engine.ConsoleInterface
 
                 Write("\nEnter move: ");
 
-                var move = ReadLine();
+                ReadLine();
 
                 Clear();
             }

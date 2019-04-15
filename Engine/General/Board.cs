@@ -18,6 +18,11 @@ namespace Engine.General
             Squares = new Piece[8,8];
         }
 
+        public Board(Piece[,] squares)
+        {
+            Squares = squares;
+        }
+
         public void AddPiece(Type type, Position position, Side side)
         {
             var pieces = Assembly
@@ -40,7 +45,7 @@ namespace Engine.General
             }
         }
 
-        public Piece[,] Copy()
+        public Board Copy()
         {
             var copy = new Piece[8, 8];
 
@@ -57,7 +62,7 @@ namespace Engine.General
                 }
             }
 
-            return copy;
+            return new Board(copy);
         }
 
         public string[] Dump()

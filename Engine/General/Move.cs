@@ -1,4 +1,5 @@
-﻿using Engine.Pieces;
+﻿using System.Collections.Generic;
+using Engine.Pieces;
 
 namespace Engine.General
 {
@@ -10,6 +11,13 @@ namespace Engine.General
 
         public int TotalValue { get; set; }
 
-        public Piece[,] BoardState { get; set; }
+        public Board BoardState { get; set; }
+
+        public List<Move> NextMoves { get; set; }
+
+        public Move()
+        {
+            NextMoves = new List<Move>();
+        }
     }
 }

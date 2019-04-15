@@ -11,5 +11,10 @@
             Row = row;
             Column = column;
         }
+
+        public Position Copy()
+        {
+            return new Position(Row, Column);
+        }
     }
 }

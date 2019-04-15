@@ -26,7 +26,7 @@ namespace Engine.Pieces
             return new Rook
                    {
                        NumberOfMoves = NumberOfMoves,
-                       Position = new Position(Position.Row, Position.Column),
+                       Position = Position.Copy(),
                        Side = Side
                    };
         }

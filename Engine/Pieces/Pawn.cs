@@ -34,7 +34,7 @@ namespace Engine.Pieces
             return new Pawn
                    {
                        NumberOfMoves = NumberOfMoves,
-                       Position = new Position(Position.Row, Position.Column),
+                       Position = Position.Copy(),
                        Side = Side
                    };
         }

@@ -30,7 +30,7 @@ namespace Engine.Pieces
             return new Knight
                    {
                        NumberOfMoves = NumberOfMoves,
-                       Position = new Position(Position.Row, Position.Column),
+                       Position = Position.Copy(),
                        Side = Side
                    };
         }

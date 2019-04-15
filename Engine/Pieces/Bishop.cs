@@ -26,7 +26,7 @@ namespace Engine.Pieces
             return new Bishop
                    {
                        NumberOfMoves = NumberOfMoves,
-                       Position = new Position(Position.Row, Position.Column),
+                       Position = Position.Copy(),
                        Side = Side
                    };
         }
