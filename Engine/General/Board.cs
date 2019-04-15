@@ -40,6 +40,26 @@ namespace Engine.General
             }
         }
 
+        public Piece[,] Copy()
+        {
+            var copy = new Piece[8, 8];
+
+            for (var row = 0; row < 8; row++)
+            {
+                for (var column = 0; column < 8; column++)
+                {
+                    var square = Squares[row, column];
+
+                    if (square != null)
+                    {
+                        copy[row, column] = square.Copy();
+                    }
+                }
+            }
+
+            return copy;
+        }
+
         public string[] Dump()
         {
             var result = new List<string>();

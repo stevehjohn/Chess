@@ -17,6 +17,8 @@ namespace Engine.Pieces
 
         public abstract List<Position> PossibleMoves(Board board);
 
+        public abstract Piece Copy();
+
         protected Piece()
         {
             NumberOfMoves = 0;

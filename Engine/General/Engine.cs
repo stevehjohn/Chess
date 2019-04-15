@@ -18,6 +18,7 @@ namespace Engine.General
 
             while (stopWatch.ElapsedMilliseconds < millisecondsToThink)
             {
+
             }
         }
     }

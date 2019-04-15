@@ -20,5 +20,15 @@ namespace Engine.Pieces
 
             return builder.PossibleMoves;
         }
+
+        public override Piece Copy()
+        {
+            return new Rook
+                   {
+                       NumberOfMoves = NumberOfMoves,
+                       Position = new Position(Position.Row, Position.Column),
+                       Side = Side
+                   };
+        }
     }
 }
