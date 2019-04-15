@@ -6,7 +6,7 @@ namespace Engine.General
 {
     public class ChessEngine
     {
-        private const int Depth = 4;
+        private const int Depth = 5;
 
         private readonly Board _board;
 

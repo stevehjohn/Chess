@@ -2,6 +2,7 @@
 using Engine.Pieces;
 using NUnit.Framework;
 using System;
+using NCrunch.Framework;
 
 namespace Engine.Tests.General
 {
@@ -21,6 +22,7 @@ namespace Engine.Tests.General
 
         [Explicit]
         [Test]
+        [Timeout(0)]
         public void Total_moves_at_each_depth_is_correct()
         {
             _engine.MakeMove(Side.White);
