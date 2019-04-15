@@ -1,6 +1,7 @@
 ﻿using Engine.Pieces;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Engine.General
 {
@@ -10,24 +11,27 @@ namespace Engine.General
 
         private readonly Board _board;
 
+        internal List<Move>[] Depths;
+
         public ChessEngine(Board board)
         {
             _board = board;
         }
 
-        public void MakeMove(Side side)
+        public async Task MakeMove(Side side)
         {
-            var moves = new List<Move>();
+            Depths = new List<Move>[Depth];
 
-            moves = GetMoves(side, _board, Depth);
+            for (var depth = 0; depth < Depth; depth++)
+            {
+                Depths[depth] = new List<Move>();
+            }
+
+            GetMoves(side, _board);
         }
 
-        private static List<Move> GetMoves(Side side, Board board, int depth)
+        private void GetMoves(Side side, Board board, int depth = 0)
         {
-            depth--;
-
-            var moves = new List<Move>();
-
             for (var row = 0; row < 8; row++)
             {
                 for (var column = 0; column < 8; column++)
@@ -38,37 +42,29 @@ namespace Engine.General
                     {
                         if (piece.Side == side)
                         {
-                            var pieceMoves = piece.PossibleMoves(board)
-                                                  .Select(p =>
-                                                  {
-                                                      var boardCopy = board.Copy();
-                                                      boardCopy.Squares[piece.Position.Row, piece.Position.Column] = null;
-                                                      boardCopy.Squares[p.Row, p.Column] = piece.Copy();
+                            var pieceMoves = piece.PossibleMoves(board).ToList();
 
-                                                      return new Move
-                                                             {
-                                                                 BoardState = boardCopy,
-                                                                 FromPosition = piece.Position.Copy(),
-                                                                 ToPosition = p
-                                                             };
-                                                  })
-                                                  .ToList();
-
-                            moves.AddRange(pieceMoves);
-
-                            if (depth > 0)
+                            if (depth < Depth - 1)
                             {
                                 foreach (var move in pieceMoves)
                                 {
-                                    move.NextMoves.AddRange(GetMoves((Side)(-(int)side), move.BoardState, depth));
+                                    var boardCopy = board.Copy();
+                                    boardCopy.Squares[piece.Position.Row, piece.Position.Column] = null;
+                                    boardCopy.Squares[move.Row, move.Column] = piece.Copy();
+
+                                    GetMoves((Side) (-(int) side), boardCopy, depth + 1);
                                 }
                             }
+
+                            Depths[depth].AddRange(pieceMoves.Select(p => new Move
+                                                                          {
+                                                                              FromPosition = piece.Position.Copy(),
+                                                                              ToPosition = p
+                                                                          }));
                         }
                     }
                 }
             }
-
-            return moves;
         }
     }
 }

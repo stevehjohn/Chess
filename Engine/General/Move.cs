@@ -10,14 +10,5 @@ namespace Engine.General
         public Position ToPosition { get; set; }
 
         public int TotalValue { get; set; }
-
-        public Board BoardState { get; set; }
-
-        public List<Move> NextMoves { get; set; }
-
-        public Move()
-        {
-            NextMoves = new List<Move>();
-        }
     }
 }
