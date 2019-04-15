@@ -18,7 +18,7 @@ namespace Engine.General
             _board = board;
         }
 
-        public async Task MakeMove(Side side)
+        public void MakeMove(Side side)
         {
             Depths = new List<Move>[Depth];
 
