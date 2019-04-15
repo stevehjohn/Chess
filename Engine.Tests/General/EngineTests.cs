@@ -1,7 +1,7 @@
 ﻿using Engine.General;
 using Engine.Pieces;
 using NUnit.Framework;
-using System.Threading.Tasks;
+using System;
 
 namespace Engine.Tests.General
 {
@@ -24,6 +24,17 @@ namespace Engine.Tests.General
         public void Total_moves_at_each_depth_is_correct()
         {
             _engine.MakeMove(Side.White);
+
+            for (var i = 0; i < 4; i++)
+            {
+                _engine.Depths[i].ForEach(m =>
+                {
+                    if (m.TotalValue > 0)
+                    {
+                        Console.WriteLine($"{i}: {m.TotalValue}");
+                    }
+                });
+            }
         }
     }
 }

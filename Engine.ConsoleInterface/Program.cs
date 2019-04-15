@@ -5,7 +5,7 @@ namespace Engine.ConsoleInterface
     [ExcludeFromCodeCoverage]
     public class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
             var game = new Game();
 

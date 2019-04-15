@@ -29,7 +29,7 @@ namespace Engine.General
             GetMoves(side, _board);
         }
 
-        private void GetMoves(Side side, Board board, int depth = 0)
+        private void GetMoves(Side side, Board board, int depth = 0, int previousValue = 0)
         {
             for (var row = 0; row < 8; row++)
             {
@@ -43,28 +43,34 @@ namespace Engine.General
                         {
                             var pieceMoves = piece.PossibleMoves(board).ToList();
 
-                            if (depth < Depth - 1)
+                            foreach (var move in pieceMoves)
                             {
-                                foreach (var move in pieceMoves)
-                                {
-                                    var boardCopy = board.Copy();
-                                    var target = boardCopy.Squares[piece.Position.Row, piece.Position.Column];
-                                    if (target != null)
-                                    {
-                                        var value = target.Value;
-                                        boardCopy.Squares[piece.Position.Row, piece.Position.Column] = null;
-                                    }
-                                    boardCopy.Squares[move.Row, move.Column] = piece.Copy();
+                                var value = 0;
 
-                                    GetMoves((Side) (-(int) side), boardCopy, depth + 1);
+                                var boardCopy = board.Copy();
+                                var target = boardCopy.Squares[move.Row, move.Column];
+                                if (target != null)
+                                {
+                                    value = target.Value;
+                                }
+                                boardCopy.Squares[piece.Position.Row, piece.Position.Column] = null;
+
+                                boardCopy.Squares[move.Row, move.Column] = piece.Copy();
+
+                                var totalValue = previousValue + value;
+
+                                Depths[depth].Add(new Move
+                                {
+                                    FromPosition = piece.Position.Copy(),
+                                    ToPosition = move,
+                                    TotalValue = totalValue
+                                });
+
+                                if (depth < Depth - 1)
+                                {
+                                    GetMoves((Side)(-(int)side), boardCopy, depth + 1, totalValue);
                                 }
                             }
-
-                            Depths[depth].AddRange(pieceMoves.Select(p => new Move
-                                                                          {
-                                                                              FromPosition = piece.Position.Copy(),
-                                                                              ToPosition = p
-                                                                          }));
                         }
                     }
                 }
