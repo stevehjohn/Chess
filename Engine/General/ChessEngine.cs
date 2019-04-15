@@ -1,7 +1,6 @@
 ﻿using Engine.Pieces;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Engine.General
 {
@@ -49,7 +48,12 @@ namespace Engine.General
                                 foreach (var move in pieceMoves)
                                 {
                                     var boardCopy = board.Copy();
-                                    boardCopy.Squares[piece.Position.Row, piece.Position.Column] = null;
+                                    var target = boardCopy.Squares[piece.Position.Row, piece.Position.Column];
+                                    if (target != null)
+                                    {
+                                        var value = target.Value;
+                                        boardCopy.Squares[piece.Position.Row, piece.Position.Column] = null;
+                                    }
                                     boardCopy.Squares[move.Row, move.Column] = piece.Copy();
 
                                     GetMoves((Side) (-(int) side), boardCopy, depth + 1);
