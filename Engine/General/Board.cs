@@ -34,7 +34,7 @@ namespace Engine.General
                     instance.Position = position;
                     instance.Side = side;
 
-                    Squares[position.Column, position.Row] = instance;
+                    Squares[position.Row, position.Column] = instance;
                     return;
                 }
             }
@@ -70,7 +70,7 @@ namespace Engine.General
 
                 for (var column = 0; column < 8; column++)
                 {
-                    if (Squares[column, row] == null)
+                    if (Squares[row, column] == null)
                     {
                         sb.Append(" ");
                         continue;
@@ -78,7 +78,7 @@ namespace Engine.General
 
                     var piece = ' ';
 
-                    switch (Squares[column, row].Type)
+                    switch (Squares[row, column].Type)
                     {
                         case Type.Bishop:
                             piece = '♗';
@@ -100,7 +100,7 @@ namespace Engine.General
                             break;
                     }
 
-                    if (Squares[column, row].Side == Side.Black)
+                    if (Squares[row, column].Side == Side.Black)
                     {
                         piece += '\u0006';
                     }

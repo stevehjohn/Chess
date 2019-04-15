@@ -2,7 +2,9 @@
 using Engine.General;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
+using Engine.Pieces;
 using static System.Console;
+using Type = Engine.Pieces.Type;
 
 namespace Engine.ConsoleInterface
 {
@@ -13,7 +15,7 @@ namespace Engine.ConsoleInterface
 
         public void Play()
         {
-            var _board = BoardBuilder.Build();
+            _board = BoardBuilder.Build();
 
             Title = "Chess";
             OutputEncoding = Encoding.Unicode;
@@ -26,9 +28,11 @@ namespace Engine.ConsoleInterface
             {
                 DisplayBoard();
 
-                Write("\nSelect piece: ");
+                ForegroundColor = ConsoleColor.White;
 
-                ReadLine();
+                Write("\nEnter move: ");
+
+                var move = ReadLine();
 
                 Clear();
             }
@@ -36,12 +40,56 @@ namespace Engine.ConsoleInterface
 
         private void DisplayBoard()
         {
+            Clear();
+            ForegroundColor = ConsoleColor.White;
+            WriteLine("\n  A B C D E F G H\n");
+
             for (var row = 0; row < 8; row++)
             {
+                ForegroundColor = ConsoleColor.White;
+
+                Write(row + 1);
+
                 for (var column = 0; column < 8; column++)
                 {
+                    Write(' ');
 
+                    var piece = _board.Squares[row, column];
+
+                    if (piece == null)
+                    {
+                        Write(' ');
+                        continue;
+                    }
+
+                    ForegroundColor = piece.Side == Side.Black
+                        ? ConsoleColor.Magenta
+                        : ConsoleColor.Cyan;
+
+                    switch (piece.Type)
+                    {
+                        case Type.Rook:
+                            Write('R');
+                            break;
+                        case Type.Knight:
+                            Write('N');
+                            break;
+                        case Type.Bishop:
+                            Write('B');
+                            break;
+                        case Type.Queen:
+                            Write('Q');
+                            break;
+                        case Type.King:
+                            Write('K');
+                            break;
+                        default:
+                            Write('P');
+                            break;
+                    }
                 }
+
+                WriteLine();
             }
         }
     }
