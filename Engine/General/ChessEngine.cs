@@ -14,7 +14,7 @@ namespace Engine.General
 
         private readonly Board _board;
 
-        private List<Task> _tasks;
+        private ConcurrentBag<Task> _tasks;
 
         internal ConcurrentBag<Move>[] Depths;
 
@@ -28,7 +28,7 @@ namespace Engine.General
         public Move GetMove(Side side)
         {
             Depths = new ConcurrentBag<Move>[Depth];
-            _tasks = new List<Task>();
+            _tasks = new ConcurrentBag<Task>();
 
             for (var depth = 0; depth < Depth; depth++)
             {
@@ -37,7 +37,10 @@ namespace Engine.General
 
             GetMoves(side, _board);
 
-            Task.WaitAll(_tasks.ToArray());
+            if (_concurrent)
+            {
+                Task.WaitAll(_tasks.ToArray());
+            }
 
             var bestScore = Depths[Depth - 1].Max(m => m.TotalValue);
 
@@ -99,7 +102,9 @@ namespace Engine.General
                                 {
                                     if (_concurrent)
                                     {
-                                        _tasks.Add(Task.Run(() => GetMoves((Side) (-(int) side), boardCopy, depth + 1, totalValue, move)));
+                                        var task = new Task(() => GetMoves((Side)(-(int)side), boardCopy, depth + 1, totalValue, move));
+                                        _tasks.Add(task);
+                                        task.Start();
                                     }
                                     else
                                     {

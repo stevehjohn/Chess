@@ -40,6 +40,11 @@ namespace Engine.ConsoleTests
                     }
                 }
             }
+
+            if (Debugger.IsAttached)
+            {
+                Console.ReadLine();
+            }
         }
     }
 }
