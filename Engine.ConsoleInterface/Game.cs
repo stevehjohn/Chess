@@ -1,8 +1,8 @@
-﻿using System;
-using Engine.General;
+﻿using Engine.General;
+using Engine.Pieces;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
-using Engine.Pieces;
 using static System.Console;
 using Type = Engine.Pieces.Type;
 
@@ -17,7 +17,7 @@ namespace Engine.ConsoleInterface
         public void Play()
         {
             _board = BoardBuilder.Build();
-            _engine = new ChessEngine(_board, 4, false);
+            _engine = new ChessEngine(_board, 5, false);
 
             Title = "Chess";
             OutputEncoding = Encoding.Unicode;
@@ -40,6 +40,8 @@ namespace Engine.ConsoleInterface
 
                 var move = _engine.GetMove(side);
 
+                GC.Collect();
+
                 var piece = _board.Squares[move.FromPosition.Row, move.FromPosition.Column];
                 _board.Squares[move.ToPosition.Row, move.ToPosition.Column] = piece;
                 _board.Squares[move.FromPosition.Row, move.FromPosition.Column] = null;
@@ -48,6 +50,7 @@ namespace Engine.ConsoleInterface
 
                 side = (Side) (-(int) side);
             }
+            // ReSharper disable once FunctionNeverReturns
         }
 
         private void DisplayBoard()
