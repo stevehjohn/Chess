@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Engine.Pieces;
-
-namespace Engine.General
+﻿namespace Engine.General
 {
     public class Move
     {
