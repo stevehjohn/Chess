@@ -2,6 +2,7 @@
 using Engine.Pieces;
 using NUnit.Framework;
 using System;
+using System.Linq;
 using NCrunch.Framework;
 
 namespace Engine.Tests.General
@@ -36,6 +37,14 @@ namespace Engine.Tests.General
                         Console.WriteLine($"{i}: {m.TotalValue}");
                     }
                 });
+            }
+
+            for (var i = 0; i < 4; i++)
+            {
+                var max = _engine.Depths[i].Max(m => m.TotalValue);
+                var count = _engine.Depths[i].Count(m => m.TotalValue == max);
+
+                Console.WriteLine( $"Max {i} {max}, {count}");
             }
         }
     }
