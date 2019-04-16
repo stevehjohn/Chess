@@ -7,5 +7,7 @@
         public Position ToPosition { get; set; }
 
         public int TotalValue { get; set; }
+
+        public Move PreviousMove { get; set; }
     }
 }

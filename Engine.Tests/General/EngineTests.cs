@@ -26,7 +26,7 @@ namespace Engine.Tests.General
         [Timeout(0)]
         public void Total_moves_at_each_depth_is_correct()
         {
-            _engine.MakeMove(Side.White);
+            _engine.GetMove(Side.White);
 
             for (var i = 0; i < 4; i++)
             {

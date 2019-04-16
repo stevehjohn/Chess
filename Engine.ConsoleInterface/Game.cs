@@ -12,10 +12,12 @@ namespace Engine.ConsoleInterface
     public class Game
     {
         private Board _board;
+        private ChessEngine _engine;
 
         public void Play()
         {
             _board = BoardBuilder.Build();
+            _engine = new ChessEngine(_board);
 
             Title = "Chess";
             OutputEncoding = Encoding.Unicode;
@@ -24,17 +26,27 @@ namespace Engine.ConsoleInterface
 
             Clear();
 
+            var side = Side.White;
+
             while (true)
             {
                 DisplayBoard();
 
                 ForegroundColor = ConsoleColor.White;
 
-                Write("\nEnter move: ");
+                Write("\nPress ENTER.");
 
                 ReadLine();
 
+                var move = _engine.GetMove(side);
+
+                var piece = _board.Squares[move.FromPosition.Row, move.FromPosition.Column];
+                _board.Squares[move.ToPosition.Row, move.ToPosition.Column] = piece;
+                _board.Squares[move.FromPosition.Row, move.FromPosition.Column] = null;
+
                 Clear();
+
+                side = (Side) (-(int) side);
             }
         }
 
