@@ -1,33 +1,43 @@
-﻿using System;
-using Engine.Pieces;
+﻿using Engine.Pieces;
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Engine.General
 {
     public class ChessEngine
     {
-        private const int Depth = 4;
+        internal int Depth;
+        private readonly bool _concurrent;
 
         private readonly Board _board;
 
-        internal List<Move>[] Depths;
+        private List<Task> _tasks;
 
-        public ChessEngine(Board board)
+        internal ConcurrentBag<Move>[] Depths;
+
+        public ChessEngine(Board board, int depth, bool concurrent)
         {
             _board = board;
+            Depth = depth;
+            _concurrent = concurrent;
         }
 
         public Move GetMove(Side side)
         {
-            Depths = new List<Move>[Depth];
+            Depths = new ConcurrentBag<Move>[Depth];
+            _tasks = new List<Task>();
 
             for (var depth = 0; depth < Depth; depth++)
             {
-                Depths[depth] = new List<Move>();
+                Depths[depth] = new ConcurrentBag<Move>();
             }
 
             GetMoves(side, _board);
+
+            Task.WaitAll(_tasks.ToArray());
 
             var bestScore = Depths[Depth - 1].Max(m => m.TotalValue);
 
@@ -87,7 +97,14 @@ namespace Engine.General
 
                                 if (depth < Depth - 1)
                                 {
-                                    GetMoves((Side)(-(int)side), boardCopy, depth + 1, totalValue, move);
+                                    if (_concurrent)
+                                    {
+                                        _tasks.Add(Task.Run(() => GetMoves((Side) (-(int) side), boardCopy, depth + 1, totalValue, move)));
+                                    }
+                                    else
+                                    {
+                                        GetMoves((Side)(-(int)side), boardCopy, depth + 1, totalValue, move);
+                                    }
                                 }
                             }
                         }

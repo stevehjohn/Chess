@@ -18,7 +18,7 @@ namespace Engine.Tests.General
         {
             _board = BoardBuilder.Build();
 
-            _engine = new ChessEngine(_board);
+            _engine = new ChessEngine(_board, 4, true);
         }
 
         [Explicit]
@@ -28,12 +28,12 @@ namespace Engine.Tests.General
         {
             _engine.GetMove(Side.White);
 
-            for (var i = 0; i < 4; i++)
+            for (var i = 0; i < _engine.Depth; i++)
             {
                 var max = _engine.Depths[i].Max(m => m.TotalValue);
                 var count = _engine.Depths[i].Count(m => m.TotalValue == max);
 
-                Console.WriteLine( $"Max {i} {max}, {count}");
+                Console.WriteLine( $"Depth {i}, Max Score {max}, Count of Max Score Nodes {count}, Total Nodes: {_engine.Depths[i].Count}");
             }
         }
     }
