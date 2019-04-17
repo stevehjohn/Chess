@@ -101,9 +101,7 @@ namespace Engine.General
                                 {
                                     if (_concurrent)
                                     {
-                                        var task = new Task(() => GetMoves((Side) (-(int) side), boardCopy, depth + 1, totalValue, move));
-                                        _tasks.Add(task);
-                                        task.Start();
+                                        _tasks.Add(Task.Run(() => GetMoves((Side)(-(int)side), boardCopy, depth + 1, totalValue, move)));
                                     }
                                     else
                                     {

@@ -8,15 +8,17 @@ using System.Linq;
 namespace Engine.ConsoleTests
 {
     [ExcludeFromCodeCoverage]
-    public class Program
+    public static class Program
     {
+        private const int Depth = 5;
+
         public static void Main()
         {
             for (var j = 0; j < 2; j++)
             {
                 Console.WriteLine(j == 0 ? "Concurrent" : "\nSequential");
 
-                for (var i = 1; i < 7; i++)
+                for (var i = 1; i < Depth; i++)
                 {
                     Console.WriteLine($"\nDepth: {i}\n");
 
