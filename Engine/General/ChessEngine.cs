@@ -3,6 +3,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
+using Engine.Helpers;
 
 namespace Engine.General
 {
@@ -38,16 +39,7 @@ namespace Engine.General
 
             if (_concurrent)
             {
-                Task.WaitAll(_tasks.ToArray(), -1);
-
-                var incomplete = _tasks.Where(t => t.Status != TaskStatus.RanToCompletion).ToList();
-
-                while (incomplete.Any())
-                {
-                    Task.WaitAll(incomplete.ToArray());
-
-                    incomplete = _tasks.Where(t => t.Status != TaskStatus.RanToCompletion).ToList();
-                }
+                TaskHelpers.WaitForAllToComplete(_tasks.ToArray());
             }
 
             var bestScore = Depths[Depth - 1].Max(m => m.TotalValue);
