@@ -33,7 +33,7 @@ namespace Engine.Tests.General
                 var max = _engine.Depths[i].Max(m => m.TotalValue);
                 var count = _engine.Depths[i].Count(m => m.TotalValue == max);
 
-                Console.WriteLine( $"Depth {i}, Max Score {max}, Count of Max Score Nodes {count}, Total Nodes: {_engine.Depths[i].Count}");
+                Console.WriteLine($"Depth {i}, Max Score {max}, Count of Max Score Nodes {count}, Total Nodes: {_engine.Depths[i].Count}");
             }
         }
     }
