@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="33bcc438-ccac-46d7-8de9-cc801a6237db" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Engine.ConsoleTests/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Engine.ConsoleTests/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine.Tests/General/EngineTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Engine.Tests/General/EngineTests.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Engine/General/ChessEngine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/General/ChessEngine.cs" afterDir="false" />
-    </list>
+    <list default="true" id="33bcc438-ccac-46d7-8de9-cc801a6237db" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +57,7 @@
         <entry file="file://$PROJECT_DIR$/Engine.Tests/General/EngineTests.cs">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="376">
-              <caret line="32" column="32" lean-forward="true" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
+              <caret line="32" column="32" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -177,7 +173,7 @@
     <property name="Rider.DefaultBreakpoints.AreToggled" value="true" />
     <property name="Rider.ProjectViewActivator.IsNotFirstRun" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Color Scheme Font" />
+    <property name="settings.editor.selected.configurable" value="terminal" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -222,12 +218,12 @@
       <option name="presentableId" value="Default" />
       <updated>1558131324909</updated>
       <workItem from="1558131328094" duration="2028000" />
-      <workItem from="1558175239041" duration="492000" />
+      <workItem from="1558175239041" duration="600000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2520000" />
+    <option name="totallyTimeSpent" value="2628000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -315,7 +311,7 @@
     <entry file="file://$PROJECT_DIR$/Engine.Tests/General/EngineTests.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="376">
-          <caret line="32" column="32" lean-forward="true" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
+          <caret line="32" column="32" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
         </state>
       </provider>
     </entry>
