@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Git\Chess" t="IncludeFlat">
+      <e p="Chess.sln" t="IncludeFlat" />
+      <e p="Engine" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Engine.csproj" t="IncludeRecursive" />
+        <e p="Engine.v3.ncrunchproject" t="Include" />
+        <e p="General" t="Include">
+          <e p="Board.cs" t="Include" />
+          <e p="BoardBuilder.cs" t="Include" />
+          <e p="ChessEngine.cs" t="Include" />
+          <e p="Move.cs" t="Include" />
+          <e p="Position.cs" t="Include" />
+          <e p="PossibleMoveBuilder.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netstandard2.0" t="Include">
+              <e p="Engine.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Pieces" t="Include">
+          <e p="Bishop.cs" t="Include" />
+          <e p="King.cs" t="Include" />
+          <e p="Knight.cs" t="Include" />
+          <e p="Pawn.cs" t="Include" />
+          <e p="Piece.cs" t="Include" />
+          <e p="Queen.cs" t="Include" />
+          <e p="Rook.cs" t="Include" />
+          <e p="Side.cs" t="Include" />
+          <e p="Type.cs" t="Include" />
+        </e>
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+      </e>
+      <e p="Engine.ConsoleInterface" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Engine.ConsoleInterface.csproj" t="IncludeRecursive" />
+        <e p="Game.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.1" t="Include">
+              <e p="Engine.ConsoleInterface.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+      </e>
+      <e p="Engine.ConsoleTests" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Engine.ConsoleTests.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.1" t="Include">
+              <e p="Engine.ConsoleTests.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+      </e>
+      <e p="Engine.Tests" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Engine.Tests.csproj" t="IncludeRecursive" />
+        <e p="Engine.Tests.v3.ncrunchproject" t="Include" />
+        <e p="General" t="Include">
+          <e p="BoardBuilderTests.cs" t="Include" />
+          <e p="EngineTests.cs" t="Include" />
+          <e p="PossibleMoveBuilderTests.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.1" t="Include">
+              <e p="Engine.Tests.AssemblyInfo.cs" t="Include" />
+              <e p="Engine.Tests.Program.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Pieces" t="Include">
+          <e p="BishopTests.cs" t="Include" />
+          <e p="KingTests.cs" t="Include" />
+          <e p="KnightTests.cs" t="Include" />
+          <e p="PawnTests.cs" t="Include" />
+          <e p="QueenTests.cs" t="Include" />
+          <e p="RookTests.cs" t="Include" />
+        </e>
+      </e>
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="README.md" t="Include" />
+      <e p="Solution Items" t="Include" />
+    </e>
+    <e p="C:\Users\Stevo\.nuget\packages\nunit3testadapter\3.10.0\build\netcoreapp1.0\Mono.Cecil.dll" t="Include" />
+    <e p="C:\Users\Stevo\.nuget\packages\nunit3testadapter\3.10.0\build\netcoreapp1.0\nunit.engine.netstandard.dll" t="Include" />
+    <e p="C:\Users\Stevo\.nuget\packages\nunit3testadapter\3.10.0\build\netcoreapp1.0\NUnit3.TestAdapter.dll" t="Include" />
+    <e p="C:\Users\Stevo\.nuget\packages\nunit3testadapter\3.10.0\build\netcoreapp1.0\NUnit3.TestAdapter.pdb" t="Include" />
+    <e p="C:\Users\Stevo\.Rider2019.1\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Stevo\.Rider2019.1\system\resharper-host\local\Transient\ReSharperHost\v191\SolutionCaches\_Chess.-1912571889.00" t="ExcludeRecursive" />
+  </component>
+</project>

@@ -8,10 +8,9 @@ namespace Engine.General
 {
     public class ChessEngine
     {
-        internal int Depth;
-        private readonly bool _concurrent;
-
         private readonly Board _board;
+        private readonly int _depth;
+        private readonly bool _concurrent;
 
         private ConcurrentBag<Task> _tasks;
 
@@ -20,16 +19,16 @@ namespace Engine.General
         public ChessEngine(Board board, int depth, bool concurrent)
         {
             _board = board;
-            Depth = depth;
+            _depth = depth;
             _concurrent = concurrent;
         }
 
         public Move GetMove(Side side)
         {
-            Depths = new ConcurrentBag<Move>[Depth];
+            Depths = new ConcurrentBag<Move>[_depth];
             _tasks = new ConcurrentBag<Task>();
 
-            for (var depth = 0; depth < Depth; depth++)
+            for (var depth = 0; depth < _depth; depth++)
             {
                 Depths[depth] = new ConcurrentBag<Move>();
             }
@@ -50,9 +49,9 @@ namespace Engine.General
                 }
             }
 
-            var bestScore = Depths[Depth - 1].Max(m => m.TotalValue);
+            var bestScore = Depths[_depth - 1].Max(m => m.TotalValue);
 
-            var moves = Depths[Depth - 1].Where(m => m.TotalValue == bestScore).ToList();
+            var moves = Depths[_depth - 1].Where(m => m.TotalValue == bestScore).ToList();
 
             var random = new Random();
 
@@ -112,7 +111,7 @@ namespace Engine.General
 
                         Depths[depth].Add(move);
 
-                        if (depth >= Depth - 1)
+                        if (depth >= _depth - 1)
                         {
                             continue;
                         }

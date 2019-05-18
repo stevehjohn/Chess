@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="33bcc438-ccac-46d7-8de9-cc801a6237db" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/Engine.ConsoleTests/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Engine.ConsoleTests/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine.Tests/General/EngineTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Engine.Tests/General/EngineTests.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Engine/General/ChessEngine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Engine/General/ChessEngine.cs" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Engine/General/ChessEngine.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="435">
+              <caret line="29" selection-start-line="29" selection-end-line="29" />
+              <folding>
+                <marker date="1558175625132" expanded="true" signature="177:4124" ph="{...}" />
+                <marker date="1558175625132" expanded="true" signature="464:578" ph="{...}" />
+                <marker date="1558175625132" expanded="true" signature="618:1774" ph="{...}" />
+                <marker date="1558175625132" expanded="true" signature="788:875" ph="{...}" />
+                <marker date="1558175625132" expanded="true" signature="942:1360" ph="{...}" />
+                <marker date="1558175625132" expanded="true" signature="1152:1346" ph="{...}" />
+                <marker date="1558175625132" expanded="true" signature="1668:1738" ph="{...}" />
+                <marker date="1558175625132" expanded="true" signature="1893:4118" ph="{...}" />
+                <marker date="1558175625132" expanded="true" signature="1949:4108" ph="{...}" />
+                <marker date="1558175625132" expanded="true" signature="2022:4094" ph="{...}" />
+                <marker date="1558175625132" expanded="true" signature="2140:2218" ph="{...}" />
+                <marker date="1558175625132" expanded="true" signature="2263:2341" ph="{...}" />
+                <marker date="1558175625132" expanded="true" signature="2474:4076" ph="{...}" />
+                <marker date="1558175625132" expanded="true" signature="2721:2823" ph="{...}" />
+                <marker date="1558175625132" expanded="true" signature="3152:3460" ph="{...}" />
+                <marker date="1558175625132" expanded="true" signature="3561:3651" ph="{...}" />
+                <marker date="1558175625132" expanded="true" signature="3693:3873" ph="{...}" />
+                <marker date="1558175625132" expanded="true" signature="3902:4054" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Engine.Tests/General/EngineTests.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="376">
+              <caret line="32" column="32" lean-forward="true" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Engine.ConsoleTests/Program.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="600">
+              <caret line="40" column="114" selection-start-line="40" selection-start-column="114" selection-end-line="40" selection-end-column="114" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Engine/General/ChessEngine.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Engine.Tests/General/EngineTests.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Engine.ConsoleTests/Program.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Engine/General/ChessEngine.cs" />
+        <option value="$PROJECT_DIR$/Engine.Tests/General/EngineTests.cs" />
+        <option value="$PROJECT_DIR$/Engine.ConsoleTests/Program.cs" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectConfigurationFiles">
+    <option name="files">
+      <list>
+        <option value="$PROJECT_DIR$/.idea/.idea.Chess/.idea/vcs.xml" />
+        <option value="$PROJECT_DIR$/.idea/.idea.Chess/.idea/indexLayout.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="390" />
+    <option name="y" value="120" />
+    <option name="width" value="2100" />
+    <option name="height" value="1500" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="SolutionExplorer" proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="SolutionExplorer">
+        <subPane>
+          <expand>
+            <path>
+              <item name="" type="784c90a0:SolutionExplorerRootNode" />
+              <item name="Chess" type="24d0babc:SolutionExplorerModelNode" />
+            </path>
+            <path>
+              <item name="" type="784c90a0:SolutionExplorerRootNode" />
+              <item name="Chess" type="24d0babc:SolutionExplorerModelNode" />
+              <item name="Engine" type="24d0babc:SolutionExplorerModelNode" />
+            </path>
+            <path>
+              <item name="" type="784c90a0:SolutionExplorerRootNode" />
+              <item name="Chess" type="24d0babc:SolutionExplorerModelNode" />
+              <item name="Engine" type="24d0babc:SolutionExplorerModelNode" />
+              <item name="General" type="24d0babc:SolutionExplorerModelNode" />
+            </path>
+            <path>
+              <item name="" type="784c90a0:SolutionExplorerRootNode" />
+              <item name="Chess" type="24d0babc:SolutionExplorerModelNode" />
+              <item name="Engine" type="24d0babc:SolutionExplorerModelNode" />
+              <item name="Pieces" type="24d0babc:SolutionExplorerModelNode" />
+            </path>
+            <path>
+              <item name="" type="784c90a0:SolutionExplorerRootNode" />
+              <item name="Chess" type="24d0babc:SolutionExplorerModelNode" />
+              <item name="Engine.ConsoleInterface" type="24d0babc:SolutionExplorerModelNode" />
+            </path>
+            <path>
+              <item name="" type="784c90a0:SolutionExplorerRootNode" />
+              <item name="Chess" type="24d0babc:SolutionExplorerModelNode" />
+              <item name="Engine.ConsoleTests" type="24d0babc:SolutionExplorerModelNode" />
+            </path>
+            <path>
+              <item name="" type="784c90a0:SolutionExplorerRootNode" />
+              <item name="Chess" type="24d0babc:SolutionExplorerModelNode" />
+              <item name="Engine.Tests" type="24d0babc:SolutionExplorerModelNode" />
+            </path>
+            <path>
+              <item name="" type="784c90a0:SolutionExplorerRootNode" />
+              <item name="Chess" type="24d0babc:SolutionExplorerModelNode" />
+              <item name="Engine.Tests" type="24d0babc:SolutionExplorerModelNode" />
+              <item name="General" type="24d0babc:SolutionExplorerModelNode" />
+            </path>
+            <path>
+              <item name="" type="784c90a0:SolutionExplorerRootNode" />
+              <item name="Chess" type="24d0babc:SolutionExplorerModelNode" />
+              <item name="Engine.Tests" type="24d0babc:SolutionExplorerModelNode" />
+              <item name="Pieces" type="24d0babc:SolutionExplorerModelNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+        <option name="show-all-files" value="false" />
+      </pane>
+      <pane id="FileSystemExplorer" />
+      <pane id="AssemblyExplorer" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Rider.DefaultBreakpoints.AreToggled" value="true" />
+    <property name="Rider.ProjectViewActivator.IsNotFirstRun" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Color Scheme Font" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="Default" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="None" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="33bcc438-ccac-46d7-8de9-cc801a6237db" name="Default Changelist" comment="" />
+      <created>1558131324909</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1558131324909</updated>
+      <workItem from="1558131328094" duration="2028000" />
+      <workItem from="1558175239041" duration="492000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="2520000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-7" y="-7" width="1935" height="1175" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Favorites" order="0" side_tool="true" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" auto_hide="true" id="Build" weight="0.32986766" />
+      <window_info anchor="bottom" auto_hide="true" id="NuGet" order="0" weight="0.32986766" />
+      <window_info anchor="bottom" id="Docker" order="1" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="2" />
+      <window_info anchor="bottom" auto_hide="true" id="Version Control" order="3" weight="0.32986766" />
+      <window_info anchor="bottom" auto_hide="true" id="Unit Tests" order="4" weight="0.32986766" />
+      <window_info anchor="bottom" auto_hide="true" id="Terminal" order="5" weight="0.32986766" />
+      <window_info anchor="bottom" id="Event Log" order="6" side_tool="true" />
+      <window_info anchor="bottom" auto_hide="true" id="Performance Profiler" order="7" weight="0.32986766" />
+      <window_info anchor="bottom" id="Message" order="8" />
+      <window_info anchor="bottom" id="Find" order="9" />
+      <window_info anchor="bottom" id="Run" order="10" />
+      <window_info anchor="bottom" id="Debug" order="11" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="12" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="13" weight="0.4" />
+      <window_info anchor="bottom" auto_hide="true" id="TODO" order="14" weight="0.32986766" />
+      <window_info anchor="bottom" auto_hide="true" id="Unit Tests Coverage" order="15" weight="0.32986766" />
+      <window_info active="true" anchor="right" content_ui="combo" id="Project" order="0" visible="true" weight="0.18453333" />
+      <window_info anchor="right" id="Errors In Solution" order="1" />
+      <window_info anchor="right" id="Database" order="2" show_stripe_button="false" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="3" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="4" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="5" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" suspend="NONE" type="DotNet Exception Breakpoints">
+          <properties exception="System.Threading.ThreadAbortException" displayValue="System.Threading.ThreadAbortException" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Engine/General/ChessEngine.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="29" selection-start-line="29" selection-end-line="29" />
+          <folding>
+            <marker date="1558175625132" expanded="true" signature="177:4124" ph="{...}" />
+            <marker date="1558175625132" expanded="true" signature="464:578" ph="{...}" />
+            <marker date="1558175625132" expanded="true" signature="618:1774" ph="{...}" />
+            <marker date="1558175625132" expanded="true" signature="788:875" ph="{...}" />
+            <marker date="1558175625132" expanded="true" signature="942:1360" ph="{...}" />
+            <marker date="1558175625132" expanded="true" signature="1152:1346" ph="{...}" />
+            <marker date="1558175625132" expanded="true" signature="1668:1738" ph="{...}" />
+            <marker date="1558175625132" expanded="true" signature="1893:4118" ph="{...}" />
+            <marker date="1558175625132" expanded="true" signature="1949:4108" ph="{...}" />
+            <marker date="1558175625132" expanded="true" signature="2022:4094" ph="{...}" />
+            <marker date="1558175625132" expanded="true" signature="2140:2218" ph="{...}" />
+            <marker date="1558175625132" expanded="true" signature="2263:2341" ph="{...}" />
+            <marker date="1558175625132" expanded="true" signature="2474:4076" ph="{...}" />
+            <marker date="1558175625132" expanded="true" signature="2721:2823" ph="{...}" />
+            <marker date="1558175625132" expanded="true" signature="3152:3460" ph="{...}" />
+            <marker date="1558175625132" expanded="true" signature="3561:3651" ph="{...}" />
+            <marker date="1558175625132" expanded="true" signature="3693:3873" ph="{...}" />
+            <marker date="1558175625132" expanded="true" signature="3902:4054" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Engine.Tests/General/EngineTests.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="376">
+          <caret line="32" column="32" lean-forward="true" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Engine.ConsoleTests/Program.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="40" column="114" selection-start-line="40" selection-start-column="114" selection-end-line="40" selection-end-column="114" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

@@ -33,7 +33,7 @@ namespace Engine.ConsoleTests
 
                     Console.WriteLine($"Elapsed: {stopwatch.ElapsedMilliseconds / 1000.0}");
 
-                    for (var k = 0; k < engine.Depth; k++)
+                    for (var k = 0; k < Depth; k++)
                     {
                         var max = engine.Depths[k].Max(m => m.TotalValue);
                         var count = engine.Depths[k].Count(m => m.TotalValue == max);

@@ -10,6 +10,8 @@ namespace Engine.Tests.General
     [TestFixture]
     public class EngineTests
     {
+        private const int Depth = 4;
+        
         private Board _board;
         private ChessEngine _engine;
 
@@ -18,7 +20,7 @@ namespace Engine.Tests.General
         {
             _board = BoardBuilder.Build();
 
-            _engine = new ChessEngine(_board, 4, true);
+            _engine = new ChessEngine(_board, Depth, true);
         }
 
         [Explicit]
@@ -28,7 +30,7 @@ namespace Engine.Tests.General
         {
             _engine.GetMove(Side.White);
 
-            for (var i = 0; i < _engine.Depth; i++)
+            for (var i = 0; i < Depth; i++)
             {
                 var max = _engine.Depths[i].Max(m => m.TotalValue);
                 var count = _engine.Depths[i].Count(m => m.TotalValue == max);
