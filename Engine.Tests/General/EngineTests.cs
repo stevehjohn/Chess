@@ -20,7 +20,7 @@ namespace Engine.Tests.General
         {
             _board = BoardBuilder.Build();
 
-            _engine = new ChessEngine(_board, Depth, true);
+            _engine = new ChessEngine(_board, Depth);
         }
 
         [Explicit]

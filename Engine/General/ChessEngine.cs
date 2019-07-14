@@ -1,8 +1,7 @@
 ﻿using Engine.Pieces;
 using System;
-using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Engine.General
 {
@@ -10,44 +9,25 @@ namespace Engine.General
     {
         private readonly Board _board;
         private readonly int _depth;
-        private readonly bool _concurrent;
 
-        private ConcurrentBag<Task> _tasks;
+        internal List<Move>[] Depths;
 
-        internal ConcurrentBag<Move>[] Depths;
-
-        public ChessEngine(Board board, int depth, bool concurrent)
+        public ChessEngine(Board board, int depth)
         {
             _board = board;
             _depth = depth;
-            _concurrent = concurrent;
         }
 
         public Move GetMove(Side side)
         {
-            Depths = new ConcurrentBag<Move>[_depth];
-            _tasks = new ConcurrentBag<Task>();
+            Depths = new List<Move>[_depth];
 
             for (var depth = 0; depth < _depth; depth++)
             {
-                Depths[depth] = new ConcurrentBag<Move>();
+                Depths[depth] = new List<Move>();
             }
 
             GetMoves(side, _board);
-
-            if (_concurrent)
-            {
-                Task.WaitAll(_tasks.ToArray(), -1);
-
-                var incomplete = _tasks.Where(t => t.Status != TaskStatus.RanToCompletion).ToList();
-
-                while (incomplete.Any())
-                {
-                    Task.WaitAll(incomplete.ToArray());
-
-                    incomplete = _tasks.Where(t => t.Status != TaskStatus.RanToCompletion).ToList();
-                }
-            }
 
             var bestScore = Depths[_depth - 1].Max(m => m.TotalValue);
 
@@ -95,6 +75,7 @@ namespace Engine.General
                         {
                             value = target.Value;
                         }
+
                         boardCopy.Squares[piece.Position.Row, piece.Position.Column] = null;
 
                         boardCopy.Squares[position.Row, position.Column] = piece.Copy();
@@ -116,14 +97,7 @@ namespace Engine.General
                             continue;
                         }
 
-                        if (_concurrent)
-                        {
-                            _tasks.Add(Task.Run(() => GetMoves((Side) (-(int) side), boardCopy, depth + 1, totalValue, move)));
-                        }
-                        else
-                        {
-                            GetMoves((Side) (-(int) side), boardCopy, depth + 1, totalValue, move);
-                        }
+                        GetMoves((Side) (-(int) side), boardCopy, depth + 1, totalValue, move);
                     }
                 }
             }

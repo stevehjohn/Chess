@@ -17,7 +17,7 @@ namespace Engine.ConsoleInterface
         public void Play()
         {
             _board = BoardBuilder.Build();
-            _engine = new ChessEngine(_board, 5, false);
+            _engine = new ChessEngine(_board, 5);
 
             Title = "Chess";
             OutputEncoding = Encoding.Unicode;

@@ -10,7 +10,7 @@ namespace Engine.ConsoleTests
     [ExcludeFromCodeCoverage]
     public static class Program
     {
-        private const int Depth = 8;
+        private const int Depth = 6;
 
         public static void Main()
         {
@@ -19,7 +19,7 @@ namespace Engine.ConsoleTests
                 Console.WriteLine($"\nDepth: {i}\n");
 
                 var board = BoardBuilder.Build();
-                var engine = new ChessEngine(board, i, false);
+                var engine = new ChessEngine(board, i);
 
                 var stopwatch = Stopwatch.StartNew();
 
