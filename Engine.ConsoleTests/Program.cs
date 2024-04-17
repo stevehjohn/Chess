@@ -10,11 +10,11 @@ namespace Engine.ConsoleTests
     [ExcludeFromCodeCoverage]
     public static class Program
     {
-        private const int Depth = 6;
+        private const int Depth = 7;
 
         public static void Main()
         {
-            for (var i = 1; i < Depth; i++)
+            for (var i = 1; i <= Depth; i++)
             {
                 Console.WriteLine($"\nDepth: {i}\n");
 
