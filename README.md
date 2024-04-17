@@ -12,6 +12,7 @@ Black is North on the board so to speak.
 - Castling
 - Pawn promotions
 
+````
 +-----------------|--------------------------+
 | Number of moves | Number of possible games |
 | 1               | 20                       |
@@ -25,3 +26,4 @@ Black is North on the board so to speak.
 | 9               | 2,439,530,234,167        |
 | 10              | 69,352,859,712,417       |
 +-----------------+--------------------------+
+```
