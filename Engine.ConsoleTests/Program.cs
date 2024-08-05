@@ -10,7 +10,7 @@ namespace Engine.ConsoleTests
     [ExcludeFromCodeCoverage]
     public static class Program
     {
-        private const int Depth = 5;
+        private const int Depth = 8;
 
         public static void Main()
         {
