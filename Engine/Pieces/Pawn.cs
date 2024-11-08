@@ -7,7 +7,7 @@ namespace Engine.Pieces
     {
         public override Type Type => Type.Pawn;
 
-        public override int Value => 1;
+        public override int Value => 10;
 
         public override List<Position> PossibleMoves(Board board)
         {

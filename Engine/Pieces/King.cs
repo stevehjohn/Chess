@@ -7,7 +7,7 @@ namespace Engine.Pieces
     {
         public override Type Type => Type.King;
 
-        public override int Value => int.MaxValue;
+        public override int Value => 900;
 
         public override List<Position> PossibleMoves(Board board)
         {
