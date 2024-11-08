@@ -16,12 +16,9 @@ public class Pawn : Piece
         if (NumberOfMoves == 0)
         {
             builder.AddMove(Position, 2, 0, true);
-            builder.AddMove(Position, 1, 0, true);
         }
-        else
-        {
-            builder.AddMove(Position, 1, 0, true);
-        }
+
+        builder.AddMove(Position, 1, 0, true);
 
         builder.AddMove(Position, 1, 1, false, true);
         builder.AddMove(Position, 1, -1, false, true);

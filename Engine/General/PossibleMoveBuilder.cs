@@ -12,7 +12,7 @@ public class PossibleMoveBuilder
 
     public PossibleMoveBuilder(Board board, Side side)
     {
-        PossibleMoves = new List<Position>();
+        PossibleMoves = [];
         _board = board;
         _side = side;
     }

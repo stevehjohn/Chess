@@ -54,7 +54,7 @@ public class Board
             {
                 if (Squares[row, column] == null)
                 {
-                    sb.Append(" ");
+                    sb.Append(' ');
                     continue;
                 }
 
