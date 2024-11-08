@@ -6,106 +6,105 @@ using System.Text;
 using Type = Engine.Pieces.Type;
 using static System.Console;
 
-namespace Engine.ConsoleInterface
+namespace Engine.ConsoleInterface;
+
+[ExcludeFromCodeCoverage]
+public class Game
 {
-    [ExcludeFromCodeCoverage]
-    public class Game
+    private Board _board;
+    private ChessEngine _engine;
+
+    public void Play()
     {
-        private Board _board;
-        private ChessEngine _engine;
+        _board = BoardBuilder.Build();
+        _engine = new ChessEngine(_board, 5);
 
-        public void Play()
+        Title = "Chess";
+        OutputEncoding = Encoding.Unicode;
+        BackgroundColor = ConsoleColor.Black;
+        ForegroundColor = ConsoleColor.White;
+
+        Clear();
+
+        var side = Side.White;
+
+        while (true)
         {
-            _board = BoardBuilder.Build();
-            _engine = new ChessEngine(_board, 5);
+            DisplayBoard();
 
-            Title = "Chess";
-            OutputEncoding = Encoding.Unicode;
-            BackgroundColor = ConsoleColor.Black;
             ForegroundColor = ConsoleColor.White;
+
+            Write("\nPress ENTER.");
+
+            ReadLine();
+
+            var move = _engine.GetMove(side);
+
+            GC.Collect();
+
+            var piece = _board.Squares[move.FromPosition.Row, move.FromPosition.Column];
+            _board.Squares[move.ToPosition.Row, move.ToPosition.Column] = piece;
+            _board.Squares[move.FromPosition.Row, move.FromPosition.Column] = null;
 
             Clear();
 
-            var side = Side.White;
-
-            while (true)
-            {
-                DisplayBoard();
-
-                ForegroundColor = ConsoleColor.White;
-
-                Write("\nPress ENTER.");
-
-                ReadLine();
-
-                var move = _engine.GetMove(side);
-
-                GC.Collect();
-
-                var piece = _board.Squares[move.FromPosition.Row, move.FromPosition.Column];
-                _board.Squares[move.ToPosition.Row, move.ToPosition.Column] = piece;
-                _board.Squares[move.FromPosition.Row, move.FromPosition.Column] = null;
-
-                Clear();
-
-                side = (Side) (-(int) side);
-            }
-            // ReSharper disable once FunctionNeverReturns
+            side = (Side) (-(int) side);
         }
+        // ReSharper disable once FunctionNeverReturns
+    }
 
-        private void DisplayBoard()
+    private void DisplayBoard()
+    {
+        Clear();
+        ForegroundColor = ConsoleColor.White;
+        WriteLine("\n  A B C D E F G H\n");
+
+        for (var row = 0; row < 8; row++)
         {
-            Clear();
             ForegroundColor = ConsoleColor.White;
-            WriteLine("\n  A B C D E F G H\n");
 
-            for (var row = 0; row < 8; row++)
+            Write(row + 1);
+
+            for (var column = 0; column < 8; column++)
             {
-                ForegroundColor = ConsoleColor.White;
+                Write(' ');
 
-                Write(row + 1);
+                var piece = _board.Squares[row, column];
 
-                for (var column = 0; column < 8; column++)
+                if (piece == null)
                 {
                     Write(' ');
-
-                    var piece = _board.Squares[row, column];
-
-                    if (piece == null)
-                    {
-                        Write(' ');
-                        continue;
-                    }
-
-                    ForegroundColor = piece.Side == Side.Black
-                        ? ConsoleColor.Magenta
-                        : ConsoleColor.Cyan;
-
-                    switch (piece.Type)
-                    {
-                        case Type.Rook:
-                            Write('R');
-                            break;
-                        case Type.Knight:
-                            Write('N');
-                            break;
-                        case Type.Bishop:
-                            Write('B');
-                            break;
-                        case Type.Queen:
-                            Write('Q');
-                            break;
-                        case Type.King:
-                            Write('K');
-                            break;
-                        default:
-                            Write('P');
-                            break;
-                    }
+                    continue;
                 }
 
-                WriteLine();
+                ForegroundColor = piece.Side == Side.Black
+                    ? ConsoleColor.Magenta
+                    : ConsoleColor.Cyan;
+
+                switch (piece.Type)
+                {
+                    case Type.Rook:
+                        Write('R');
+                        break;
+                    case Type.Knight:
+                        Write('N');
+                        break;
+                    case Type.Bishop:
+                        Write('B');
+                        break;
+                    case Type.Queen:
+                        Write('Q');
+                        break;
+                    case Type.King:
+                        Write('K');
+                        break;
+                    default:
+                        Write('P');
+                        break;
+                }
             }
+
+            WriteLine();
         }
     }
 }

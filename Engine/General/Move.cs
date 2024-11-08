@@ -1,13 +1,12 @@
-﻿namespace Engine.General
+﻿namespace Engine.General;
+
+public class Move
 {
-    public class Move
-    {
-        public Position FromPosition { get; set; }
+    public Position FromPosition { get; set; }
 
-        public Position ToPosition { get; set; }
+    public Position ToPosition { get; set; }
 
-        public int TotalValue { get; set; }
+    public int TotalValue { get; set; }
 
-        public Move PreviousMove { get; set; }
-    }
+    public Move PreviousMove { get; set; }
 }

@@ -1,12 +1,11 @@
-﻿namespace Engine.Pieces
+﻿namespace Engine.Pieces;
+
+public enum Type
 {
-    public enum Type
-    {
-        Pawn,
-        Rook,
-        Knight,
-        Bishop,
-        Queen,
-        King
-    }
+    Pawn,
+    Rook,
+    Knight,
+    Bishop,
+    Queen,
+    King
 }

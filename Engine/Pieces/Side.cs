@@ -1,8 +1,7 @@
-﻿namespace Engine.Pieces
+﻿namespace Engine.Pieces;
+
+public enum Side
 {
-    public enum Side
-    {
-        White = -1,
-        Black = 1
-    }
+    White = -1,
+    Black = 1
 }
