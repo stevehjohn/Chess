@@ -49,65 +49,60 @@ namespace Engine.General
         {
             for (var row = 0; row < 8; row++)
             {
-                GetRowMoves(row, side, board, depth, previousValue, previousMove);
-            }
-        }
-
-        private void GetRowMoves(int row, Side side, Board board, int depth = 0, int previousValue = 0, Move previousMove = null)
-        {
-            for (var column = 0; column < 8; column++)
-            {
-                var piece = board.Squares[row, column];
-
-                if (piece == null)
+                for (var column = 0; column < 8; column++)
                 {
-                    continue;
-                }
+                    var piece = board.Squares[row, column];
 
-                if (piece.Side != side)
-                {
-                    continue;
-                }
-
-                var pieceMoves = piece.PossibleMoves(board).ToList();
-
-                foreach (var position in pieceMoves)
-                {
-                    var value = 0;
-                    
-                    var target = board.Squares[position.Row, position.Column];
-                    
-                    if (target != null)
+                    if (piece == null)
                     {
-                        value = target.Value;
+                        continue;
                     }
 
-                    var previousPiece = board.Squares[position.Row, position.Column];
-                    
-                    board.Squares[piece.Position.Row, piece.Position.Column] = null;
-
-                    board.Squares[position.Row, position.Column] = piece; 
-
-                    var totalValue = previousValue + value;
-
-                    var move = new Move
+                    if (piece.Side != side)
                     {
-                        FromPosition = piece.Position.Copy(),
-                        ToPosition = position,
-                        TotalValue = totalValue,
-                        PreviousMove = previousMove
-                    };
-
-                    Depths[depth].Add(move);
-
-                    if (depth < _depth - 1)
-                    {
-                        GetMoves((Side) (-(int) side), board, depth + 1, totalValue, move);
+                        continue;
                     }
 
-                    board.Squares[piece.Position.Row, piece.Position.Column] = piece;
+                    var pieceMoves = piece.PossibleMoves(board).ToList();
 
-                    board.Squares[position.Row, position.Column] = previousPiece; 
+                    foreach (var position in pieceMoves)
+                    {
+                        var value = 0;
+                    
+                        var target = board.Squares[position.Row, position.Column];
+                    
+                        if (target != null)
+                        {
+                            value = target.Value;
+                        }
+
+                        var previousPiece = board.Squares[position.Row, position.Column];
+                    
+                        board.Squares[piece.Position.Row, piece.Position.Column] = null;
+
+                        board.Squares[position.Row, position.Column] = piece; 
+
+                        var totalValue = previousValue + value;
+
+                        var move = new Move
+                        {
+                            FromPosition = piece.Position.Copy(),
+                            ToPosition = position,
+                            TotalValue = totalValue,
+                            PreviousMove = previousMove
+                        };
+
+                        Depths[depth].Add(move);
+
+                        if (depth < _depth - 1)
+                        {
+                            GetMoves((Side) (-(int) side), board, depth + 1, totalValue, move);
+                        }
+
+                        board.Squares[piece.Position.Row, piece.Position.Column] = piece;
+
+                        board.Squares[position.Row, position.Column] = previousPiece; 
+                    }
                 }
             }
         }
