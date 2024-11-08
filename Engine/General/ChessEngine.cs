@@ -27,7 +27,7 @@ public class ChessEngine
             Depths[depth] = [];
         }
 
-        GetMoves(side, _board);
+        GetMoves(side);
 
         var bestScore = Depths[_depth - 1].Max(m => m.TotalValue);
 
@@ -45,13 +45,13 @@ public class ChessEngine
         return move;
     }
 
-    private void GetMoves(Side side, Board board, int depth = 0, int previousValue = 0, Move previousMove = null)
+    private void GetMoves(Side side, int depth = 0, int previousValue = 0, Move previousMove = null)
     {
         for (var row = 0; row < 8; row++)
         {
             for (var column = 0; column < 8; column++)
             {
-                var piece = board.Squares[row, column];
+                var piece = _board.Squares[row, column];
 
                 if (piece == null)
                 {
@@ -63,22 +63,22 @@ public class ChessEngine
                     continue;
                 }
 
-                var pieceMoves = piece.PossibleMoves(board);
+                var pieceMoves = piece.PossibleMoves(_board);
 
                 foreach (var position in pieceMoves)
                 {
                     var value = 0;
                     
-                    var target = board.Squares[position.Row, position.Column];
+                    var target = _board.Squares[position.Row, position.Column];
                     
                     if (target != null)
                     {
                         value = target.Value;
                     }
                     
-                    board.Squares[piece.Position.Row, piece.Position.Column] = null;
+                    _board.Squares[piece.Position.Row, piece.Position.Column] = null;
 
-                    board.Squares[position.Row, position.Column] = piece; 
+                    _board.Squares[position.Row, position.Column] = piece; 
 
                     var totalValue = previousValue + value;
 
@@ -94,12 +94,12 @@ public class ChessEngine
                     
                     if (depth < _depth - 1)
                     {
-                        GetMoves((Side) (-(int) side), board, depth + 1, totalValue, move);
+                        GetMoves((Side) (-(int) side), depth + 1, totalValue, move);
                     }
                     
-                    board.Squares[piece.Position.Row, piece.Position.Column] = piece;
+                    _board.Squares[piece.Position.Row, piece.Position.Column] = piece;
 
-                    board.Squares[position.Row, position.Column] = target; 
+                    _board.Squares[position.Row, position.Column] = target; 
                 }
             }
         }
