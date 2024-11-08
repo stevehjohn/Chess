@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Engine.ConsoleTests
 {
@@ -12,7 +13,7 @@ namespace Engine.ConsoleTests
     {
         private const int Depth = 8;
 
-        public static void Main()
+        public static async Task Main()
         {
             for (var i = 1; i <= Depth; i++)
             {
@@ -23,18 +24,18 @@ namespace Engine.ConsoleTests
 
                 var stopwatch = Stopwatch.StartNew();
 
-                engine.GetMove(Side.White);
+                await engine.GetMove(Side.White);
 
                 stopwatch.Stop();
 
-                Console.WriteLine($"Elapsed: {stopwatch.ElapsedMilliseconds / 1000.0}");
+                Console.WriteLine($"Elapsed: {stopwatch.ElapsedMilliseconds / 1000.0:N2}");
 
                 for (var k = 0; k < i; k++)
                 {
                     var max = engine.Depths[k].Max(m => m.TotalValue);
                     var count = engine.Depths[k].Count(m => m.TotalValue == max);
 
-                    Console.WriteLine($"Depth {k}, Max Score {max}, Count of Max Score Nodes {count}, Total Nodes: {engine.Depths[k].Count}");
+                    Console.WriteLine($"Depth {k}, Max Score {max}, Count of Max Score Nodes {count}, Total Nodes: {engine.Depths[k].Count:N0}");
                 }
             }
 
