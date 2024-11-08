@@ -92,13 +92,6 @@ public class ChessEngine
 
                     Depths[depth].Add(move);
 
-                    if (Depths[_depth - 1].Count % 123_456 == 0 && Depths[_depth - 1].Count > 0)
-                    {
-                        Console.Write($"{Depths[_depth - 1].Count:N0}");
-
-                        Console.CursorLeft = 0;
-                    }
-
                     if (depth >= _depth - 1)
                     {
                         continue;
