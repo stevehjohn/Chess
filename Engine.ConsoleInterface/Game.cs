@@ -83,6 +83,9 @@ public class Game
 
                 switch (piece.Type)
                 {
+                    case Type.Pawn:
+                        Write('P');
+                        break;
                     case Type.Rook:
                         Write('R');
                         break;
@@ -99,7 +102,7 @@ public class Game
                         Write('K');
                         break;
                     default:
-                        Write('P');
+                        Write('?');
                         break;
                 }
             }
