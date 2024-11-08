@@ -48,16 +48,9 @@ namespace Engine.General
 
         private async Task GetMoves(Side side, Board board, int depth = 0, int previousValue = 0, Move previousMove = null)
         {
-            if (depth < 3)
+            for (var row = 0; row < 8; row++)
             {
-                await Parallel.ForAsync(0, 8, (row, _) => new ValueTask(GetRowMoves(row, side, board, depth, previousValue, previousMove)));
-            }
-            else
-            {
-                for (var row = 0; row < 8; row++)
-                {
-                    await GetRowMoves(row, side, board, depth, previousValue, previousMove);
-                }
+                await GetRowMoves(row, side, board, depth, previousValue, previousMove);
             }
         }
 
@@ -82,17 +75,19 @@ namespace Engine.General
                 foreach (var position in pieceMoves)
                 {
                     var value = 0;
-
-                    var boardCopy = board.Copy();
-                    var target = boardCopy.Squares[position.Row, position.Column];
+                    
+                    var target = board.Squares[position.Row, position.Column];
+                    
                     if (target != null)
                     {
                         value = target.Value;
                     }
 
-                    boardCopy.Squares[piece.Position.Row, piece.Position.Column] = null;
+                    var previousPiece = board.Squares[position.Row, position.Column];
+                    
+                    board.Squares[piece.Position.Row, piece.Position.Column] = null;
 
-                    boardCopy.Squares[position.Row, position.Column] = piece.Copy();
+                    board.Squares[position.Row, position.Column] = piece; 
 
                     var totalValue = previousValue + value;
 
@@ -106,12 +101,14 @@ namespace Engine.General
 
                     Depths[depth].Add(move);
 
-                    if (depth >= _depth - 1)
+                    if (depth < _depth - 1)
                     {
-                        continue;
+                        await GetMoves((Side) (-(int) side), board, depth + 1, totalValue, move);
                     }
 
-                    await GetMoves((Side) (-(int) side), boardCopy, depth + 1, totalValue, move);
+                    board.Squares[piece.Position.Row, piece.Position.Column] = piece;
+
+                    board.Squares[position.Row, position.Column] = previousPiece; 
                 }
             }
         }
