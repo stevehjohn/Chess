@@ -11,7 +11,7 @@ namespace Engine.General;
 
 public class Board
 {
-    public Piece[,] Squares { get; set; }
+    public Piece[,] Squares { get; }
 
     public Board()
     {

@@ -2,11 +2,11 @@
 
 public class Move
 {
-    public Position FromPosition { get; set; }
+    public Position FromPosition { get; init; }
 
-    public Position ToPosition { get; set; }
+    public Position ToPosition { get; init; }
 
-    public int TotalValue { get; set; }
+    public int TotalValue { get; init; }
 
-    public Move PreviousMove { get; set; }
+    public Move PreviousMove { get; init; }
 }
