@@ -86,7 +86,7 @@ public class ChessEngine
 
                     var move = new Move
                     {
-                        FromPosition = piece.Position.Copy(),
+                        FromPosition = piece.Position,
                         ToPosition = position,
                         TotalValue = totalValue,
                         PreviousMove = previousMove
