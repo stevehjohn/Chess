@@ -2,60 +2,59 @@
 using Engine.Pieces;
 using NUnit.Framework;
 
-namespace Engine.Tests.Pieces
+namespace Engine.Tests.Pieces;
+
+[TestFixture]
+public class BishopTests
 {
-    [TestFixture]
-    public class BishopTests
+    private Board _board;
+    private Bishop _bishop;
+
+    [SetUp]
+    public void SetUp()
     {
-        private Board _board;
-        private Piece _bishop;
-
-        [SetUp]
-        public void SetUp()
+        _board = new Board();
+        _bishop = new Bishop
         {
-            _board = new Board();
-            _bishop = new Bishop
-                      {
-                          Side = Side.White
-                      };
-        }
+            Side = Side.White
+        };
+    }
 
-        [Test]
-        public void Can_move_diagonally_anywhere()
+    [Test]
+    public void Can_move_diagonally_anywhere()
+    {
+        _bishop.Position = new Position(3, 3);
+
+        var moves = _bishop.PossibleMoves(_board);
+
+        Assert.That(moves.Count, Is.EqualTo(13));
+    }
+
+    [Test]
+    public void Is_blocked_by_own_piece()
+    {
+        _board.Squares[2, 2] = new Pawn
         {
-            _bishop.Position = new Position(3, 3);
+            Side = Side.White
+        };
+        _bishop.Position = new Position(3, 3);
 
-            var moves = _bishop.PossibleMoves(_board);
+        var moves = _bishop.PossibleMoves(_board);
 
-            Assert.That(moves.Count, Is.EqualTo(13));
-        }
+        Assert.That(moves.Count, Is.EqualTo(10));
+    }
 
-        [Test]
-        public void Is_blocked_by_own_piece()
+    [Test]
+    public void Stops_at_opponent()
+    {
+        _board.Squares[2, 2] = new Pawn
         {
-            _board.Squares[2, 2] = new Pawn
-                                   {
-                                       Side = Side.White
-                                   };
-            _bishop.Position = new Position(3, 3);
+            Side = Side.Black
+        };
+        _bishop.Position = new Position(3, 3);
 
-            var moves = _bishop.PossibleMoves(_board);
+        var moves = _bishop.PossibleMoves(_board);
 
-            Assert.That(moves.Count, Is.EqualTo(10));
-        }
-
-        [Test]
-        public void Stops_at_opponent()
-        {
-            _board.Squares[2, 2] = new Pawn
-                                   {
-                                       Side = Side.Black
-                                   };
-            _bishop.Position = new Position(3, 3);
-
-            var moves = _bishop.PossibleMoves(_board);
-
-            Assert.That(moves.Count, Is.EqualTo(11));
-        }
+        Assert.That(moves.Count, Is.EqualTo(11));
     }
 }

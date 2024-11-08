@@ -2,60 +2,59 @@
 using Engine.Pieces;
 using NUnit.Framework;
 
-namespace Engine.Tests.Pieces
+namespace Engine.Tests.Pieces;
+
+[TestFixture]
+public class RookTests
 {
-    [TestFixture]
-    public class RookTests
+    private Board _board;
+    private Rook _rook;
+
+    [SetUp]
+    public void SetUp()
     {
-        private Board _board;
-        private Piece _rook;
-
-        [SetUp]
-        public void SetUp()
+        _board = new Board();
+        _rook = new Rook
         {
-            _board = new Board();
-            _rook = new Rook
-                    {
-                        Side = Side.White
-                    };
-        }
+            Side = Side.White
+        };
+    }
 
-        [Test]
-        public void Can_move_horizontally_or_vertically_anywhere()
+    [Test]
+    public void Can_move_horizontally_or_vertically_anywhere()
+    {
+        _rook.Position = new Position(3, 3);
+
+        var moves = _rook.PossibleMoves(_board);
+
+        Assert.That(moves.Count, Is.EqualTo(14));
+    }
+
+    [Test]
+    public void Is_blocked_by_own_piece()
+    {
+        _board.Squares[3, 2] = new Pawn
         {
-            _rook.Position = new Position(3, 3);
+            Side = Side.White
+        };
+        _rook.Position = new Position(3, 3);
 
-            var moves = _rook.PossibleMoves(_board);
+        var moves = _rook.PossibleMoves(_board);
 
-            Assert.That(moves.Count, Is.EqualTo(14));
-        }
+        Assert.That(moves.Count, Is.EqualTo(11));
+    }
 
-        [Test]
-        public void Is_blocked_by_own_piece()
+    [Test]
+    public void Stops_at_opponent()
+    {
+        _board.Squares[3, 2] = new Pawn
         {
-            _board.Squares[3, 2] = new Pawn
-                                   {
-                                       Side = Side.White
-                                   };
-            _rook.Position = new Position(3, 3);
+            Side = Side.Black
+        };
+        _rook.Position = new Position(3, 3);
 
-            var moves = _rook.PossibleMoves(_board);
+        var moves = _rook.PossibleMoves(_board);
 
-            Assert.That(moves.Count, Is.EqualTo(11));
-        }
-
-        [Test]
-        public void Stops_at_opponent()
-        {
-            _board.Squares[3, 2] = new Pawn
-                                   {
-                                       Side = Side.Black
-                                   };
-            _rook.Position = new Position(3, 3);
-
-            var moves = _rook.PossibleMoves(_board);
-
-            Assert.That(moves.Count, Is.EqualTo(12));
-        }
+        Assert.That(moves.Count, Is.EqualTo(12));
     }
 }

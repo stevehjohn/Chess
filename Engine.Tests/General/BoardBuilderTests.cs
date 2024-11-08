@@ -2,27 +2,26 @@
 using NUnit.Framework;
 // ReSharper disable StringLiteralTypo
 
-namespace Engine.Tests.General
-{
-    [TestFixture]
-    public class BoardBuilderTests
-    {
-        [Test]
-        public void Builds_initial_board_correctly()
-        {
-            var board = BoardBuilder.Build();
+namespace Engine.Tests.General;
 
-            Assert.That(board.Dump(), Is.EqualTo(new[]
-                                                 {
-                                                     "♜♞♝♛♚♝♞♜",
-                                                     "♟♟♟♟♟♟♟♟",
-                                                     "        ",
-                                                     "        ",
-                                                     "        ",
-                                                     "        ",
-                                                     "♙♙♙♙♙♙♙♙",
-                                                     "♖♘♗♕♔♗♘♖"
-                                                 }));
-        }
+[TestFixture]
+public class BoardBuilderTests
+{
+    [Test]
+    public void Builds_initial_board_correctly()
+    {
+        var board = BoardBuilder.Build();
+
+        Assert.That(board.Dump(), Is.EqualTo(new[]
+        {
+            "♜♞♝♛♚♝♞♜",
+            "♟♟♟♟♟♟♟♟",
+            "        ",
+            "        ",
+            "        ",
+            "        ",
+            "♙♙♙♙♙♙♙♙",
+            "♖♘♗♕♔♗♘♖"
+        }));
     }
 }
