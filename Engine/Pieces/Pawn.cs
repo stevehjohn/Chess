@@ -1,42 +1,31 @@
 ﻿using Engine.General;
 using System.Collections.Generic;
 
-namespace Engine.Pieces
+namespace Engine.Pieces;
+
+public class Pawn : Piece
 {
-    public class Pawn : Piece
+    public override Type Type => Type.Pawn;
+
+    public override int Value => 10;
+
+    public override List<Position> PossibleMoves(Board board)
     {
-        public override Type Type => Type.Pawn;
+        var builder = new PossibleMoveBuilder(board, Side);
 
-        public override int Value => 10;
-
-        public override List<Position> PossibleMoves(Board board)
+        if (NumberOfMoves == 0)
         {
-            var builder = new PossibleMoveBuilder(board, Side);
-
-            if (NumberOfMoves == 0)
-            {
-                builder.AddMove(Position, 2, 0, true);
-                builder.AddMove(Position, 1, 0, true);
-            }
-            else
-            {
-                builder.AddMove(Position, 1, 0, true);
-            }
-
-            builder.AddMove(Position, 1, 1, false, true);
-            builder.AddMove(Position, 1, -1, false, true);
-
-            return builder.PossibleMoves;
+            builder.AddMove(Position, 2, 0, true);
+            builder.AddMove(Position, 1, 0, true);
+        }
+        else
+        {
+            builder.AddMove(Position, 1, 0, true);
         }
 
-        public override Piece Copy()
-        {
-            return new Pawn
-                   {
-                       NumberOfMoves = NumberOfMoves,
-                       Position = Position.Copy(),
-                       Side = Side
-                   };
-        }
+        builder.AddMove(Position, 1, 1, false, true);
+        builder.AddMove(Position, 1, -1, false, true);
+
+        return builder.PossibleMoves;
     }
 }
