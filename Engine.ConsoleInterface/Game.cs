@@ -3,9 +3,8 @@ using Engine.Pieces;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
-using System.Threading.Tasks;
-using static System.Console;
 using Type = Engine.Pieces.Type;
+using static System.Console;
 
 namespace Engine.ConsoleInterface
 {
