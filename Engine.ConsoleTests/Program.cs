@@ -13,7 +13,7 @@ namespace Engine.ConsoleTests
     {
         private const int Depth = 8;
 
-        public static async Task Main()
+        public static void Main()
         {
             for (var i = 1; i <= Depth; i++)
             {
@@ -23,8 +23,8 @@ namespace Engine.ConsoleTests
                 var engine = new ChessEngine(board, i);
 
                 var stopwatch = Stopwatch.StartNew();
-
-                await engine.GetMove(Side.White);
+                
+                engine.GetMove(Side.White);
 
                 stopwatch.Stop();
 

@@ -1,6 +1,5 @@
 ﻿using Engine.Pieces;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,7 +19,7 @@ namespace Engine.General
             _depth = depth;
         }
 
-        public async Task<Move> GetMove(Side side)
+        public Move GetMove(Side side)
         {
             Depths = new List<Move>[_depth];
 
@@ -29,7 +28,7 @@ namespace Engine.General
                 Depths[depth] = [];
             }
 
-            await GetMoves(side, _board);
+            GetMoves(side, _board);
 
             var bestScore = Depths[_depth - 1].Max(m => m.TotalValue);
 
@@ -47,15 +46,15 @@ namespace Engine.General
             return move;
         }
 
-        private async Task GetMoves(Side side, Board board, int depth = 0, int previousValue = 0, Move previousMove = null)
+        private void GetMoves(Side side, Board board, int depth = 0, int previousValue = 0, Move previousMove = null)
         {
             for (var row = 0; row < 8; row++)
             {
-                await GetRowMoves(row, side, board, depth, previousValue, previousMove);
+                GetRowMoves(row, side, board, depth, previousValue, previousMove);
             }
         }
 
-        private async Task GetRowMoves(int row, Side side, Board board, int depth = 0, int previousValue = 0, Move previousMove = null)
+        private void GetRowMoves(int row, Side side, Board board, int depth = 0, int previousValue = 0, Move previousMove = null)
         {
             for (var column = 0; column < 8; column++)
             {
@@ -104,7 +103,7 @@ namespace Engine.General
 
                     if (depth < _depth - 1)
                     {
-                        await GetMoves((Side) (-(int) side), board, depth + 1, totalValue, move);
+                        GetMoves((Side) (-(int) side), board, depth + 1, totalValue, move);
                     }
 
                     board.Squares[piece.Position.Row, piece.Position.Column] = piece;

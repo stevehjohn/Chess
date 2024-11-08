@@ -15,7 +15,7 @@ namespace Engine.ConsoleInterface
         private Board _board;
         private ChessEngine _engine;
 
-        public async Task Play()
+        public void Play()
         {
             _board = BoardBuilder.Build();
             _engine = new ChessEngine(_board, 5);
@@ -39,7 +39,7 @@ namespace Engine.ConsoleInterface
 
                 ReadLine();
 
-                var move = await _engine.GetMove(side);
+                var move = _engine.GetMove(side);
 
                 GC.Collect();
 
