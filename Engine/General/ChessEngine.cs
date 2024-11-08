@@ -1,6 +1,7 @@
 ﻿using Engine.Pieces;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,7 +12,7 @@ namespace Engine.General
         private readonly Board _board;
         private readonly int _depth;
 
-        internal ConcurrentBag<Move>[] Depths;
+        internal List<Move>[] Depths;
 
         public ChessEngine(Board board, int depth)
         {
@@ -21,7 +22,7 @@ namespace Engine.General
 
         public async Task<Move> GetMove(Side side)
         {
-            Depths = new ConcurrentBag<Move>[_depth];
+            Depths = new List<Move>[_depth];
 
             for (var depth = 0; depth < _depth; depth++)
             {

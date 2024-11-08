@@ -3,6 +3,7 @@ using Engine.Pieces;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
+using System.Threading.Tasks;
 using static System.Console;
 using Type = Engine.Pieces.Type;
 
@@ -14,7 +15,7 @@ namespace Engine.ConsoleInterface
         private Board _board;
         private ChessEngine _engine;
 
-        public void Play()
+        public async Task Play()
         {
             _board = BoardBuilder.Build();
             _engine = new ChessEngine(_board, 5);
@@ -38,7 +39,7 @@ namespace Engine.ConsoleInterface
 
                 ReadLine();
 
-                var move = _engine.GetMove(side);
+                var move = await _engine.GetMove(side);
 
                 GC.Collect();
 
