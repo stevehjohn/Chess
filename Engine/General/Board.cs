@@ -25,6 +25,7 @@ namespace Engine.General
 
         public void AddPiece(Type type, Position position, Side side)
         {
+            // ReSharper disable once PossibleNullReferenceException
             var pieces = Assembly
                          .GetAssembly(typeof(Piece))
                          .GetTypes()
@@ -34,6 +35,7 @@ namespace Engine.General
             {
                 var instance = (Piece) Activator.CreateInstance(piece);
 
+                // ReSharper disable once PossibleNullReferenceException
                 if (instance.Type == type)
                 {
                     instance.Position = position;
@@ -43,26 +45,6 @@ namespace Engine.General
                     return;
                 }
             }
-        }
-
-        public Board Copy()
-        {
-            var copy = new Piece[8, 8];
-
-            for (var row = 0; row < 8; row++)
-            {
-                for (var column = 0; column < 8; column++)
-                {
-                    var square = Squares[row, column];
-
-                    if (square != null)
-                    {
-                        copy[row, column] = square.Copy();
-                    }
-                }
-            }
-
-            return new Board(copy);
         }
 
         public string[] Dump()
