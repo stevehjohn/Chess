@@ -27,7 +27,7 @@ namespace Engine.ConsoleTests
 
                 stopwatch.Stop();
 
-                Console.WriteLine($"Elapsed: {stopwatch.ElapsedMilliseconds / 1000.0:N2}");
+                Console.WriteLine($"{DateTime.Now:HH:mm:ss} Elapsed: {stopwatch.ElapsedMilliseconds / 1000.0:N2}");
 
                 for (var k = 0; k < i; k++)
                 {
