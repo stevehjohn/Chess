@@ -75,8 +75,6 @@ public class ChessEngine
                     {
                         value = target.Value;
                     }
-
-                    var previousPiece = board.Squares[position.Row, position.Column];
                     
                     board.Squares[piece.Position.Row, piece.Position.Column] = null;
 
@@ -101,7 +99,7 @@ public class ChessEngine
 
                     board.Squares[piece.Position.Row, piece.Position.Column] = piece;
 
-                    board.Squares[position.Row, position.Column] = previousPiece; 
+                    board.Squares[position.Row, position.Column] = target; 
                 }
             }
         }
