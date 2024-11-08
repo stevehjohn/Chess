@@ -63,7 +63,7 @@ public class ChessEngine
                     continue;
                 }
 
-                var pieceMoves = piece.PossibleMoves(board).ToList();
+                var pieceMoves = piece.PossibleMoves(board);
 
                 foreach (var position in pieceMoves)
                 {
