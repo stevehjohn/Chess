@@ -92,15 +92,11 @@ public class ChessEngine
                     };
 
                     Depths[depth].Add(move);
-
-                    Console.Write($"{(char) ('A' + column)}{row}");
                     
                     if (depth < _depth - 1)
                     {
                         GetMoves((Side) (-(int) side), board, depth + 1, totalValue, move);
                     }
-
-                    Console.WriteLine();
                     
                     board.Squares[piece.Position.Row, piece.Position.Column] = piece;
 
