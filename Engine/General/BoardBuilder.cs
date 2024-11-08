@@ -16,21 +16,13 @@ public static class BoardBuilder
 
         for (var x = 0; x < 3; x++)
         {
-            var type = Type.Bishop;
-
-            switch (x)
+            var type = x switch
             {
-                case 0:
-                    type = Type.Rook;
-                    break;
-                case 1:
-                    type = Type.Knight;
-                    break;
-                case 2:
-                    type = Type.Bishop;
-                    break;
-
-            }
+                0 => Type.Rook,
+                1 => Type.Knight,
+                2 => Type.Bishop,
+                _ => Type.Bishop
+            };
 
             board.AddPiece(type, new Position(0, x), Side.Black);
             board.AddPiece(type, new Position(0, 7 - x), Side.Black);

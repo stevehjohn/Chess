@@ -58,29 +58,16 @@ public class Board
                     continue;
                 }
 
-                var piece = ' ';
-
-                switch (Squares[row, column].Type)
+                var piece = Squares[row, column].Type switch
                 {
-                    case Type.Bishop:
-                        piece = '♗';
-                        break;
-                    case Type.King:
-                        piece = '♔';
-                        break;
-                    case Type.Knight:
-                        piece = '♘';
-                        break;
-                    case Type.Pawn:
-                        piece = '♙';
-                        break;
-                    case Type.Queen:
-                        piece = '♕';
-                        break;
-                    case Type.Rook:
-                        piece ='♖';
-                        break;
-                }
+                    Type.Bishop => '♗',
+                    Type.King => '♔',
+                    Type.Knight => '♘',
+                    Type.Pawn => '♙',
+                    Type.Queen => '♕',
+                    Type.Rook => '♖',
+                    _ => ' '
+                };
 
                 if (Squares[row, column].Side == Side.Black)
                 {
