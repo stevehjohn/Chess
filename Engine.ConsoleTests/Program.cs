@@ -4,18 +4,17 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Engine.ConsoleTests
 {
     [ExcludeFromCodeCoverage]
     public static class Program
     {
-        private const int Depth = 8;
+        private const int Depth = 3;
 
         public static void Main()
         {
-            for (var i = 1; i <= Depth; i++)
+            for (var i = 3; i <= Depth; i++)
             {
                 Console.WriteLine($"\nDepth: {i}\n");
 
