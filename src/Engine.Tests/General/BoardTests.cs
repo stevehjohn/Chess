@@ -31,6 +31,11 @@ public class BoardTests
                 var character = (_board[file, rank] & Kind.TypeMask) switch
                 {
                     Kind.Pawn => 'P',
+                    Kind.Rook => 'R',
+                    Kind.Knight => 'N',
+                    Kind.Bishop => 'B',
+                    Kind.Queen => 'Q',
+                    Kind.King => 'K',
                     _ => '.'
                 };
 
