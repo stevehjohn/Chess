@@ -1,6 +1,6 @@
 namespace Engine.Pieces;
 
-public enum Type : byte
+public enum Kind : byte
 {
     Pawn   = 0b0000_0001,
     Rook   = 0b0000_0010,
