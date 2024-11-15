@@ -6,6 +6,7 @@ Second attempt at creating a chess engine.
 
 Number of possible board combinations after each move (without pruning).
 
+```
 +-----------------|---------------------------+
 | Number of moves | Number of possible states |
 | 1               | 20                        |
@@ -19,3 +20,4 @@ Number of possible board combinations after each move (without pruning).
 | 9               | 2,439,530,234,167         |
 | 10              | 69,352,859,712,417        |
 +-----------------+---------------------------+
+```
