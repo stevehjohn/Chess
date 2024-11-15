@@ -53,6 +53,25 @@ public class BoardTests
             
             // ReSharper disable once Xunit.XunitTestWithConsoleOutput - output doesn't show from dotnet test otherwise
             Console.WriteLine(line);
+
+            switch (rank)
+            {
+                case 0:
+                    Assert.Equal("rnbqkbnr", line);
+                    break;
+
+                case 1:
+                    Assert.Equal("pppppppp", line);
+                    break;
+
+                case 6:
+                    Assert.Equal("PPPPPPPP", line);
+                    break;
+
+                case 7:
+                    Assert.Equal("RNBQKBNR", line);
+                    break;
+            }
         }
     }
 }
