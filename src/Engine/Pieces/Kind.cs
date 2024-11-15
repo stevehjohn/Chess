@@ -10,5 +10,8 @@ public enum Kind : byte
     Queen  = 0b0000_0101,
     King   = 0b0000_0111,
     Black  = 0b0000_1000,
-    White  = 0b0001_0000
+    White  = 0b0001_0000,
+    
+    TypeMask   = 0b0000_0111,
+    ColourMask = 0b0001_1000
 }

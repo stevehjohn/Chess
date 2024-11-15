@@ -28,11 +28,16 @@ public class BoardTests
             
             for (var rank = 0; rank < 8; rank++)
             {
-                var character = _board[file, rank] switch
+                var character = (_board[file, rank] & Kind.TypeMask) switch
                 {
                     Kind.Pawn => 'P',
-                    _ => 'x'
+                    _ => '.'
                 };
+
+                if ((_board[file, rank] & Kind.ColourMask) == Kind.Black)
+                {
+                    character = char.ToLower(character);
+                }
 
                 builder.Append(character);
             }
