@@ -22,11 +22,11 @@ public class BoardTests
     {
         _board.Initialise();
 
-        for (var file = 0; file < 8; file++)
+        for (var rank = 0; rank < 8; rank++)
         {
             var builder = new StringBuilder();
             
-            for (var rank = 0; rank < 8; rank++)
+            for (var file = 0; file < 8; file++)
             {
                 var character = (_board[file, rank] & Kind.TypeMask) switch
                 {
