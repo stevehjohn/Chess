@@ -4,7 +4,9 @@ namespace Engine.General;
 
 public class Board
 {
-    private readonly Kind[] _squares;
+    private Kind[] _squares;
+
+    private readonly Stack<Kind[]> _undoBuffer = [];
 
     public Board()
     {
@@ -46,6 +48,20 @@ public class Board
 
         this[3, 7] = Kind.Queen | Kind.White;
         this[4, 7] = Kind.King | Kind.White;
+    }
+
+    public void Move()
+    {
+        var copy = new Kind[64];
+        
+        Buffer.BlockCopy(_squares, 0, copy, 0, Constants.Squares);
+        
+        _undoBuffer.Push(copy);
+    }
+
+    public void UndoMove()
+    {
+        _squares = _undoBuffer.Pop();
     }
 
     private static int GetSquareIndex(int file, int rank)
