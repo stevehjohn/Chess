@@ -50,13 +50,17 @@ public class Board
         this[4, 7] = Kind.King | Kind.White;
     }
 
-    public void Move()
+    public void Move(int startFile, int startRank, int endFile, int endRank)
     {
         var copy = new Kind[64];
         
         Buffer.BlockCopy(_squares, 0, copy, 0, Constants.Squares);
         
         _undoBuffer.Push(copy);
+
+        this[endFile, endRank] = this[startFile, startRank];
+
+        this[startFile, startRank] = 0;
     }
 
     public void UndoMove()
