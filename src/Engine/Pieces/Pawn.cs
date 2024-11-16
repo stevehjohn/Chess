@@ -10,16 +10,16 @@ public class Pawn : Piece
     {
     }
 
-    public override IEnumerable<int> GetPossibleMoves(int rank, int file, Board board)
+    public override IEnumerable<int> GetPossibleMoves()
     {
-        if (LastMovePly == 0 && IsInBounds(rank, file, 2, 0) && ClearRankPath(rank, file, 2, board))
+        if (LastMovePly == 0 && IsInBounds(2, 0) && ClearRankPath(2))
         {
-            yield return Board.GetCellIndex(rank + Direction * 2, file);
+            yield return Board.GetCellIndex(Rank + Direction * 2, File);
         }
 
-        if (IsInBounds(rank, file, 1, 0) && ClearRankPath(rank, file, 1, board))
+        if (IsInBounds(1, 0) && ClearRankPath(1))
         {
-            yield return Board.GetCellIndex(rank + Direction, file);
+            yield return Board.GetCellIndex(Rank + Direction, File);
         }
         
         // TODO: En passant. Possibly promotion? Maybe that's handled by the core.

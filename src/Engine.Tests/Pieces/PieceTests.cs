@@ -21,6 +21,7 @@ public class PieceTests
     [Theory]
     [InlineData(Kind.Pawn, Colour.Black, 0b0001_0001)]
     [InlineData(Kind.Rook, Colour.Black, 0b0001_0010)]
+    [InlineData(Kind.Knight, Colour.Black, 0b0001_0011)]
     public void EncodeReturnsCorrectCode(Kind kind, Colour colour, ushort expectedCode)
     {
         Piece piece = kind switch

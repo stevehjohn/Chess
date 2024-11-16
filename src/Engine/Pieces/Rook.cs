@@ -10,7 +10,7 @@ public class Rook : Piece
     {
     }
     
-    public override IEnumerable<int> GetPossibleMoves(int rank, int file, Board board)
+    public override IEnumerable<int> GetPossibleMoves()
     {
         return [];
     }

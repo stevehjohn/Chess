@@ -13,6 +13,12 @@ public abstract class Piece
 
     protected readonly int Direction;
 
+    protected int Rank;
+
+    protected int File;
+
+    private Board _board;
+
     protected Piece(Colour colour)
     {
         Colour = colour;
@@ -20,7 +26,18 @@ public abstract class Piece
         Direction = colour == Colour.Black ? 1 : -1;
     }
 
-    public abstract IEnumerable<int> GetPossibleMoves(int rank, int file, Board board);
+    public IEnumerable<int> GetPossibleMoves(int rank, int file, Board board)
+    {
+        Rank = rank;
+
+        File = file;
+
+        _board = board;
+
+        return GetPossibleMoves();
+    }
+
+    public abstract IEnumerable<int> GetPossibleMoves();
 
     public ushort Encode()
     {
@@ -62,16 +79,16 @@ public abstract class Piece
         return piece;
     }
 
-    protected bool IsInBounds(int rank, int file, int forward, int right)
+    protected bool IsInBounds(int forward, int right)
     {
-        var newRank = rank + forward * Direction;
+        var newRank = Rank + forward * Direction;
 
         if (newRank is < 0 or >= Constants.Ranks)
         {
             return false;
         }
 
-        var newFile = file + right;
+        var newFile = File + right;
 
         if (newFile is < 0 or >= Constants.Ranks)
         {
@@ -81,13 +98,15 @@ public abstract class Piece
         return true;
     }
 
-    protected bool ClearRankPath(int rank, int file, int forward, Board board)
+    protected bool ClearRankPath(int forward)
     {
+        var rank = Rank;
+        
         while (forward > 0)
         {
             rank += Direction;
 
-            if (IsEmpty(rank, file, board))
+            if (IsEmpty(rank, File))
             {
                 return false;
             }
@@ -98,8 +117,8 @@ public abstract class Piece
         return true;
     }
 
-    private bool IsEmpty(int rank, int file, Board board)
+    private bool IsEmpty(int rank, int file)
     {
-        return board[rank, file] == null;
+        return _board[rank, file] == null;
     }
 }
