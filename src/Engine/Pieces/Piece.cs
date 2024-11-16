@@ -11,9 +11,13 @@ public abstract class Piece
     
     public int LastMovePly { get; private set; }
 
+    protected MoveBuilder MoveBuilder;
+
     protected Piece(Colour colour)
     {
         Colour = colour;
+
+        MoveBuilder = new MoveBuilder(colour);
     }
 
     public abstract IEnumerable<int> GetPossibleMoves(int rank, int file, Board board);
