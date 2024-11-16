@@ -12,7 +12,24 @@ public class Core
         _board = board;
     }
 
-    public void GetMove(Side side, int depth = 6)
+    public void GetMove(Kind side, int depth = 6)
     {
+        for (var file = 0; file < 8; file++)
+        {
+            for (var rank = 0; rank < 8; rank++)
+            {
+                var kind = _board[file, rank];
+                
+                if (kind == Kind.Empty)
+                {
+                    continue;
+                }
+
+                if ((kind & side) == 0)
+                {
+                    continue;
+                }
+            }
+        }
     }
 }

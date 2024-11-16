@@ -3,6 +3,7 @@ namespace Engine.Pieces;
 [Flags]
 public enum Kind : byte
 {
+    Empty  = 0b0000_0000,
     Pawn   = 0b0000_0001,
     Rook   = 0b0000_0010,
     Knight = 0b0000_0011,
