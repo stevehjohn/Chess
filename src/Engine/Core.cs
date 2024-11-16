@@ -39,7 +39,9 @@ public class Core
 
                 foreach (var move in moves)
                 {
+                    var position = Board.GetRankAndFile(move);
                     
+                    _board.Move(file, rank, position.File, position.Rank);
                 }
             }
         }

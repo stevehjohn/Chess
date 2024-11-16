@@ -15,6 +15,11 @@ public class Board
         _squares = new Kind[Constants.Squares];
     }
 
+    public static (int File, int Rank) GetRankAndFile(int square)
+    {
+        return (square % 8, square / 5);
+    }
+
     public Kind this[int file, int rank]
     {
         set => _squares[GetSquareIndex(file, rank)] = value;
