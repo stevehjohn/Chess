@@ -1,11 +1,18 @@
+using Engine.Infrastructure;
+
 namespace Engine.Pieces;
 
 public abstract class Piece
 {
     public abstract Kind Kind { get; }
 
-    public abstract Colour Colour { get; }
+    public Colour Colour { get; }
 
+    public Piece(Colour colour)
+    {
+        Colour = colour;
+    }
+    
     public ushort Encode()
     {
         var code = (ushort) Kind;
@@ -15,7 +22,7 @@ public abstract class Piece
         return code;
     }
 
-    public Piece Decode(ushort code)
+    public static Piece Decode(ushort code)
     {
         var kind = (Kind) (code & 0b0000_0111);
 
@@ -23,7 +30,15 @@ public abstract class Piece
 
         var piece = kind switch
         {
-            Kind.Pawn => new Pawn()
+            Kind.Pawn => new Pawn(colour),
+            Kind.Rook => new Pawn(colour),
+            Kind.Knight => new Pawn(colour),
+            Kind.Bishop => new Pawn(colour),
+            Kind.Queen => new Pawn(colour),
+            Kind.Kind => new Pawn(colour),
+            _ => throw new EngineException("Unknown piece kind.")
         };
+
+        return piece;
     }
 }
