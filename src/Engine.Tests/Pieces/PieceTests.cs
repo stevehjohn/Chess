@@ -17,7 +17,20 @@ public class PieceTests
         
         Assert.Equal(expectedType, piece.GetType());
     }
-    
+
+    [Theory]
+    [InlineData(Kind.Pawn, Colour.Black, 0b0001_0001)]
+    public void EncodeReturnsCorrectCode(Kind kind, Colour colour, ushort expectedCode)
+    {
+        var piece = kind switch
+        {
+            Kind.Pawn => new Pawn(colour)
+        };
+        
+        Assert.Equal(expectedCode, piece.Encode());
+    }
+
+
     [Theory]
     [InlineData(0b0000_0000, "Invalid piece colour.")]
     [InlineData(0b0001_1001, "Invalid piece colour.")]
