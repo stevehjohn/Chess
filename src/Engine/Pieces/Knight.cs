@@ -9,9 +9,4 @@ public class Knight : Piece
     public Knight(Colour colour) : base(colour)
     {
     }
-
-    public override IEnumerable<int> GetPossibleMoves()
-    {
-        return [];
-    }
 }
