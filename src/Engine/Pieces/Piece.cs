@@ -23,6 +23,8 @@ public abstract class Piece
         LastMovePly = lastMovePly;
     }
 
+    public abstract IEnumerable<int> GetPossibleMove(Board board);
+
     public ushort Encode()
     {
         var code = (ushort) Kind;
@@ -33,8 +35,6 @@ public abstract class Piece
 
         return code;
     }
-
-    public abstract IEnumerable<int> GetPossibleMove(Board board);
 
     public static Piece Decode(ushort code)
     {
