@@ -47,7 +47,7 @@ public class Board
         _cells = _undoBuffer.Pop();
     }
 
-    private static int GetCellIndex(int rank, int file)
+    public static int GetCellIndex(int rank, int file)
     {
         return rank * 8 + file;
     }

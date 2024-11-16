@@ -10,15 +10,8 @@ public class Pawn : Piece
     {
     }
     
-    public override IEnumerable<int> GetPossibleMove(Board board)
+    public override IEnumerable<int> GetPossibleMoves(int rank, int file, Board board)
     {
-        var rankDirection = Colour == Colour.Black ? 1 : -1;
-
-        if (LastMovePly == 0)
-        {
-            yield return rankDirection;
-        }
-
-        yield return rankDirection;
+        return [];
     }
 }

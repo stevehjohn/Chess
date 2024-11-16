@@ -16,7 +16,7 @@ public abstract class Piece
         Colour = colour;
     }
 
-    public abstract IEnumerable<int> GetPossibleMove(Board board);
+    public abstract IEnumerable<int> GetPossibleMoves(int rank, int file, Board board);
 
     public ushort Encode()
     {
