@@ -16,13 +16,6 @@ public abstract class Piece
         Colour = colour;
     }
 
-    private Piece(Colour colour, int lastMovePly)
-    {
-        Colour = colour;
-
-        LastMovePly = lastMovePly;
-    }
-
     public abstract IEnumerable<int> GetPossibleMove(Board board);
 
     public ushort Encode()
