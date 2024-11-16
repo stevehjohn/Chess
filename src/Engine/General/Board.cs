@@ -7,13 +7,6 @@ public class Board
     private Kind[] _squares;
 
     private readonly Stack<Kind[]> _undoBuffer = [];
-    
-    public int Ply { get; private set; }
-
-    public Board()
-    {
-        _squares = new Kind[Constants.Squares];
-    }
 
     public Kind this[int file, int rank]
     {
@@ -23,9 +16,9 @@ public class Board
 
     public void Initialise()
     {
+        _squares = new Kind[Constants.Squares];
+
         _undoBuffer.Clear();
-        
-        Ply = 0;
         
         for (var file = 0; file < 8; file++)
         {
