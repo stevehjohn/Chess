@@ -1,3 +1,4 @@
+using Engine.General;
 using Engine.Infrastructure;
 
 namespace Engine.Pieces;
@@ -32,6 +33,8 @@ public abstract class Piece
 
         return code;
     }
+
+    public abstract IEnumerable<int> GetPossibleMove(Board board);
 
     public static Piece Decode(ushort code)
     {
