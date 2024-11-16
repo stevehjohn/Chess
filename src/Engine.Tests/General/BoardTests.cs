@@ -17,6 +17,10 @@ public class BoardTests
     [InlineData(Constants.BlackPawnRank, 5, Kind.Pawn, Colour.Black)]
     [InlineData(Constants.BlackPawnRank, 6, Kind.Pawn, Colour.Black)]
     [InlineData(Constants.BlackPawnRank, 7, Kind.Pawn, Colour.Black)]
+
+    [InlineData(Constants.BlackHomeRank, Constants.LeftRookFile, Kind.Rook, Colour.Black)]
+    [InlineData(Constants.BlackHomeRank, Constants.RightRookFile, Kind.Rook, Colour.Black)]
+
     [InlineData(Constants.WhitePawnRank, 0, Kind.Pawn, Colour.White)]
     [InlineData(Constants.WhitePawnRank, 1, Kind.Pawn, Colour.White)]
     [InlineData(Constants.WhitePawnRank, 2, Kind.Pawn, Colour.White)]

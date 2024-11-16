@@ -33,10 +33,10 @@ public abstract class Piece
             _ => throw new EngineException("Invalid piece colour.")
         };
         
-        var piece = kind switch
+        Piece piece = kind switch
         {
             Kind.Pawn => new Pawn(colour),
-            Kind.Rook => new Pawn(colour),
+            Kind.Rook => new Rook(colour),
             Kind.Knight => new Pawn(colour),
             Kind.Bishop => new Pawn(colour),
             Kind.Queen => new Pawn(colour),
