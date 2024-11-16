@@ -43,7 +43,7 @@ public class CoreTests
                 _ => throw new TestException($"Expected count not know for depth {depth}")
             };
         
-            var output = $"{(result.Combinations == expected ? "PASS" : "FAIL")} Depth: {depth}, Explored: {result.Combinations}, Expected: {expected}";
+            var output = $"{(result.Combinations == expected ? "PASS" : "FAIL")} Depth: {depth,2}, Explored: {result.Combinations,11:N0}, Expected: {expected,11:N0}";
         
             _outputHelper.WriteLine(output);
         
