@@ -12,7 +12,7 @@ public class Core
         _board = board;
     }
 
-    public void GetMove(Kind side, int depth = 6)
+    public (int Combinations, int Move) GetMove(Kind side, int depth = 6)
     {
         for (var file = 0; file < 8; file++)
         {
@@ -45,5 +45,7 @@ public class Core
                 }
             }
         }
+        
+        return (0, 0);
     }
 }
