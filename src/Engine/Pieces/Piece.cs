@@ -8,7 +8,7 @@ public abstract class Piece
 
     public Colour Colour { get; }
 
-    public Piece(Colour colour)
+    protected Piece(Colour colour)
     {
         Colour = colour;
     }
