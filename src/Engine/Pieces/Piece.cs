@@ -11,13 +11,13 @@ public abstract class Piece
     
     public int LastMovePly { get; private set; }
 
-    protected MoveBuilder MoveBuilder;
+    protected readonly int Direction;
 
     protected Piece(Colour colour)
     {
         Colour = colour;
 
-        MoveBuilder = new MoveBuilder(colour);
+        Direction = colour == Colour.Black ? 1 : -1;
     }
 
     public abstract IEnumerable<int> GetPossibleMoves(int rank, int file, Board board);
@@ -60,5 +60,24 @@ public abstract class Piece
         piece.LastMovePly = lastMovePly;
 
         return piece;
+    }
+
+    protected bool IsValidMove(int rank, int file, int forward, int right)
+    {
+        var newRank = rank + forward * Direction;
+
+        if (newRank is < 0 or >= Constants.Ranks)
+        {
+            return false;
+        }
+
+        var newFile = file + right;
+
+        if (newFile is < 0 or >= Constants.Ranks)
+        {
+            return false;
+        }
+
+        return true;
     }
 }
