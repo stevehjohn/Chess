@@ -2,9 +2,9 @@ using Engine.General;
 
 namespace Engine.Pieces;
 
-public class Pawn : IPiece
+public class Pawn : Piece
 {
-    public IEnumerable<int> GetMoves(int file, int rank, Board board)
+    public override IEnumerable<int> GetMoves(int file, int rank, Board board)
     {
         throw new NotImplementedException();
     }
