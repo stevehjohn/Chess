@@ -87,7 +87,7 @@ public abstract class Piece
         {
             rank += Direction;
 
-            if (board[rank, file] != null)
+            if (IsEmpty(rank, file, board))
             {
                 return false;
             }
@@ -96,5 +96,10 @@ public abstract class Piece
         }
 
         return true;
+    }
+
+    private bool IsEmpty(int rank, int file, Board board)
+    {
+        return board[rank, file] == null;
     }
 }
