@@ -30,8 +30,13 @@ public class Core
                     continue;
                 }
 
-                var piece = kind switch
+                Piece piece = (kind & Kind.TypeMask) switch
                 {
+                    Kind.Rook => new Rook(),
+                    Kind.Knight => new Knight(),
+                    Kind.Bishop => new Bishop(),
+                    Kind.Queen => new Queen(),
+                    Kind.King => new King(),
                     _ => new Pawn()
                 };
 
