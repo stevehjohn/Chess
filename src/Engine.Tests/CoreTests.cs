@@ -1,6 +1,6 @@
-using System.Text;
 using Engine.General;
 using Engine.Pieces;
+using Engine.Tests.Infrastructure;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -23,24 +23,32 @@ public class CoreTests
         _core = new Core(_board);
     }
     
-    [Theory]
-    [InlineData(1, 20)]
-    [InlineData(2, 400)]
-    [InlineData(3, 8_902)]
-    [InlineData(4, 197_281)]
-    [InlineData(5, 4_865_609)]
-    [InlineData(6, 119_060_324)]
-    public void ExploresExpectedNumberOfCombinations(int depth, int expected)
+    [Fact]
+    public void ExploresExpectedNumberOfCombinations()
     {
-        _board.Initialise();
+        for (var depth = 1; depth < 7; depth++)
+        {
+            _board.Initialise();
         
-        var result = _core.GetMove(Kind.White, depth);
+            var result = _core.GetMove(Kind.White, depth);
+
+            var expected = depth switch
+            {
+                1 => 20,
+                2 => 400,
+                3 => 8_902,
+                4 => 197_281,
+                5 => 4_865_609,
+                6 => 119_060_324,
+                _ => throw new TestException($"Expected count not know for depth {depth}")
+            };
         
-        var output = $"{(result.Combinations == expected ? "PASS" : "FAIL")} Depth: {depth}, Explored: {result.Combinations}, Expected: {expected}";
+            var output = $"{(result.Combinations == expected ? "PASS" : "FAIL")} Depth: {depth}, Explored: {result.Combinations}, Expected: {expected}";
         
-        _outputHelper.WriteLine(output);
+            _outputHelper.WriteLine(output);
         
-        // ReSharper disable once Xunit.XunitTestWithConsoleOutput - output doesn't show from dotnet test otherwise
-        Console.WriteLine(output);
+            // ReSharper disable once Xunit.XunitTestWithConsoleOutput - output doesn't show from dotnet test otherwise
+            Console.WriteLine(output);
+        }
     }
 }
