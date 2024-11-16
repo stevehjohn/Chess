@@ -80,4 +80,8 @@ public abstract class Piece
 
         return true;
     }
+
+    protected bool ClearRankPath(int rank, int file, int forward, Board board)
+    {
+    }
 }
