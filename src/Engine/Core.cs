@@ -23,7 +23,9 @@ public class Core
             _depthCombinations[i] = 0;
         }
 
-        return (_depthCombinations[depth], GetMoveInternal(side, depth));
+        var move = GetMoveInternal(side, depth);
+
+        return (_depthCombinations[depth], move);
     }
 
     private int GetMoveInternal(Kind side, int depth)
