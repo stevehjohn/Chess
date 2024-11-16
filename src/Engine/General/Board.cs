@@ -28,6 +28,8 @@ public class Board
 
     public void Initialise()
     {
+        _undoBuffer.Clear();
+        
         Ply = 0;
         
         for (var file = 0; file < 8; file++)
