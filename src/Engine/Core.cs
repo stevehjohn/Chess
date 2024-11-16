@@ -29,6 +29,18 @@ public class Core
                 {
                     continue;
                 }
+
+                var piece = kind switch
+                {
+                    _ => new Pawn()
+                };
+
+                var moves = piece.GetMoves(file, rank, _board);
+
+                foreach (var move in moves)
+                {
+                    
+                }
             }
         }
     }
