@@ -26,7 +26,12 @@ public abstract class Piece
     {
         var kind = (Kind) (code & 0b0000_0111);
 
-        var colour = (Colour) ((code & 0b0001_1000) >> 3);
+        var colour = ((code & 0b0001_1000) >> 3) switch
+        {
+            1 => Colour.White,
+            2 => Colour.Black,
+            _ => throw new EngineException("Invalid piece colour.")
+        };
         
         var piece = kind switch
         {

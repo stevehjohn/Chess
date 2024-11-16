@@ -19,9 +19,9 @@ public class PieceTests
     }
     
     [Theory]
-    [InlineData(0b0000_0000, "Invalid piece kind.")]
+    [InlineData(0b0000_0000, "Invalid piece colour.")]
+    [InlineData(0b0001_1001, "Invalid piece colour.")]
     [InlineData(0b0000_1111, "Invalid piece kind.")]
-    [InlineData(0b0001_1001, "Unknown piece kind.")]
     public void DecodeReturnsThrowsExceptionForInvalidCodes(ushort code, string expectedMessage)
     {
         try
@@ -31,6 +31,8 @@ public class PieceTests
         catch (Exception exception)
         {
             Assert.Equal(expectedMessage, exception.Message);
+            
+            return;
         }
         
         Assert.Fail("Exception not thrown parsing code.");
