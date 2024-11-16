@@ -1,7 +1,7 @@
 namespace Engine.Pieces;
 
 [Flags]
-public enum Kind : byte
+public enum Kind : ushort
 {
     Empty  = 0b0000_0000,
     Pawn   = 0b0000_0001,
