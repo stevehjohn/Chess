@@ -79,7 +79,7 @@ public class Board
         _squares = _undoBuffer.Pop();
     }
 
-    private static int GetSquareIndex(int file, int rank)
+    public int GetSquareIndex(int file, int rank)
     {
         return file + rank * 8;
     }
