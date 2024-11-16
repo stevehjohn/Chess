@@ -8,22 +8,30 @@ public class BoardTests
 {
     private readonly Board _board = new();
     
-    [Fact]
-    public void InitialiseSetsUpBoardCorrectly()
+    [Theory]
+    [InlineData(Constants.BlackPawnRank, 0, Kind.Pawn, Colour.Black)]
+    [InlineData(Constants.BlackPawnRank, 1, Kind.Pawn, Colour.Black)]
+    [InlineData(Constants.BlackPawnRank, 2, Kind.Pawn, Colour.Black)]
+    [InlineData(Constants.BlackPawnRank, 3, Kind.Pawn, Colour.Black)]
+    [InlineData(Constants.BlackPawnRank, 4, Kind.Pawn, Colour.Black)]
+    [InlineData(Constants.BlackPawnRank, 5, Kind.Pawn, Colour.Black)]
+    [InlineData(Constants.BlackPawnRank, 6, Kind.Pawn, Colour.Black)]
+    [InlineData(Constants.BlackPawnRank, 7, Kind.Pawn, Colour.Black)]
+    [InlineData(Constants.WhitePawnRank, 0, Kind.Pawn, Colour.White)]
+    [InlineData(Constants.WhitePawnRank, 1, Kind.Pawn, Colour.White)]
+    [InlineData(Constants.WhitePawnRank, 2, Kind.Pawn, Colour.White)]
+    [InlineData(Constants.WhitePawnRank, 3, Kind.Pawn, Colour.White)]
+    [InlineData(Constants.WhitePawnRank, 4, Kind.Pawn, Colour.White)]
+    [InlineData(Constants.WhitePawnRank, 5, Kind.Pawn, Colour.White)]
+    [InlineData(Constants.WhitePawnRank, 6, Kind.Pawn, Colour.White)]
+    [InlineData(Constants.WhitePawnRank, 7, Kind.Pawn, Colour.White)]
+    public void InitialiseSetsUpBoardCorrectly(int rank, int file, Kind expectedKind, Colour expectedColour)
     {
         _board.Initialise();
 
-        for (var file = 0; file < Constants.Files; file++)
-        {
-            var piece = _board[Constants.BlackPawnRank, file];
-            
-            Assert.Equal(Kind.Pawn, piece.Kind);
-            Assert.Equal(Colour.Black, piece.Colour);
-
-            piece = _board[Constants.WhitePawnRank, file];
-            
-            Assert.Equal(Kind.Pawn, piece.Kind);
-            Assert.Equal(Colour.White, piece.Colour);
-        }
+        var piece = _board[rank, file];
+        
+        Assert.Equal(expectedKind, piece.Kind);
+        Assert.Equal(expectedColour, piece.Colour);
     }
 }
