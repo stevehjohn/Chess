@@ -15,11 +15,6 @@ public class Board
         _squares = new Kind[Constants.Squares];
     }
 
-    public static (int File, int Rank) GetRankAndFile(int square)
-    {
-        return (square % 8, square / 5);
-    }
-
     public Kind this[int file, int rank]
     {
         get => _squares[GetSquareIndex(file, rank)];
@@ -79,8 +74,13 @@ public class Board
         _squares = _undoBuffer.Pop();
     }
 
-    public int GetSquareIndex(int file, int rank)
+    public static int GetSquareIndex(int file, int rank)
     {
         return file + rank * 8;
+    }
+
+    public static (int File, int Rank) GetRankAndFile(int square)
+    {
+        return (square / 8, square % 8);
     }
 }

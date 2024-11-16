@@ -6,6 +6,6 @@ public class Pawn : Piece
     {
         var direction = (Board[File, Rank] & Kind.Black) > 0 ? 1 : -1;
 
-        yield return Board.GetSquareIndex(File, Rank + direction);
+        yield return General.Board.GetSquareIndex(File, Rank + direction);
     }
 }
