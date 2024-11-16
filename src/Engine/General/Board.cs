@@ -7,9 +7,22 @@ public class Board
     private ushort[] _cells;
 
     private readonly Stack<ushort[]> _undoBuffer = [];
-    
-    public Piece this[int rank, int file] => Piece.Decode(_cells[GetCellIndex(rank, file)]);
-    
+
+    public Piece this[int rank, int file]
+    {
+        get
+        {
+            var cell = _cells[GetCellIndex(rank, file)];
+
+            if (cell == 0)
+            {
+                return null;
+            }
+
+            return Piece.Decode(_cells[GetCellIndex(rank, file)]);
+        }
+    }
+
     public void Initialise()
     {
         _cells = new ushort[Constants.BoardCells];

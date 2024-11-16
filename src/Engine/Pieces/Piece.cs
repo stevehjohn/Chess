@@ -83,5 +83,18 @@ public abstract class Piece
 
     protected bool ClearRankPath(int rank, int file, int forward, Board board)
     {
+        while (forward > 0)
+        {
+            rank += Direction;
+
+            if (board[rank, file] != null)
+            {
+                return false;
+            }
+
+            forward--;
+        }
+
+        return true;
     }
 }
