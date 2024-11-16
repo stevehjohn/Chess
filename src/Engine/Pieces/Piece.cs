@@ -7,17 +7,28 @@ public abstract class Piece
     public abstract Kind Kind { get; }
 
     public Colour Colour { get; }
+    
+    public int LastMovePly { get; protected set;  }
 
     protected Piece(Colour colour)
     {
         Colour = colour;
     }
-    
+
+    private Piece(Colour colour, int lastMovePly)
+    {
+        Colour = colour;
+
+        LastMovePly = lastMovePly;
+    }
+
     public ushort Encode()
     {
         var code = (ushort) Kind;
 
         code |= (ushort) ((ushort) Colour << 3);
+
+        code |= (ushort) (LastMovePly << 5);
 
         return code;
     }
@@ -32,7 +43,7 @@ public abstract class Piece
             2 => Colour.Black,
             _ => throw new EngineException("Invalid piece colour.")
         };
-        
+
         Piece piece = kind switch
         {
             Kind.Pawn => new Pawn(colour),
@@ -43,6 +54,10 @@ public abstract class Piece
             Kind.Kind => new Pawn(colour),
             _ => throw new EngineException("Invalid piece kind.")
         };
+
+        var lastMovePly = code & 0b1111_1111_1110_0000;
+        
+        piece.LastMovePly = lastMovePly;
 
         return piece;
     }
