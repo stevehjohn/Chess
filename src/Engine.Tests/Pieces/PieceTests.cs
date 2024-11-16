@@ -20,11 +20,14 @@ public class PieceTests
 
     [Theory]
     [InlineData(Kind.Pawn, Colour.Black, 0b0001_0001)]
+    [InlineData(Kind.Rook, Colour.Black, 0b0001_0010)]
     public void EncodeReturnsCorrectCode(Kind kind, Colour colour, ushort expectedCode)
     {
-        var piece = kind switch
+        Piece piece = kind switch
         {
-            Kind.Pawn => new Pawn(colour)
+            Kind.Pawn => new Pawn(colour),
+            Kind.Rook => new Rook(colour),
+            Kind.Knight => new Knight(colour)
         };
         
         Assert.Equal(expectedCode, piece.Encode());
