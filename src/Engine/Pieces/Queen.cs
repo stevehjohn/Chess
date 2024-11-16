@@ -1,5 +1,3 @@
-using Engine.General;
-
 namespace Engine.Pieces;
 
 public class Queen : Piece
