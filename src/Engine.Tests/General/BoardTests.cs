@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Engine.Tests.General;
 
-public class PieceTests
+public class BoardTests
 {
     private readonly Board _board = new();
     

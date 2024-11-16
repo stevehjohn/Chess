@@ -21,6 +21,10 @@ public class Board
             _cells[GetCellIndex(Constants.BlackPawnRank, file)] = new Pawn(Colour.Black).Encode();
             _cells[GetCellIndex(Constants.WhitePawnRank, file)] = new Pawn(Colour.White).Encode();
         }
+
+        _cells[GetCellIndex(Constants.BlackHomeRank, Constants.LeftRookFile)] = new Rook(Colour.Black).Encode();
+
+        _cells[GetCellIndex(Constants.BlackHomeRank, Constants.RightRookFile)] = new Rook(Colour.Black).Encode();
     }
 
     public void MakeMove()
