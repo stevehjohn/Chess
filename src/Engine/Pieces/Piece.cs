@@ -4,8 +4,6 @@ namespace Engine.Pieces;
 
 public abstract class Piece
 {
-    protected Colour Colour;
-
     protected int File;
 
     protected int Rank;
@@ -14,8 +12,6 @@ public abstract class Piece
     
     public IEnumerable<int> GetMoves(int file, int rank, Board board)
     {
-        Colour = (board[file, rank] & Kind.White) > 0 ? Colour.White : Colour.Black;
-
         Board = board;
         
         File = file;

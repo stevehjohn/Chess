@@ -4,6 +4,8 @@ public class Pawn : Piece
 {
     protected override IEnumerable<int> GetMoves()
     {
-        return [];
+        var direction = (Board[File, Rank] & Kind.Black) > 0 ? 1 : -1;
+
+        yield return Rank + direction;
     }
 }

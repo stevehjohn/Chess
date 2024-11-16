@@ -7,12 +7,26 @@ public class Core
 {
     private readonly Board _board;
 
+    private readonly Dictionary<int, int> _depthCombinations = [];
+    
     public Core(Board board)
     {
         _board = board;
     }
 
     public (int Combinations, int Move) GetMove(Kind side, int depth = 6)
+    {
+        _depthCombinations.Clear();
+
+        for (var i = 1; i <= depth; i++)
+        {
+            _depthCombinations[i] = 0;
+        }
+
+        return (_depthCombinations[depth], GetMoveInternal(side, depth));
+    }
+
+    private int GetMoveInternal(Kind side, int depth)
     {
         for (var file = 0; file < 8; file++)
         {
@@ -47,10 +61,19 @@ public class Core
                     var position = Board.GetRankAndFile(move);
                     
                     _board.Move(file, rank, position.File, position.Rank);
+
+                    _depthCombinations[depth]++;
+
+                    if (depth > 1)
+                    {
+                        GetMoveInternal(side ^ Kind.ColourMask, depth - 1);
+                    }
+                    
+                    _board.UndoMove();
                 }
             }
         }
         
-        return (0, 0);
+        return 0;
     }
 }
