@@ -48,7 +48,7 @@ public abstract class Piece
         {
             Kind.Pawn => new Pawn(colour),
             Kind.Rook => new Rook(colour),
-            Kind.Knight => new Pawn(colour),
+            Kind.Knight => new Knight(colour),
             Kind.Bishop => new Pawn(colour),
             Kind.Queen => new Pawn(colour),
             Kind.Kind => new Pawn(colour),

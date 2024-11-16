@@ -19,6 +19,8 @@ public class BoardTests
     [InlineData(Constants.BlackPawnRank, 7, Kind.Pawn, Colour.Black)]
 
     [InlineData(Constants.BlackHomeRank, Constants.LeftRookFile, Kind.Rook, Colour.Black)]
+    [InlineData(Constants.BlackHomeRank, Constants.LeftKnightFile, Kind.Knight, Colour.Black)]
+    [InlineData(Constants.BlackHomeRank, Constants.RightKnightFile, Kind.Knight, Colour.Black)]
     [InlineData(Constants.BlackHomeRank, Constants.RightRookFile, Kind.Rook, Colour.Black)]
 
     [InlineData(Constants.WhitePawnRank, 0, Kind.Pawn, Colour.White)]
@@ -29,6 +31,11 @@ public class BoardTests
     [InlineData(Constants.WhitePawnRank, 5, Kind.Pawn, Colour.White)]
     [InlineData(Constants.WhitePawnRank, 6, Kind.Pawn, Colour.White)]
     [InlineData(Constants.WhitePawnRank, 7, Kind.Pawn, Colour.White)]
+
+    [InlineData(Constants.WhiteHomeRank, Constants.LeftRookFile, Kind.Rook, Colour.White)]
+    [InlineData(Constants.WhiteHomeRank, Constants.LeftKnightFile, Kind.Knight, Colour.White)]
+    [InlineData(Constants.WhiteHomeRank, Constants.RightKnightFile, Kind.Knight, Colour.White)]
+    [InlineData(Constants.WhiteHomeRank, Constants.RightRookFile, Kind.Rook, Colour.White)]
     public void InitialiseSetsUpBoardCorrectly(int rank, int file, Kind expectedKind, Colour expectedColour)
     {
         _board.Initialise();

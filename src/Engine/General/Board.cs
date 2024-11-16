@@ -36,11 +36,15 @@ public class Board
         }
 
         _cells[GetCellIndex(Constants.BlackHomeRank, Constants.LeftRookFile)] = new Rook(Colour.Black).Encode();
+        _cells[GetCellIndex(Constants.BlackHomeRank, Constants.LeftKnightFile)] = new Knight(Colour.Black).Encode();
 
+        _cells[GetCellIndex(Constants.BlackHomeRank, Constants.RightKnightFile)] = new Knight(Colour.Black).Encode();
         _cells[GetCellIndex(Constants.BlackHomeRank, Constants.RightRookFile)] = new Rook(Colour.Black).Encode();
         
         _cells[GetCellIndex(Constants.WhiteHomeRank, Constants.LeftRookFile)] = new Rook(Colour.White).Encode();
+        _cells[GetCellIndex(Constants.WhiteHomeRank, Constants.LeftKnightFile)] = new Knight(Colour.White).Encode();
 
+        _cells[GetCellIndex(Constants.WhiteHomeRank, Constants.RightKnightFile)] = new Knight(Colour.White).Encode();
         _cells[GetCellIndex(Constants.WhiteHomeRank, Constants.RightRookFile)] = new Rook(Colour.White).Encode();
     }
 
