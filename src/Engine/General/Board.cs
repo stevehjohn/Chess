@@ -22,8 +22,8 @@ public class Board
 
     public Kind this[int file, int rank]
     {
-        set => _squares[GetSquareIndex(file, rank)] = value;
         get => _squares[GetSquareIndex(file, rank)];
+        private set => _squares[GetSquareIndex(file, rank)] = value;
     }
 
     public void Initialise()
