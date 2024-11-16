@@ -2,9 +2,10 @@ using Engine.General;
 
 namespace Engine.Pieces;
 
-public static class Pawn
+public class Pawn : IPiece
 {
-    public static void GetMoves(int file, int rank, Board board)
+    public IEnumerable<int> GetMoves(int file, int rank, Board board)
     {
+        throw new NotImplementedException();
     }
 }

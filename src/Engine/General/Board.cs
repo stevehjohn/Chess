@@ -7,6 +7,8 @@ public class Board
     private Kind[] _squares;
 
     private readonly Stack<Kind[]> _undoBuffer = [];
+    
+    public int Ply { get; private set; }
 
     public Board()
     {
@@ -21,6 +23,8 @@ public class Board
 
     public void Initialise()
     {
+        Ply = 0;
+        
         for (var file = 0; file < 8; file++)
         {
             this[file, 1] = Kind.Pawn | Kind.Black;
