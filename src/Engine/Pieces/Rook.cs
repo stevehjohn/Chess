@@ -12,6 +12,6 @@ public class Rook : Piece
     
     public override IEnumerable<int> GetPossibleMove(Board board)
     {
-        throw new NotImplementedException();
+        return [];
     }
 }
