@@ -26,8 +26,8 @@ public abstract class Piece
     {
         var kind = (Kind) (code & 0b0000_0111);
 
-        var colour = (Colour) (code & 0b0001_1000);
-
+        var colour = (Colour) ((code & 0b0001_1000) >> 3);
+        
         var piece = kind switch
         {
             Kind.Pawn => new Pawn(colour),
@@ -36,7 +36,7 @@ public abstract class Piece
             Kind.Bishop => new Pawn(colour),
             Kind.Queen => new Pawn(colour),
             Kind.Kind => new Pawn(colour),
-            _ => throw new EngineException("Unknown piece kind.")
+            _ => throw new EngineException("Invalid piece kind.")
         };
 
         return piece;
