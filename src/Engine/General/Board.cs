@@ -1,3 +1,5 @@
+using Engine.Pieces;
+
 namespace Engine.General;
 
 public class Board
@@ -6,11 +8,19 @@ public class Board
 
     private readonly Stack<ushort[]> _undoBuffer = [];
     
+    public Piece this[int rank, int file] => Piece.Decode(_cells[GetCellIndex(rank, file)]);
+    
     public void Initialise()
     {
         _cells = new ushort[Constants.BoardCells];
         
         _undoBuffer.Clear();
+
+        for (var file = 0; file < Constants.Files; file++)
+        {
+            _cells[GetCellIndex(Constants.BlackPawnRank, file)] = new Pawn(Colour.Black).Encode();
+            _cells[GetCellIndex(Constants.WhitePawnRank, file)] = new Pawn(Colour.White).Encode();
+        }
     }
 
     public void MakeMove()
@@ -27,5 +37,10 @@ public class Board
     public void UndoMove()
     {
         _cells = _undoBuffer.Pop();
+    }
+
+    private static int GetCellIndex(int rank, int file)
+    {
+        return rank * 8 + file;
     }
 }
