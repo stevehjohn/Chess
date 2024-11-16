@@ -12,7 +12,7 @@ public class Pawn : Piece
 
     public override IEnumerable<int> GetPossibleMoves(int rank, int file, Board board)
     {
-        if (LastMovePly == 0 && IsValidMove(rank, file, 2, 0))
+        if (LastMovePly == 0 && IsInBounds(rank, file, 2, 0))
         {
             yield return Board.GetCellIndex(rank + Direction, file);
         }

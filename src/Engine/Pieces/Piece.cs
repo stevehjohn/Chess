@@ -62,7 +62,7 @@ public abstract class Piece
         return piece;
     }
 
-    protected bool IsValidMove(int rank, int file, int forward, int right)
+    protected bool IsInBounds(int rank, int file, int forward, int right)
     {
         var newRank = rank + forward * Direction;
 
