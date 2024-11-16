@@ -12,6 +12,13 @@ public class Pawn : Piece
     
     public override IEnumerable<int> GetPossibleMove(Board board)
     {
-        throw new NotImplementedException();
+        var rankDirection = Colour == Colour.Black ? 1 : -1;
+
+        if (LastMovePly == 0)
+        {
+            yield return rankDirection;
+        }
+
+        yield return rankDirection;
     }
 }
