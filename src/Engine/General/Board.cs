@@ -81,6 +81,6 @@ public class Board
 
     public static (int File, int Rank) GetRankAndFile(int square)
     {
-        return (square / 8, square % 8);
+        return (square % 8, square / 8);
     }
 }
