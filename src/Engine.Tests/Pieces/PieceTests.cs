@@ -10,6 +10,10 @@ public class PieceTests
     [InlineData(0b0000_1010, Kind.Rook, Colour.White, typeof(Rook))]
     [InlineData(0b0000_1011, Kind.Knight, Colour.White, typeof(Knight))]
     [InlineData(0b0000_1100, Kind.Bishop, Colour.White, typeof(Bishop))]
+    [InlineData(0b0001_0001, Kind.Pawn, Colour.Black, typeof(Pawn))]
+    [InlineData(0b0001_0010, Kind.Rook, Colour.Black, typeof(Rook))]
+    [InlineData(0b0001_0011, Kind.Knight, Colour.Black, typeof(Knight))]
+    [InlineData(0b0001_0100, Kind.Bishop, Colour.Black, typeof(Bishop))]
     public void DecodeReturnsCorrectPiece(ushort code, Kind expectedKind, Colour expectedColour, Type expectedType)
     {
         var piece = Piece.Decode(code);
