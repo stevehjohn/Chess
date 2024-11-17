@@ -5,7 +5,7 @@ namespace Engine.General;
 
 public class Board
 {
-    private ushort[] _cells;
+    private ushort[] _cells = new ushort[Constants.BoardCells];
 
     private readonly Stack<ushort[]> _undoBuffer = [];
 
@@ -24,11 +24,6 @@ public class Board
         }
     }
 
-    public Board()
-    {
-        _cells = new ushort[Constants.BoardCells];
-    }
-    
     public void InitialisePieces()
     {
         _cells = new ushort[Constants.BoardCells];
