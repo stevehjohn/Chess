@@ -1,3 +1,4 @@
+using Engine.Infrastructure;
 using Engine.Pieces;
 using Engine.Tests.Infrastructure;
 using Xunit;
@@ -86,17 +87,8 @@ public class PieceTests
     [InlineData(0b0000_1111, "Invalid piece kind.")]
     public void DecodeReturnsThrowsExceptionForInvalidCodes(ushort code, string expectedMessage)
     {
-        try
-        {
-            Piece.Decode(code);
-        }
-        catch (Exception exception)
-        {
-            Assert.Equal(expectedMessage, exception.Message);
-            
-            return;
-        }
+        var exception = Assert.Throws<EngineException>(() => Piece.Decode(code));
         
-        Assert.Fail("Exception not thrown parsing code.");
+        Assert.Equal(expectedMessage, exception.Message);
     }
 }
