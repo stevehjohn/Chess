@@ -1,3 +1,4 @@
+using Engine.Extensions;
 using Engine.General;
 using Engine.Pieces;
 using Xunit;
@@ -22,5 +23,16 @@ public abstract class PieceTestBase
         var expectedMoves = expected.Split('|');
         
         Assert.Equal(expectedMoves.Length, moves.Count);
+
+        foreach (var expectedMove in expectedMoves)
+        {
+            var parts = expectedMove.Split(',');
+
+            var expectedRank = int.Parse(parts[0]);
+
+            var expectedFile = int.Parse(parts[1]);
+            
+            Assert.Contains((expectedRank, expectedFile).GetCellIndex(), moves);
+        }
     }
 }
