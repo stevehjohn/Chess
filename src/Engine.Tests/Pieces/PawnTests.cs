@@ -11,7 +11,7 @@ public class PawnTests : PieceTestBase
     [InlineData(7, 0, "6,0|5,0")]
     public void PawnReturnsCorrectMovesOnEmptyBoard(int rank, int file, string expected)
     {
-        var pawn = new Knight(Colour.White);
+        var pawn = new Pawn(Colour.White);
 
         AssertAllExpectedMovesAreReturned(pawn, rank, file, expected);
     }
