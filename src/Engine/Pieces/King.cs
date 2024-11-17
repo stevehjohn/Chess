@@ -29,7 +29,7 @@ public class King : Piece
                 continue;
             }
 
-            if (Board.IsEmpty(cell))
+            if (Board.IsEmpty(cell) || Board.IsColour(cell, EnemyColour))
             {
                 yield return cell;
             }
