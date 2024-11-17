@@ -4,6 +4,14 @@ namespace Engine.Pieces;
 
 public class Pawn : Piece
 {
+    private static readonly List<(int Forwards, int Right, bool MustContainEnemy, bool FirstMoveOnly)> Moves =
+    [
+        (1, -1, true, false),
+        (1, 1, true, false),
+        (2, 0, false, true),
+        (1, 0, false, false),
+    ];
+    
     public override Kind Kind => Kind.Pawn;
 
     public Pawn(Colour colour) : base(colour)
@@ -12,23 +20,29 @@ public class Pawn : Piece
 
     protected override IEnumerable<int> GetMoves()
     {
-        int cell;
-        
-        if (LastMovePly == 0)
+        foreach (var move in Moves)
         {
-            cell = (Rank + Direction * 2, File).GetCellIndex();
+            var cell = (Rank + move.Forwards * Direction, File + move.Right).GetCellIndex();
 
-            if (cell >= 0 && Board.IsEmptyRankPath((Rank, File).GetCellIndex(), cell))
+            if (cell < 0)
+            {
+                continue;
+            }
+
+            if (LastMovePly > 0 && move.FirstMoveOnly)
+            {
+                continue;
+            }
+
+            if (move.MustContainEnemy && ! Board.IsEmpty(cell))
+            {
+                continue;
+            }
+
+            if (Board.IsEmptyRankPath((Rank, File).GetCellIndex(), cell))
             {
                 yield return cell;
             }
-        }
-
-        cell = (Rank + Direction * 2, File).GetCellIndex();
-
-        if (cell >= 0 && Board.IsEmpty(cell))
-        {
-            yield return cell;
         }
         
         // TODO: En passant

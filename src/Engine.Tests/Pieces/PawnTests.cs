@@ -1,3 +1,4 @@
+using Engine.Extensions;
 using Engine.General;
 using Engine.Pieces;
 using Xunit;
@@ -33,6 +34,21 @@ public class PawnTests : PieceTestBase
     public void PawnReturnsCorrectMovesHavingMoved(int rank, int file, string expected)
     {
         Board.InitialisePieces();
+
+        var pawn = Board[rank, file];
+
+        pawn.LastMovePly = 1;
+
+        AssertAllExpectedMovesAreReturned(pawn, rank, file, expected);
+    }
+
+    [Theory]
+    [InlineData(Constants.WhitePawnRank, 2, "5,0", Constants.BlackPawnRank, 0, 5, 1)]
+    public void PawnPerformsCaptureMove(int rank, int file, string expected, int targetStartRank, int targetStartFile, int targetEndRank, int targetEndFile)
+    {
+        Board.InitialisePieces();
+        
+        Board.MakeMove((targetStartRank, targetStartFile).GetCellIndex(), (targetEndRank, targetEndFile).GetCellIndex());
 
         var pawn = Board[rank, file];
 

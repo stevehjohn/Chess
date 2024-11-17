@@ -1,3 +1,4 @@
+using System.Text;
 using Engine.Extensions;
 using Engine.Pieces;
 
@@ -77,19 +78,58 @@ public class Board
         return true;
     }
 
-    public void MakeMove()
+    public void MakeMove(int position, int target)
     {
         var copy = new ushort[Constants.BoardCells];
         
         Buffer.BlockCopy(_cells, 0, copy, 0, Constants.BoardCells);
         
         _undoBuffer.Push(copy);
-        
-        // TODO: The move
+
+        _cells = copy;
+
+        _cells[target] = _cells[position];
+
+        _cells[position] = 0;
     }
 
     public void UndoMove()
     {
         _cells = _undoBuffer.Pop();
+    }
+
+    public override string ToString()
+    {
+        var builder = new StringBuilder();
+            
+        for (var rank = 0; rank < Constants.Ranks; rank++)
+        {
+            for (var file = 0; file < Constants.Files; file++)
+            {
+                var piece = this[rank, file];
+                
+                var character = piece.Kind switch
+                {
+                    Kind.Pawn => 'P',
+                    Kind.Rook => 'R',
+                    Kind.Knight => 'N',
+                    Kind.Bishop => 'B',
+                    Kind.Queen => 'Q',
+                    Kind.King => 'K',
+                    _ => ' '
+                };
+
+                if (piece.Colour == Colour.Black)
+                {
+                    character = char.ToLowerInvariant(character);
+                }
+
+                builder.Append(character);
+            }
+
+            builder.AppendLine();
+        }
+
+        return builder.ToString();
     }
 }

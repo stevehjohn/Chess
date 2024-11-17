@@ -7,5 +7,5 @@ public enum Kind
     Knight = 3,
     Bishop = 4,
     Queen = 5,
-    Kind = 6
+    King = 6
 }
