@@ -5,10 +5,9 @@ namespace Engine.Tests;
 
 public class CoreTests
 {
-    private Board _board = new Board();
-
     [Theory]
     [InlineData(1, 20)]
+    [InlineData(2, 400)]
     public void MovesPerPly(int plies, int expectedCombinations)
     {
     }
