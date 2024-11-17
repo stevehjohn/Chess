@@ -9,7 +9,7 @@ public abstract class Piece
 
     public Colour Colour { get; }
 
-    public int LastMovePly { get; private set; }
+    public int LastMovePly { get; set; }
 
     protected Colour EnemyColour { get; }
 

@@ -26,4 +26,18 @@ public class PawnTests : PieceTestBase
 
         AssertAllExpectedMovesAreReturned(pawn, rank, file, expected);
     }
+
+    [Theory]
+    [InlineData(Constants.WhitePawnRank, 0, "5,0")]
+    [InlineData(Constants.BlackPawnRank, 0, "2,0")]
+    public void PawnReturnsCorrectMovesHavingMoved(int rank, int file, string expected)
+    {
+        Board.InitialisePieces();
+
+        var pawn = Board[rank, file];
+
+        pawn.LastMovePly = 1;
+
+        AssertAllExpectedMovesAreReturned(pawn, rank, file, expected);
+    }
 }
