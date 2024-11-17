@@ -18,7 +18,7 @@ public static class Constants
     public const int LeftBishopFile = 2;
     public const int QueenFile = 3;
     public const int KingFile = 4;
-    public const int RightRookFile = 5;
+    public const int RightBishopFile = 5;
     public const int RightKnightFile = 6;
-    public const int RightBishopFile = 7;
+    public const int RightRookFile = 7;
 }

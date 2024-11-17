@@ -82,7 +82,7 @@ public class Board
     {
         var copy = new ushort[Constants.BoardCells];
         
-        Buffer.BlockCopy(_cells, 0, copy, 0, Constants.BoardCells);
+        Buffer.BlockCopy(_cells, 0, copy, 0, Constants.BoardCells * sizeof(ushort));
         
         _undoBuffer.Push(copy);
 
@@ -132,7 +132,10 @@ public class Board
                 builder.Append(character);
             }
 
-            builder.Append('|');
+            if (rank < Constants.Ranks - 1)
+            {
+                builder.Append('|');
+            }
         }
 
         return builder.ToString();
