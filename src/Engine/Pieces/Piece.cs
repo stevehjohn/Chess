@@ -1,3 +1,4 @@
+using Engine.Extensions;
 using Engine.General;
 using Engine.Infrastructure;
 
@@ -81,5 +82,42 @@ public abstract class Piece
         piece.LastMovePly = lastMovePly;
 
         return piece;
+    }
+
+    protected IEnumerable<int> GetDirectionalMoves(params (int RankDelta, int FileDelta)[] directions)
+    {
+        foreach (var direction in directions)
+        {
+            for (var distance = 1; distance <= Constants.MaxMoveDistance; distance++)
+            {
+                var newRank = Rank + distance * direction.RankDelta;
+
+                var newFile = File + distance * direction.FileDelta;
+
+                var cell = (newRank, newFile).GetCellIndex();
+
+                if (cell < 0)
+                {
+                    break;
+                }
+
+                if (Board.IsEmpty(cell))
+                {
+                    yield return cell;
+                }
+
+                if (Board.IsColour(cell, EnemyColour))
+                {
+                    yield return cell;
+                    
+                    break;
+                }
+
+                if (Board.IsColour(cell, Colour))
+                {
+                    break;
+                }
+            }
+        }
     }
 }
