@@ -21,4 +21,6 @@ public static class Constants
     public const int RightBishopFile = 5;
     public const int RightKnightFile = 6;
     public const int RightRookFile = 7;
+
+    public const int MaxMoveDistance = 7;
 }
