@@ -7,4 +7,9 @@ public class Pawn : Piece
     public Pawn(Colour colour) : base(colour)
     {
     }
+
+    protected override IEnumerable<int> GetMoves()
+    {
+        throw new NotImplementedException();
+    }
 }

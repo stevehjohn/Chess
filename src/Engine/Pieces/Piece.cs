@@ -1,3 +1,4 @@
+using Engine.General;
 using Engine.Infrastructure;
 
 namespace Engine.Pieces;
@@ -12,12 +13,31 @@ public abstract class Piece
 
     protected readonly int Direction;
 
+    protected int Rank;
+
+    protected int File;
+
+    protected Board Board; 
+
     protected Piece(Colour colour)
     {
         Colour = colour;
 
         Direction = colour == Colour.Black ? 1 : -1;
     }
+
+    public IEnumerable<int> GetMoves(int rank, int file, Board board)
+    {
+        Rank = rank;
+
+        File = file;
+
+        Board = board;
+
+        return GetMoves();
+    }
+
+    protected abstract IEnumerable<int> GetMoves();
 
     public ushort Encode()
     {
@@ -59,20 +79,20 @@ public abstract class Piece
         return piece;
     }
 
-    // protected bool IsValidEmptyOrEnemy(int forward, int right)
-    // {
-    //     var newRank =  forward * Direction;
-    //
-    //     if (newRank < 0 || newRank >= Constants.Ranks)
-    //     {
-    //         return false;
-    //     }
-    //     
-    //     var newFile = forward * Direction;
-    //
-    //     if (newRank < 0 || newRank >= Constants.Ranks)
-    //     {
-    //         return false;
-    //     }
-    // }
+    protected bool IsValidEmptyOrEnemy(int forward, int right)
+    {
+        var newRank = Rank + forward * Direction;
+    
+        if (newRank is < 0 or >= Constants.Ranks)
+        {
+            return false;
+        }
+
+        var newFile = File + right;
+    
+        if (newFile is < 0 or >= Constants.Files)
+        {
+            return false;
+        }
+    }
 }

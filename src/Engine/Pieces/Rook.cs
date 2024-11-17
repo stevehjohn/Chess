@@ -7,4 +7,9 @@ public class Rook : Piece
     public Rook(Colour colour) : base(colour)
     {
     }
+
+    protected override IEnumerable<int> GetMoves()
+    {
+        throw new NotImplementedException();
+    }
 }

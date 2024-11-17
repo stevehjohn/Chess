@@ -7,4 +7,9 @@ public class Knight : Piece
     public Knight(Colour colour) : base(colour)
     {
     }
+
+    protected override IEnumerable<int> GetMoves()
+    {
+        throw new NotImplementedException();
+    }
 }
