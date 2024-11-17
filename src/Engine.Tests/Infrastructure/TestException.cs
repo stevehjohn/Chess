@@ -1,4 +1,4 @@
-namespace Engine.Tests;
+namespace Engine.Tests.Infrastructure;
 
 public class TestException : Exception
 {

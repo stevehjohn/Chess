@@ -1,4 +1,5 @@
 using Engine.Pieces;
+using Engine.Tests.Infrastructure;
 using Xunit;
 
 namespace Engine.Tests.Pieces;
