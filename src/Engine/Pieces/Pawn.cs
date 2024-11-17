@@ -39,7 +39,7 @@ public class Pawn : Piece
                 yield return cell;
             }
 
-            if (Board.IsEmptyRankPath((Rank, File).GetCellIndex(), cell))
+            if (! move.MustContainEnemy && Board.IsEmptyRankPath((Rank, File).GetCellIndex(), cell))
             {
                 yield return cell;
             }
