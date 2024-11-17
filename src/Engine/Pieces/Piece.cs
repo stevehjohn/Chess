@@ -94,5 +94,17 @@ public abstract class Piece
         {
             return false;
         }
+
+        if (! Board.IsEmpty(newRank, newFile))
+        {
+            return false;
+        }
+
+        if (Board.IsColour(newRank, newFile, Colour))
+        {
+            return false;
+        }
+
+        return true;
     }
 }
