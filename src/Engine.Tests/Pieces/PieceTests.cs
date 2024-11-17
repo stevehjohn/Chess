@@ -7,6 +7,9 @@ public class PieceTests
 {
     [Theory]
     [InlineData(0b0000_1001, Kind.Pawn, Colour.White, typeof(Pawn))]
+    [InlineData(0b0000_1010, Kind.Rook, Colour.White, typeof(Rook))]
+    [InlineData(0b0000_1011, Kind.Knight, Colour.White, typeof(Knight))]
+    [InlineData(0b0000_1100, Kind.Bishop, Colour.White, typeof(Bishop))]
     public void DecodeReturnsCorrectPiece(ushort code, Kind expectedKind, Colour expectedColour, Type expectedType)
     {
         var piece = Piece.Decode(code);
@@ -22,6 +25,11 @@ public class PieceTests
     [InlineData(Kind.Pawn, Colour.Black, 0b0001_0001)]
     [InlineData(Kind.Rook, Colour.Black, 0b0001_0010)]
     [InlineData(Kind.Knight, Colour.Black, 0b0001_0011)]
+    [InlineData(Kind.Bishop, Colour.Black, 0b0001_0100)]
+    [InlineData(Kind.Pawn, Colour.White, 0b0000_1001)]
+    [InlineData(Kind.Rook, Colour.White, 0b0000_1010)]
+    [InlineData(Kind.Knight, Colour.White, 0b0000_1011)]
+    [InlineData(Kind.Bishop, Colour.White, 0b0000_1100)]
     public void EncodeReturnsCorrectCode(Kind kind, Colour colour, ushort expectedCode)
     {
         Piece piece = kind switch

@@ -70,7 +70,7 @@ public abstract class Piece
             Kind.Pawn => new Pawn(colour),
             Kind.Rook => new Rook(colour),
             Kind.Knight => new Knight(colour),
-            Kind.Bishop => new Pawn(colour),
+            Kind.Bishop => new Bishop(colour),
             Kind.Queen => new Pawn(colour),
             Kind.King => new Pawn(colour),
             _ => throw new EngineException("Invalid piece kind.")
