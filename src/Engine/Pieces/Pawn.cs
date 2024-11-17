@@ -34,9 +34,9 @@ public class Pawn : Piece
                 continue;
             }
 
-            if (move.MustContainEnemy && ! Board.IsEmpty(cell))
+            if (move.MustContainEnemy && Board.IsColour(cell, EnemyColour))
             {
-                continue;
+                yield return cell;
             }
 
             if (Board.IsEmptyRankPath((Rank, File).GetCellIndex(), cell))
