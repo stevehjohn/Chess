@@ -40,7 +40,8 @@ public class Board
         _cells[(Constants.BlackHomeRank, Constants.LeftRookFile).GetCellIndex()] = new Rook(Colour.Black).Encode();
         _cells[(Constants.BlackHomeRank, Constants.LeftKnightFile).GetCellIndex()] = new Knight(Colour.Black).Encode();
         _cells[(Constants.BlackHomeRank, Constants.LeftBishopFile).GetCellIndex()] = new Bishop(Colour.Black).Encode();
-
+        _cells[(Constants.BlackHomeRank, Constants.QueenFile).GetCellIndex()] = new Queen(Colour.Black).Encode();
+        _cells[(Constants.BlackHomeRank, Constants.KingFile).GetCellIndex()] = new King(Colour.Black).Encode();
         _cells[(Constants.BlackHomeRank, Constants.RightBishopFile).GetCellIndex()] = new Bishop(Colour.Black).Encode();
         _cells[(Constants.BlackHomeRank, Constants.RightKnightFile).GetCellIndex()] = new Knight(Colour.Black).Encode();
         _cells[(Constants.BlackHomeRank, Constants.RightRookFile).GetCellIndex()] = new Rook(Colour.Black).Encode();
@@ -48,7 +49,8 @@ public class Board
         _cells[(Constants.WhiteHomeRank, Constants.LeftRookFile).GetCellIndex()] = new Rook(Colour.White).Encode();
         _cells[(Constants.WhiteHomeRank, Constants.LeftKnightFile).GetCellIndex()] = new Knight(Colour.White).Encode();
         _cells[(Constants.WhiteHomeRank, Constants.LeftBishopFile).GetCellIndex()] = new Bishop(Colour.White).Encode();
-
+        _cells[(Constants.WhiteHomeRank, Constants.QueenFile).GetCellIndex()] = new Queen(Colour.White).Encode();
+        _cells[(Constants.WhiteHomeRank, Constants.KingFile).GetCellIndex()] = new King(Colour.White).Encode();
         _cells[(Constants.WhiteHomeRank, Constants.RightBishopFile).GetCellIndex()] = new Bishop(Colour.White).Encode();
         _cells[(Constants.WhiteHomeRank, Constants.RightKnightFile).GetCellIndex()] = new Knight(Colour.White).Encode();
         _cells[(Constants.WhiteHomeRank, Constants.RightRookFile).GetCellIndex()] = new Rook(Colour.White).Encode();
