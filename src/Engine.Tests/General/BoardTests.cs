@@ -38,7 +38,7 @@ public class BoardTests
     [InlineData(Constants.WhiteHomeRank, Constants.RightRookFile, Kind.Rook, Colour.White)]
     public void InitialiseSetsUpBoardCorrectly(int rank, int file, Kind expectedKind, Colour expectedColour)
     {
-        _board.Initialise();
+        _board.InitialisePieces();
 
         var piece = _board[rank, file];
         

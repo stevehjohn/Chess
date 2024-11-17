@@ -23,15 +23,17 @@ public class Board
         }
     }
 
-    public void Initialise()
+    public Board()
+    {
+        _cells = new ushort[Constants.BoardCells];
+    }
+    
+    public void InitialisePieces()
     {
         _cells = new ushort[Constants.BoardCells];
         
         _undoBuffer.Clear();
-    }
 
-    public void PlacePieces()
-    {
         for (var file = 0; file < Constants.Files; file++)
         {
             _cells[GetCellIndex(Constants.BlackPawnRank, file)] = new Pawn(Colour.Black).Encode();
