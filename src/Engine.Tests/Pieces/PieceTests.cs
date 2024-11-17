@@ -32,6 +32,17 @@ public class PieceTests
     }
 
     [Theory]
+    [InlineData(0b0000_0000, "Invalid piece colour.")]
+    [InlineData(0b0001_1001, "Invalid piece colour.")]
+    [InlineData(0b0000_1111, "Invalid piece kind.")]
+    public void DecodeReturnsThrowsExceptionForInvalidCodes(ushort code, string expectedMessage)
+    {
+        var exception = Assert.Throws<EngineException>(() => Piece.Decode(code));
+        
+        Assert.Equal(expectedMessage, exception.Message);
+    }
+
+    [Theory]
     [InlineData(Kind.Pawn, Colour.Black, 0b0001_0001)]
     [InlineData(Kind.Rook, Colour.Black, 0b0001_0010)]
     [InlineData(Kind.Knight, Colour.Black, 0b0001_0011)]
@@ -48,31 +59,16 @@ public class PieceTests
     public void EncodeReturnsCorrectCode(Kind kind, Colour colour, ushort expectedCode, bool expectException = false)
     {
         Piece piece = null;
-        
-        try
-        {
-            piece = kind switch
-            {
-                Kind.Pawn => new Pawn(colour),
-                Kind.Rook => new Rook(colour),
-                Kind.Knight => new Knight(colour),
-                Kind.Bishop => new Bishop(colour),
-                Kind.Queen => new Queen(colour),
-                Kind.King => new King(colour),
-                _ => throw new TestException("Invalid kind specified.")
-            };
-        }
-        catch
-        {
-            if (expectException)
-            {
-                return;
-            }
-        }
 
         if (expectException)
         {
-            Assert.Fail();
+            Assert.Throws<TestException>(() => piece = CreatePieceFromKindAndColour(kind, colour));
+            
+            return;
+        }
+        else
+        {
+            piece = CreatePieceFromKindAndColour(kind, colour);
         }
 
         Assert.NotNull(piece);
@@ -80,15 +76,17 @@ public class PieceTests
         Assert.Equal(expectedCode, piece.Encode());
     }
 
-
-    [Theory]
-    [InlineData(0b0000_0000, "Invalid piece colour.")]
-    [InlineData(0b0001_1001, "Invalid piece colour.")]
-    [InlineData(0b0000_1111, "Invalid piece kind.")]
-    public void DecodeReturnsThrowsExceptionForInvalidCodes(ushort code, string expectedMessage)
+    private static Piece CreatePieceFromKindAndColour(Kind kind, Colour colour)
     {
-        var exception = Assert.Throws<EngineException>(() => Piece.Decode(code));
-        
-        Assert.Equal(expectedMessage, exception.Message);
+        return kind switch
+        {
+            Kind.Pawn => new Pawn(colour),
+            Kind.Rook => new Rook(colour),
+            Kind.Knight => new Knight(colour),
+            Kind.Bishop => new Bishop(colour),
+            Kind.Queen => new Queen(colour),
+            Kind.King => new King(colour),
+            _ => throw new TestException("Invalid kind specified.")
+        };
     }
 }

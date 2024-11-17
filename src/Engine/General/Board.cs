@@ -122,13 +122,12 @@ public class Board
 
                 var character = piece.Kind switch
                 {
-                    Kind.Pawn => 'P',
                     Kind.Rook => 'R',
                     Kind.Knight => 'N',
                     Kind.Bishop => 'B',
                     Kind.Queen => 'Q',
                     Kind.King => 'K',
-                    _ => ' '
+                    _ => 'P'
                 };
                 
                 if (piece.Colour == Colour.Black)
