@@ -30,5 +30,7 @@ public class Pawn : Piece
         {
             yield return cell;
         }
+        
+        // TODO: En passant
     }
 }
