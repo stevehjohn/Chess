@@ -26,7 +26,7 @@ public class Knight : Piece
         {
             var cell = General.Board.GetCellIndex(Rank + move.Forwards * Direction, File + move.Right);
             
-            if (Board.IsEmpty(cell) && Board.IsColour(cell, EnemyColour))
+            if (Board.IsEmpty(cell) || Board.IsColour(cell, EnemyColour))
             {
                 yield return cell;
             }
