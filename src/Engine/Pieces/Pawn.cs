@@ -10,6 +10,6 @@ public class Pawn : Piece
 
     protected override IEnumerable<int> GetMoves()
     {
-        throw new NotImplementedException();
+        return [];
     }
 }
