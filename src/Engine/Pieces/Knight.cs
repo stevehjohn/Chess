@@ -2,7 +2,7 @@ namespace Engine.Pieces;
 
 public class Knight : Piece
 {
-    private static readonly List<(int Forwards, int Right)> _moves =
+    private static readonly List<(int Forwards, int Right)> Moves =
         [
             (2, -1),
             (2, 1),
@@ -22,7 +22,7 @@ public class Knight : Piece
 
     protected override IEnumerable<int> GetMoves()
     {
-        foreach (var move in _moves)
+        foreach (var move in Moves)
         {
             var cell = General.Board.GetCellIndex(Rank + move.Forwards * Direction, File + move.Right);
             
