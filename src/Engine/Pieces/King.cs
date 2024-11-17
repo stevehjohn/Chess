@@ -6,7 +6,6 @@ public class King : Piece
 
     public King(Colour colour) : base(colour)
     {
-        
     }
 
     protected override IEnumerable<int> GetMoves()
