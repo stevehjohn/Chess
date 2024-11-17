@@ -58,4 +58,21 @@ public abstract class Piece
 
         return piece;
     }
+
+    // protected bool IsValidEmptyOrEnemy(int forward, int right)
+    // {
+    //     var newRank =  forward * Direction;
+    //
+    //     if (newRank < 0 || newRank >= Constants.Ranks)
+    //     {
+    //         return false;
+    //     }
+    //     
+    //     var newFile = forward * Direction;
+    //
+    //     if (newRank < 0 || newRank >= Constants.Ranks)
+    //     {
+    //         return false;
+    //     }
+    // }
 }
