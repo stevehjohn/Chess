@@ -10,6 +10,6 @@ public class Queen : Piece
     
     protected override IEnumerable<int> GetMoves()
     {
-        return [];
+        return GetDirectionalMoves((-1, 0), (0, -1), (1, 0), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1));
     }
 }
