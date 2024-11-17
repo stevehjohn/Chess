@@ -28,7 +28,8 @@ public class PieceTests
         {
             Kind.Pawn => new Pawn(colour),
             Kind.Rook => new Rook(colour),
-            Kind.Knight => new Knight(colour)
+            Kind.Knight => new Knight(colour),
+            Kind.Bishop => new Bishop(colour)
         };
         
         Assert.Equal(expectedCode, piece.Encode());

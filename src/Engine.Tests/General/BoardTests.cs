@@ -13,7 +13,7 @@ public class BoardTests
     {
         _board.InitialisePieces();
 
-        Assert.Equal("rn    nr|pppppppp|        |        |        |        |PPPPPPPP|RN    NR", _board.ToString());
+        Assert.Equal("rnb   nr|pppppppp|        |        |        |        |PPPPPPPP|RNB  BNR", _board.ToString());
     }
 
     [Fact]
@@ -21,14 +21,14 @@ public class BoardTests
     {
         _board.InitialisePieces();
         
-        Assert.Equal("rn    nr|pppppppp|        |        |        |        |PPPPPPPP|RN    NR", _board.ToString());
+        Assert.Equal("rnb  bnr|pppppppp|        |        |        |        |PPPPPPPP|RNB  BNR", _board.ToString());
 
         _board.MakeMove((Constants.WhitePawnRank, 0).GetCellIndex(), (5, 0).GetCellIndex());
         
-        Assert.Equal("rn    nr|pppppppp|        |        |        |P       | PPPPPPP|RN    NR", _board.ToString());
+        Assert.Equal("rnb  bnr|pppppppp|        |        |        |P       | PPPPPPP|RNB  BNR", _board.ToString());
         
         _board.UndoMove();
         
-        Assert.Equal("rn    nr|pppppppp|        |        |        |        |PPPPPPPP|RN    NR", _board.ToString());
+        Assert.Equal("rnb  bnr|pppppppp|        |        |        |        |PPPPPPPP|RNB  BNR", _board.ToString());
     }
 }
