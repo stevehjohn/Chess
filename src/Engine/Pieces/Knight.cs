@@ -1,3 +1,5 @@
+using Engine.Extensions;
+
 namespace Engine.Pieces;
 
 public class Knight : Piece
@@ -24,7 +26,7 @@ public class Knight : Piece
     {
         foreach (var move in Moves)
         {
-            var cell = General.Board.GetCellIndex(Rank + move.Forwards * Direction, File + move.Right);
+            var cell = (Rank + move.Forwards * Direction, File + move.Right).GetCellIndex();
 
             if (cell < 0)
             {

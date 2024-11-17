@@ -1,3 +1,4 @@
+using Engine.Extensions;
 using Engine.Pieces;
 
 namespace Engine.General;
@@ -12,14 +13,14 @@ public class Board
     {
         get
         {
-            var cell = _cells[GetCellIndex(rank, file)];
+            var cell = _cells[(rank, file).GetCellIndex()];
 
             if (cell == 0)
             {
                 return null;
             }
 
-            return Piece.Decode(_cells[GetCellIndex(rank, file)]);
+            return Piece.Decode(_cells[(rank, file).GetCellIndex()]);
         }
     }
 
@@ -36,21 +37,21 @@ public class Board
 
         for (var file = 0; file < Constants.Files; file++)
         {
-            _cells[GetCellIndex(Constants.BlackPawnRank, file)] = new Pawn(Colour.Black).Encode();
-            _cells[GetCellIndex(Constants.WhitePawnRank, file)] = new Pawn(Colour.White).Encode();
+            _cells[(Constants.BlackPawnRank, file).GetCellIndex()] = new Pawn(Colour.Black).Encode();
+            _cells[(Constants.WhitePawnRank, file).GetCellIndex()] = new Pawn(Colour.White).Encode();
         }
 
-        _cells[GetCellIndex(Constants.BlackHomeRank, Constants.LeftRookFile)] = new Rook(Colour.Black).Encode();
-        _cells[GetCellIndex(Constants.BlackHomeRank, Constants.LeftKnightFile)] = new Knight(Colour.Black).Encode();
+        _cells[(Constants.BlackHomeRank, Constants.LeftRookFile).GetCellIndex()] = new Rook(Colour.Black).Encode();
+        _cells[(Constants.BlackHomeRank, Constants.LeftKnightFile).GetCellIndex()] = new Knight(Colour.Black).Encode();
 
-        _cells[GetCellIndex(Constants.BlackHomeRank, Constants.RightKnightFile)] = new Knight(Colour.Black).Encode();
-        _cells[GetCellIndex(Constants.BlackHomeRank, Constants.RightRookFile)] = new Rook(Colour.Black).Encode();
+        _cells[(Constants.BlackHomeRank, Constants.RightKnightFile).GetCellIndex()] = new Knight(Colour.Black).Encode();
+        _cells[(Constants.BlackHomeRank, Constants.RightRookFile).GetCellIndex()] = new Rook(Colour.Black).Encode();
         
-        _cells[GetCellIndex(Constants.WhiteHomeRank, Constants.LeftRookFile)] = new Rook(Colour.White).Encode();
-        _cells[GetCellIndex(Constants.WhiteHomeRank, Constants.LeftKnightFile)] = new Knight(Colour.White).Encode();
+        _cells[(Constants.WhiteHomeRank, Constants.LeftRookFile).GetCellIndex()] = new Rook(Colour.White).Encode();
+        _cells[(Constants.WhiteHomeRank, Constants.LeftKnightFile).GetCellIndex()] = new Knight(Colour.White).Encode();
 
-        _cells[GetCellIndex(Constants.WhiteHomeRank, Constants.RightKnightFile)] = new Knight(Colour.White).Encode();
-        _cells[GetCellIndex(Constants.WhiteHomeRank, Constants.RightRookFile)] = new Rook(Colour.White).Encode();
+        _cells[(Constants.WhiteHomeRank, Constants.RightKnightFile).GetCellIndex()] = new Knight(Colour.White).Encode();
+        _cells[(Constants.WhiteHomeRank, Constants.RightRookFile).GetCellIndex()] = new Rook(Colour.White).Encode();
     }
 
     public bool IsColour(int cell, Colour colour)
@@ -61,6 +62,24 @@ public class Board
     public bool IsEmpty(int cell)
     {
         return _cells[cell] == 0;
+    }
+
+    public bool IsEmptyRankPath(int position, int target)
+    {
+        var direction = target < position ? -Constants.Files : Constants.Files;
+
+        do
+        {
+            position += direction;
+
+            if (! IsEmpty(position))
+            {
+                return false;
+            }
+            
+        } while (position != target);
+
+        return true;
     }
 
     public void MakeMove()
@@ -77,17 +96,5 @@ public class Board
     public void UndoMove()
     {
         _cells = _undoBuffer.Pop();
-    }
-
-    public static int GetCellIndex(int rank, int file)
-    {
-        if (rank is < 0 or >= Constants.Ranks || file is < 0 or >= Constants.Files)
-        {
-            return int.MinValue;
-        }
-
-        var cell = rank * 8 + file;
-        
-        return cell;
     }
 }
