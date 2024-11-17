@@ -29,7 +29,7 @@ public class BishopTests : PieceTestBase
     {
         var bishop = new Bishop(Colour.White);
 
-        Board[blockerRank, blockerFile] = new Bishop(Colour.White);
+        Board[blockerRank, blockerFile] = new Pawn(Colour.White);
 
         AssertAllExpectedMovesAreReturned(bishop, rank, file, expected);
     }
@@ -44,7 +44,7 @@ public class BishopTests : PieceTestBase
     {
         var bishop = new Bishop(Colour.White);
 
-        Board[blockerRank, blockerFile] = new Bishop(Colour.Black);
+        Board[blockerRank, blockerFile] = new Pawn(Colour.Black);
 
         AssertAllExpectedMovesAreReturned(bishop, rank, file, expected);
     }
