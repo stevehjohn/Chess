@@ -29,4 +29,28 @@ public class KnightTests : PieceTestBase
 
         AssertAllExpectedMovesAreReturned(knight, rank, file, expected);
     }
+
+    [Theory]
+    [InlineData(3, 3, 5, 4, "5,2|1,2|1,4|4,1|2,1|4,5|2,5")]
+    [InlineData(7, 0, 5, 1, "6,2")]
+    public void KnightIsBlockedByOwnPieces(int rank, int file, int blockerRank, int blockerFile, string expected)
+    {
+        var knight = new Knight(Colour.White);
+
+        Board[blockerRank, blockerFile] = new Pawn(Colour.White);
+
+        AssertAllExpectedMovesAreReturned(knight, rank, file, expected);
+    }
+
+    [Theory]
+    [InlineData(3, 3, 5, 4, "5,2|5,4|1,2|1,4|4,1|2,1|4,5|2,5")]
+    [InlineData(7, 0, 5, 1, "5,1|6,2")]
+    public void KnightIsNotBlockedByEnemyPieces(int rank, int file, int blockerRank, int blockerFile, string expected)
+    {
+        var knight = new Knight(Colour.White);
+
+        Board[blockerRank, blockerFile] = new Pawn(Colour.Black);
+
+        AssertAllExpectedMovesAreReturned(knight, rank, file, expected);
+    }
 }

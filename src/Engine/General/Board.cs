@@ -23,6 +23,7 @@ public class Board
 
             return Piece.Decode(_cells[(rank, file).GetCellIndex()]);
         }
+        set => _cells[(rank, file).GetCellIndex()] = value.Encode();
     }
 
     public void InitialisePieces()
