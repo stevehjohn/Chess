@@ -86,8 +86,6 @@ public class Board
         
         _undoBuffer.Push(copy);
 
-        _cells = copy;
-
         _cells[target] = _cells[position];
 
         _cells[position] = 0;
