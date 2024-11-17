@@ -33,7 +33,7 @@ public class Pawn : Piece
             {
                 continue;
             }
-
+            
             if (move.MustContainEnemy && Board.IsColour(cell, EnemyColour))
             {
                 yield return cell;

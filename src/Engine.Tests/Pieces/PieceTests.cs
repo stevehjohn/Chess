@@ -58,7 +58,7 @@ public class PieceTests
     [InlineData((Kind) 7, Colour.White, 0, true)]
     public void EncodeReturnsCorrectCode(Kind kind, Colour colour, ushort expectedCode, bool expectException = false)
     {
-        Piece piece = null;
+        Piece piece;
 
         if (expectException)
         {
@@ -66,10 +66,8 @@ public class PieceTests
             
             return;
         }
-        else
-        {
-            piece = CreatePieceFromKindAndColour(kind, colour);
-        }
+
+        piece = CreatePieceFromKindAndColour(kind, colour);
 
         Assert.NotNull(piece);
 
