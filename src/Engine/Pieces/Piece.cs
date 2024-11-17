@@ -8,8 +8,10 @@ public abstract class Piece
     public abstract Kind Kind { get; }
 
     public Colour Colour { get; }
-    
+
     public int LastMovePly { get; private set; }
+
+    protected Colour EnemyColour { get; }
 
     protected readonly int Direction;
 
@@ -22,6 +24,8 @@ public abstract class Piece
     protected Piece(Colour colour)
     {
         Colour = colour;
+
+        EnemyColour = 3 - colour;
 
         Direction = colour == Colour.Black ? 1 : -1;
     }
@@ -77,34 +81,5 @@ public abstract class Piece
         piece.LastMovePly = lastMovePly;
 
         return piece;
-    }
-
-    protected bool IsValidEmptyOrEnemy(int forward, int right)
-    {
-        var newRank = Rank + forward * Direction;
-    
-        if (newRank is < 0 or >= Constants.Ranks)
-        {
-            return false;
-        }
-
-        var newFile = File + right;
-    
-        if (newFile is < 0 or >= Constants.Files)
-        {
-            return false;
-        }
-
-        if (! Board.IsEmpty(newRank, newFile))
-        {
-            return false;
-        }
-
-        if (Board.IsColour(newRank, newFile, Colour))
-        {
-            return false;
-        }
-
-        return true;
     }
 }

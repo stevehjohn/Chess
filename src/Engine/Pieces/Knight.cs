@@ -24,9 +24,11 @@ public class Knight : Piece
     {
         foreach (var move in _moves)
         {
-            if (Board.IsEmpty(Rank + move.Forwards, File + move.Right) && Board.IsColour())
+            var cell = General.Board.GetCellIndex(Rank + move.Forwards * Direction, File + move.Right);
+            
+            if (Board.IsEmpty(cell) && Board.IsColour(cell, EnemyColour))
             {
-                yield return move;
+                yield return cell;
             }
         }
     }

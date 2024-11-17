@@ -48,14 +48,14 @@ public class Board
         _cells[GetCellIndex(Constants.WhiteHomeRank, Constants.RightRookFile)] = new Rook(Colour.White).Encode();
     }
 
-    public bool IsColour(int rank, int file, Colour colour)
+    public bool IsColour(int cell, Colour colour)
     {
-        return (_cells[GetCellIndex(rank, file)] & (ushort) colour << 3) > 0;
+        return (_cells[cell] & (ushort) colour << 3) > 0;
     }
     
-    public bool IsEmpty(int rank, int file)
+    public bool IsEmpty(int cell)
     {
-        return _cells[GetCellIndex(rank, file)] == 0;
+        return _cells[cell] == 0;
     }
 
     public void MakeMove()
