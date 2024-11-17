@@ -18,7 +18,7 @@ public class Pawn : Piece
         {
             cell = (Rank + Direction * 2, File).GetCellIndex();
 
-            if (cell < 0 && Board.IsEmptyRankPath((Rank, File).GetCellIndex(), cell))
+            if (cell >= 0 && Board.IsEmptyRankPath((Rank, File).GetCellIndex(), cell))
             {
                 yield return cell;
             }
@@ -26,7 +26,7 @@ public class Pawn : Piece
 
         cell = (Rank + Direction * 2, File).GetCellIndex();
 
-        if (Board.IsEmpty(cell))
+        if (cell >= 0 && Board.IsEmpty(cell))
         {
             yield return cell;
         }

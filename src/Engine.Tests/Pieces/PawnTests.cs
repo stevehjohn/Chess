@@ -17,7 +17,7 @@ public class PawnTests : PieceTestBase
 
     [Theory]
     [InlineData(Constants.WhitePawnRank, 0, "5,0|4,0")]
-    //[InlineData(Constants.BlackPawnRank, 0, "2,0|3,0")]
+    [InlineData(Constants.BlackPawnRank, 0, "2,0|3,0")]
     public void PawnReturnsCorrectStartingMoves(int rank, int file, string expected)
     {
         Board.InitialisePieces();
