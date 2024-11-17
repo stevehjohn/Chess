@@ -7,8 +7,8 @@ public static class Constants
     public const int Ranks = 8;
     public const int Files = 8;
 
-    public const int RightmostRank = 7;
-    public const int BottomFile = 7;
+    public const int RightmostFile = 7;
+    public const int BottomRank = 7;
 
     public const int BlackHomeRank = 0;
     public const int BlackPawnRank = 1;
