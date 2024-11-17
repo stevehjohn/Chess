@@ -81,6 +81,13 @@ public class Board
 
     public static int GetCellIndex(int rank, int file)
     {
-        return rank * 8 + file;
+        if (rank is < 0 or >= Constants.Ranks || file is < 0 or >= Constants.Files)
+        {
+            return int.MinValue;
+        }
+
+        var cell = rank * 8 + file;
+        
+        return cell;
     }
 }
