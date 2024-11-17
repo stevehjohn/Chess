@@ -107,7 +107,14 @@ public class Board
             for (var file = 0; file < Constants.Files; file++)
             {
                 var piece = this[rank, file];
-                
+
+                if (piece == null)
+                {
+                    builder.Append(' ');
+                    
+                    continue;
+                }
+
                 var character = piece.Kind switch
                 {
                     Kind.Pawn => 'P',
@@ -118,7 +125,7 @@ public class Board
                     Kind.King => 'K',
                     _ => ' '
                 };
-
+                
                 if (piece.Colour == Colour.Black)
                 {
                     character = char.ToLowerInvariant(character);
