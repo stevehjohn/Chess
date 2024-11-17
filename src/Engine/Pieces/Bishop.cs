@@ -54,9 +54,21 @@ public class Bishop : Piece
                     break;
                 }
 
-                if (Board.IsEmpty(cell) || Board.IsColour(cell, EnemyColour))
+                if (Board.IsEmpty(cell))
                 {
                     yield return cell;
+                }
+
+                if (Board.IsColour(cell, EnemyColour))
+                {
+                    yield return cell;
+                    
+                    break;
+                }
+
+                if (Board.IsColour(cell, Colour))
+                {
+                    break;
                 }
             }
         }
