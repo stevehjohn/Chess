@@ -85,4 +85,24 @@ public class PawnTests : PieceTestBase
 
         AssertAllExpectedMovesAreReturned(pawn, rank, file, expected);
     }
+    
+    [Fact]
+    public void PawnCanStillCaptureIfBlocked()
+    {
+        Board.InitialisePieces();
+        
+        Board.MakeMove((Constants.BlackPawnRank, 0).GetCellIndex(), (5, 0).GetCellIndex());
+
+        Board.MakeMove((Constants.BlackPawnRank, 1).GetCellIndex(), (5, 1).GetCellIndex());
+
+        var pawn = Board[Constants.WhitePawnRank, 0];
+
+        pawn.LastMovePly = 1;
+
+        var moves = pawn.GetMoves(Constants.WhitePawnRank, 0, Board).ToList();
+        
+        Assert.Single(moves);
+
+        Assert.Equal((5, 1).GetCellIndex(), moves.First());
+    }
 }
