@@ -13,7 +13,7 @@ public class BoardTests
     {
         _board.InitialisePieces();
 
-        Assert.Equal("rnb   nr|pppppppp|        |        |        |        |PPPPPPPP|RNB  BNR", _board.ToString());
+        Assert.Equal("rnb  bnr|pppppppp|        |        |        |        |PPPPPPPP|RNB  BNR", _board.ToString());
     }
 
     [Fact]
