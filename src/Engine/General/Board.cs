@@ -132,7 +132,7 @@ public class Board
                 builder.Append(character);
             }
 
-            builder.AppendLine();
+            builder.Append('|');
         }
 
         return builder.ToString();
