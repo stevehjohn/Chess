@@ -12,6 +12,13 @@ public abstract class PieceTestBase
     {
         var moves = piece.GetMoves(rank, file, Board).ToList();
 
+        if (expected == string.Empty)
+        {
+            Assert.Empty(moves);
+            
+            return;
+        }
+
         var expectedMoves = expected.Split('|');
         
         Assert.Equal(expectedMoves.Length, moves.Count);
