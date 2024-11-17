@@ -9,7 +9,7 @@ public class Pawn : Piece
         (1, -1, true, false),
         (1, 1, true, false),
         (2, 0, false, true),
-        (1, 0, false, false),
+        (1, 0, false, false)
     ];
     
     public override Kind Kind => Kind.Pawn;
