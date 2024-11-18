@@ -54,55 +54,55 @@ public class PawnTests : PieceTestBase
 
         AssertAllExpectedMovesAreReturned(pawn, rank, file, expected);
     }
-    //
-    // [Theory]
-    // [InlineData(Constants.WhitePawnRank, 2, "5,1|5,2", Constants.BlackPawnRank, 0, 5, 1)]
-    // public void PawnMoveIncludeCaptureMoveAfterFirstTurn(int rank, int file, string expected, int targetStartRank, int targetStartFile, int targetEndRank, int targetEndFile)
-    // {
-    //     Board.InitialisePieces();
-    //     
-    //     Board.MakeMove((targetStartRank, targetStartFile).GetCellIndex(), (targetEndRank, targetEndFile).GetCellIndex());
-    //
-    //     var pawn = Board[rank, file];
-    //
-    //     pawn.LastMovePly = 1;
-    //
-    //     AssertAllExpectedMovesAreReturned(pawn, rank, file, expected);
-    // }
-    //
-    // [Theory]
-    // [InlineData(Constants.WhitePawnRank, 2, "5,2", Constants.BlackPawnRank, 0, 4, 2)]
-    // [InlineData(Constants.WhitePawnRank, 2, "", Constants.BlackPawnRank, 0, 5, 2)]
-    // public void PawnExcludesMoveIfBlocked(int rank, int file, string expected, int targetStartRank, int targetStartFile, int targetEndRank, int targetEndFile)
-    // {
-    //     Board.InitialisePieces();
-    //     
-    //     Board.MakeMove((targetStartRank, targetStartFile).GetCellIndex(), (targetEndRank, targetEndFile).GetCellIndex());
-    //
-    //     var pawn = Board[rank, file];
-    //
-    //     pawn.LastMovePly = 1;
-    //
-    //     AssertAllExpectedMovesAreReturned(pawn, rank, file, expected);
-    // }
-    //
-    // [Fact]
-    // public void PawnCanStillCaptureIfBlocked()
-    // {
-    //     Board.InitialisePieces();
-    //     
-    //     Board.MakeMove((Constants.BlackPawnRank, 0).GetCellIndex(), (5, 0).GetCellIndex());
-    //
-    //     Board.MakeMove((Constants.BlackPawnRank, 1).GetCellIndex(), (5, 1).GetCellIndex());
-    //
-    //     var pawn = Board[Constants.WhitePawnRank, 0];
-    //
-    //     pawn.LastMovePly = 1;
-    //
-    //     var moves = pawn.GetMoves(Constants.WhitePawnRank, 0, Board).ToList();
-    //     
-    //     Assert.Single(moves);
-    //
-    //     Assert.Equal((5, 1).GetCellIndex(), moves.First());
-    // }
+    
+    [Theory]
+    [InlineData(Constants.WhitePawnRank, 2, "5,1|5,2", 5, 1)]
+    public void PawnMoveIncludeCaptureMoveAfterFirstTurn(int rank, int file, string expected, int blockerRank, int blockerFile)
+    {
+        Board.InitialisePieces();
+        
+        Board[blockerRank, blockerFile] = new Pawn(Colour.Black);
+    
+        var pawn = Board[rank, file];
+    
+        pawn.LastMovePly = 1;
+    
+        AssertAllExpectedMovesAreReturned(pawn, rank, file, expected);
+    }
+    
+    [Theory]
+    [InlineData(Constants.WhitePawnRank, 2, "5,2", 4, 2)]
+    [InlineData(Constants.WhitePawnRank, 2, "", 5, 2)]
+    public void PawnExcludesMoveIfBlocked(int rank, int file, string expected, int blockerRank, int blockerFile)
+    {
+        Board.InitialisePieces();
+        
+        Board[blockerRank, blockerFile] = new Pawn(Colour.Black);
+    
+        var pawn = Board[rank, file];
+    
+        pawn.LastMovePly = 1;
+    
+        AssertAllExpectedMovesAreReturned(pawn, rank, file, expected);
+    }
+    
+    [Fact]
+    public void PawnCanStillCaptureIfBlocked()
+    {
+        Board.InitialisePieces();
+
+        Board[5, 0] = new Pawn(Colour.Black);
+
+        Board[5, 1] = new Pawn(Colour.Black);
+    
+        var pawn = Board[Constants.WhitePawnRank, 0];
+    
+        pawn.LastMovePly = 1;
+    
+        var moves = pawn.GetMoves(Constants.WhitePawnRank, 0, Board).ToList();
+        
+        Assert.Single(moves);
+    
+        Assert.Equal((5, 1).GetCellIndex(), moves.First());
+    }
 }

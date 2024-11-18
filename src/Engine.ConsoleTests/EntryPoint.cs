@@ -23,7 +23,7 @@ public static class EntryPoint
     
     public static void Main(string[] arguments)
     {
-        var depth = 7;
+        var depth = 8;
         
         if (arguments.Length > 0)
         {
