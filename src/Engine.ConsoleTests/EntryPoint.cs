@@ -1,8 +1,10 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using Engine.Pieces;
 
 namespace Engine.ConsoleTests;
 
+[ExcludeFromCodeCoverage]
 public static class EntryPoint
 {
     private static readonly List<long> ExpectedCombinations =
