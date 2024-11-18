@@ -8,9 +8,9 @@ public class Core
 {
     private Board _board;
 
-    private readonly Dictionary<int, int> _depthCounts = new();
+    private readonly Dictionary<int, long> _depthCounts = new();
 
-    public IReadOnlyDictionary<int, int> DepthCounts => _depthCounts.Reverse().ToDictionary();
+    public IReadOnlyDictionary<int, long> DepthCounts => _depthCounts;
     
     public void Initialise()
     {
@@ -28,10 +28,10 @@ public class Core
             _depthCounts[i] = 0;
         }
         
-        GetMoveInternal(colour, depth);
+        GetMoveInternal(colour, depth, depth);
     }
 
-    private void GetMoveInternal(Colour colour, int depth)
+    private void GetMoveInternal(Colour colour, int maxDepth, int depth)
     {
         for (var rank = 0; rank < Constants.Ranks; rank++)
         {
@@ -55,13 +55,13 @@ public class Core
 
                 foreach (var move in moves)
                 {
-                    _depthCounts[depth]++;
+                    _depthCounts[maxDepth - depth + 1]++;
                     
                     _board.MakeMove(cell, move);
 
                     if (depth > 1)
                     {
-                        GetMoveInternal(colour.Invert(), depth - 1);
+                        GetMoveInternal(colour.Invert(), maxDepth, depth - 1);
                     }
                     
                     _board.UndoMove();
