@@ -57,7 +57,7 @@ public static class EntryPoint
 
                 if (! pass)
                 {
-                    Console.Write($"  Delta: {expected - count,4:N0}");
+                    Console.Write($"  Delta: {Math.Abs(count - expected),4:N0}");
                 }
                 
                 Console.WriteLine();
