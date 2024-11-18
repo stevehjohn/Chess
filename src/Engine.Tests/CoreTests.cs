@@ -31,20 +31,29 @@ public class CoreTests
 
     [Theory]
     [InlineData(3)]
-    public void MovesPerPly(int depth)
+    public void MovesPerPly(int maxDepth)
     {
-        _core.Initialise();
-
-        _core.GetMove(Colour.White, depth);
-
-        for (var i = 1; i <= depth; i++)
+        for (var i = 1; i <= maxDepth; i++)
         {
-            var output = $"Depth: {i,2}    Combinations: {_core.DepthCounts[i],13:N0}    Expected: ";
-            
-            _outputHelper.WriteLine(output);
-            
-            // ReSharper disable once Xunit.XunitTestWithConsoleOutput
-            Console.WriteLine(output);
+            _core.Initialise();
+
+            _core.GetMove(Colour.White, i);
+
+            for (var j = 1; j <= i; j++)
+            {                
+                var count = _core.DepthCounts[j];
+
+                var expected = ExpectedCombinations[j - 1];
+                
+                var pass = count == expected;
+
+                var output = $"  {(pass ? "PASS" : "FAIL")}  Depth: {j,2}  Combinations: {count,13:N0}  Expected: {expected,13:N0}";
+
+                _outputHelper.WriteLine(output);
+
+                // ReSharper disable once Xunit.XunitTestWithConsoleOutput
+                Console.WriteLine(output);
+            }
         }
     }
 }
