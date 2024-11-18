@@ -45,7 +45,7 @@ public class Pawn : Piece
             }
         }
         
-        // TODO: En passant
+        // TODO: En passant (first happens at ply 5)
         // if ((Colour == Colour.White && Rank == Constants.WhitePawnRank - 3) || (Colour == Colour.Black && Rank == Constants.BlackPawnRank + 3))
         // {
         //     var cell = (Rank + Direction, File - 1).GetCellIndex();
