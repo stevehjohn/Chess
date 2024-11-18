@@ -24,6 +24,14 @@ public class Core
 
     private static readonly List<(int RankDelta, int FileDelta)> Knights =
     [
+        (2, -1),
+        (2, 1),
+        (-2, -1),
+        (-2, 1),
+        (1, -2),
+        (-1, -2),
+        (1, 2),
+        (-1, 2)
     ];
 
     private Board _board;
@@ -160,7 +168,7 @@ public class Core
 
                 cell = checkCell.GetCellIndex();
 
-                if (cell < 0 || cell >= Constants.BoardCells)
+                if (cell < 0)
                 {
                     break;
                 }
@@ -196,7 +204,7 @@ public class Core
 
                 cell = checkCell.GetCellIndex();
         
-                if (cell < 0 || cell >= Constants.BoardCells)
+                if (cell < 0)
                 {
                     break;
                 }
@@ -220,29 +228,35 @@ public class Core
             }
         }
 
-        // foreach (var direction in Knights)
-        // {
-        //     checkCell = kingCell + direction;
-        //
-        //     if (checkCell < 0 || checkCell >= Constants.BoardCells)
-        //     {
-        //         continue;
-        //     }
-        //
-        //     if (_board.IsColour(checkCell, colour))
-        //     {
-        //         continue;
-        //     }
-        //
-        //     var kind = _board.CellKind(checkCell);
-        //
-        //     if (kind == Kind.Knight)
-        //     {
-        //         return true;
-        //     }
-        // }
+        foreach (var direction in Knights)
+        {
+            checkCell = kingCell;
+            
+            checkCell.Rank += direction.RankDelta;
+
+            checkCell.File = direction.FileDelta;
+
+            cell = checkCell.GetCellIndex();
         
-        // TODO: Pawn, Knight
+            if (cell < 0)
+            {
+                break;
+            }
+        
+            if (_board.IsColour(cell, colour))
+            {
+                continue;
+            }
+        
+            var kind = _board.CellKind(cell);
+        
+            if (kind == Kind.Knight)
+            {
+                return true;
+            }
+        }
+        
+        // TODO: Pawn
         
         return false;
     }
