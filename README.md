@@ -21,3 +21,11 @@ Number of possible board combinations after each move (without pruning).
 | 10              | 69,352,859,712,417        |
 +-----------------+---------------------------+
 ```
+
+## TODOs
+
+- En passant
+- Castling
+- Pawn promotion
+- Move cannot leave king in check
+- Stalemate detection
