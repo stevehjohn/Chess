@@ -31,7 +31,7 @@ public static class EntryPoint
 
             stopwatch.Stop();
 
-            for (var j = 1; j < depth; j++)
+            for (var j = 1; j <= i; j++)
             {
                 Console.WriteLine($"  Depth: {i,2}    Combinations: {core.DepthCounts[j],13:N0}    Expected: ");
             }
