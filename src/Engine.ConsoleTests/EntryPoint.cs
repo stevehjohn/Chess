@@ -71,7 +71,7 @@ public static class EntryPoint
                     
                     foreach (var node in core.PerftCounts.OrderBy(n => n.Key))
                     {
-                        Console.WriteLine($"  {node.Key}: {node.Value}");
+                        Console.WriteLine($"  {node.Key}: {node.Value:N0}");
                     }
                 }
             }
