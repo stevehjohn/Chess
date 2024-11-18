@@ -1,4 +1,5 @@
 using Engine.Extensions;
+using Engine.General;
 
 namespace Engine.Pieces;
 
@@ -18,7 +19,7 @@ public class Pawn : Piece
     {
     }
 
-    protected override IEnumerable<int> GetMoves()
+    protected override IEnumerable<int> GetMoves(int ply)
     {
         foreach (var move in Moves)
         {
@@ -45,30 +46,32 @@ public class Pawn : Piece
             }
         }
         
-        // TODO: En passant (first happens at ply 5)
-        // if ((Colour == Colour.White && Rank == Constants.WhitePawnRank - 3) || (Colour == Colour.Black && Rank == Constants.BlackPawnRank + 3))
-        // {
-        //     var cell = (Rank + Direction, File - 1).GetCellIndex();
-        //
-        //     if (cell >= 0)
-        //     {
-        //         if (Board.IsEmpty(cell) && Board.IsColour(cell - Direction * 8, EnemyColour))
-        //         {
-        //             // TODO: Return Special Move Code
-        //             //yield return cell;
-        //         }
-        //     }
-        //
-        //     cell = (Rank + Direction, File + 1).GetCellIndex();
-        //
-        //     if (cell >= 0)
-        //     {
-        //         if (Board.IsEmpty(cell) && Board.IsColour(cell - Direction * 8, EnemyColour))
-        //         {
-        //             // TODO: Return Special Move Code
-        //             //yield return cell;
-        //         }
-        //     }
-        // }
+        if ((Colour == Colour.White && Rank == Constants.WhitePawnRank - 3) || (Colour == Colour.Black && Rank == Constants.BlackPawnRank + 3))
+        {
+            var cell = (Rank + Direction, File - 1).GetCellIndex();
+        
+            var target = cell - Direction * 8;
+                
+            if (cell >= 0)
+            {
+                if (Board.IsEmpty(cell) && Board.IsColour(target, EnemyColour) && Board.CellKind(target) == Kind.Pawn)
+                {
+                    if (Board.LastMovePly(target) == ply - 1)
+                    {
+                        yield return Direction == -1 ? SpecialMoveCodes.EnPassantUpLeft : SpecialMoveCodes.EnPassantDownLeft;
+                    }
+                }
+            }
+        
+            cell = (Rank + Direction, File + 1).GetCellIndex();
+        
+            if (cell >= 0)
+            {
+                if (Board.IsEmpty(cell) && Board.IsColour(cell - Direction * 8, EnemyColour) && Board.CellKind(cell - Direction * 8) == Kind.Pawn)
+                {
+                    yield return Direction == -1 ? SpecialMoveCodes.EnPassantUpRight : SpecialMoveCodes.EnPassantDownRight;
+                }
+            }
+        }
     }
 }

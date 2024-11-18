@@ -85,12 +85,12 @@ public class Core
 
                 var piece = _board[rank, file];
 
-                var moves = piece.GetMoves(rank, file, _board);
+                var ply = maxDepth - depth + 1;
+                    
+                var moves = piece.GetMoves(rank, file, ply, _board);
 
                 foreach (var move in moves)
                 {
-                    var ply = maxDepth - depth + 1;
-                    
                     _depthCounts[ply]++;
 
                     _board.MakeMove(cell, move, ply);
@@ -135,22 +135,19 @@ public class Core
 
     private bool IsKingInCheck(Colour colour)
     {
+        // TODO: Track king on board to avoid this lookup.
+        
         (int Rank, int File) kingCell = (0, 0);
 
         int cell;
         
-        for (var rank = 0; rank < Constants.Ranks; rank++)
+        for (cell = 0; cell < Constants.BoardCells; cell++)
         {
-            for (var file = 0; file < Constants.Files; file++)
+            if (_board.IsColour(cell, colour) && _board.CellKind(cell) == Kind.King)
             {
-                cell = (rank, file).GetCellIndex();
-                
-                if (_board.IsColour(cell, colour) && _board.CellKind(cell) == Kind.King)
-                {
-                    kingCell = (rank, file);
+                kingCell = (cell / 8, cell % 8);
 
-                    break;
-                }
+                break;
             }
         }
 
@@ -164,7 +161,7 @@ public class Core
             {
                 checkCell.Rank += direction.RankDelta;
 
-                checkCell.File = direction.FileDelta;
+                checkCell.File += direction.FileDelta;
 
                 cell = checkCell.GetCellIndex();
 
@@ -200,7 +197,7 @@ public class Core
             {
                 checkCell.Rank += direction.RankDelta;
 
-                checkCell.File = direction.FileDelta;
+                checkCell.File += direction.FileDelta;
 
                 cell = checkCell.GetCellIndex();
         
@@ -255,8 +252,22 @@ public class Core
                 return true;
             }
         }
-        
-        // TODO: Pawn
+
+        var rankDirection = colour == Colour.Black ? 1 : -1;
+
+        cell = (kingCell.Rank + rankDirection, kingCell.File - 1).GetCellIndex();
+
+        if (cell >= 0 && _board.IsColour(cell, colour.Invert()) && _board.CellKind(cell) == Kind.Pawn)
+        {
+            return true;
+        }
+
+        cell = (kingCell.Rank + rankDirection, kingCell.File - 1).GetCellIndex();
+
+        if (cell >= 0 && _board.IsColour(cell, colour.Invert()) && _board.CellKind(cell) == Kind.Pawn)
+        {
+            return true;
+        }
         
         return false;
     }

@@ -8,7 +8,7 @@ public class Bishop : Piece
     {
     }
 
-    protected override IEnumerable<int> GetMoves()
+    protected override IEnumerable<int> GetMoves(int ply)
     {
         return GetDirectionalMoves((-1, -1), (-1, 1), (1, -1), (1, 1));
     }

@@ -103,25 +103,55 @@ public class Board
         
         _undoBuffer.Push(copy);
 
-        if (target == SpecialMoveCodes.CastleKingSide)
+        switch (target)
         {
-            MovePiece(position, position + 2, ply);
+            case SpecialMoveCodes.CastleKingSide:
+                MovePiece(position, position + 2, ply);
             
-            MovePiece(position + 3, position + 1, ply);
+                MovePiece(position + 3, position + 1, ply);
             
-            return;
-        }
+                return;
+            
+            case SpecialMoveCodes.CastleQueenSide:
+                MovePiece(position, position - 2, ply);
+            
+                MovePiece(position - 4, position + 3, ply);
+            
+                return;
+            
+            case SpecialMoveCodes.EnPassantUpLeft:
+                MovePiece(position, position - 9, ply);
 
-        if (target == SpecialMoveCodes.CastleQueenSide)
-        {
-            MovePiece(position, position - 2, ply);
-            
-            MovePiece(position - 4, position + 3, ply);
-            
-            return;
-        }
+                _cells[position - 1] = 0;
 
-        MovePiece(position, target, ply);
+                break;
+            
+            case SpecialMoveCodes.EnPassantUpRight:
+                MovePiece(position, position - 7, ply);
+
+                _cells[position + 1] = 0;
+
+                break;
+            
+            case SpecialMoveCodes.EnPassantDownLeft:
+                MovePiece(position, position + 7, ply);
+
+                _cells[position - 1] = 0;
+
+                break;
+            
+            case SpecialMoveCodes.EnPassantDownRight:
+                MovePiece(position, position + 9, ply);
+
+                _cells[position + 1] = 0;
+
+                break;
+            
+            default:
+                MovePiece(position, target, ply);
+                
+                break;
+        }
     }
 
     private void MovePiece(int position, int target, int ply)
