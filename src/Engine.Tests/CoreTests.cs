@@ -4,10 +4,14 @@ namespace Engine.Tests;
 
 public class CoreTests
 {
+    private readonly Core _core = new();
+    
     [Theory]
-    [InlineData(1, 20)]
-    [InlineData(2, 400)]
-    public void MovesPerPly(int plies, int expectedCombinations)
+    [InlineData(3)]
+    public void MovesPerPly(int depth)
     {
+        _core.Initialise();
+        
+        
     }
 }
