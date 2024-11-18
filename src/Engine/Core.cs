@@ -111,22 +111,19 @@ public class Core
 
     private bool IsKingInCheck(Colour colour)
     {
+        // TODO: Track king on board to avoid this lookup.
+        
         (int Rank, int File) kingCell = (0, 0);
 
         int cell;
         
-        for (var rank = 0; rank < Constants.Ranks; rank++)
+        for (cell = 0; cell < Constants.BoardCells; cell++)
         {
-            for (var file = 0; file < Constants.Files; file++)
+            if (_board.IsColour(cell, colour) && _board.CellKind(cell) == Kind.King)
             {
-                cell = (rank, file).GetCellIndex();
-                
-                if (_board.IsColour(cell, colour) && _board.CellKind(cell) == Kind.King)
-                {
-                    kingCell = (rank, file);
+                kingCell = (cell / 8, cell % 8);
 
-                    break;
-                }
+                break;
             }
         }
 
