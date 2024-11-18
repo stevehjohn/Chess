@@ -28,6 +28,8 @@ public static class Constants
     public const int MaxMoveDistance = 7;
 
     public const int ColourBitOffset = 3;
-    public const int LastPlyMoveBitOffset = 5;
+    public const int LastPlyMoveBitOffset = 6;
+    public const int PawnMoved2RanksFlag = 0b0010_0000;
+    public const int PieceKindMask = 0b0000_0111;
     public const int PieceDescriptionMask = 0b0001_1111;
 }

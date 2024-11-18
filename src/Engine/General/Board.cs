@@ -98,6 +98,11 @@ public class Board
         _cells[position] = 0;
 
         _cells[target] = (ushort) ((_cells[target] & Constants.PieceDescriptionMask) | (ply << Constants.LastPlyMoveBitOffset));
+
+        if ((_cells[target] & Constants.PieceKindMask) == (int) Kind.Pawn && Math.Abs(position - target) > 8)
+        {
+            _cells[target] |= Constants.PawnMoved2RanksFlag;
+        }
     }
 
     public void UndoMove()
