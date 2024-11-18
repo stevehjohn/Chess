@@ -36,22 +36,47 @@ public class King : Piece
             }
         }
 
-        // if (LastMovePly == 0)
-        // {
-        //     if (CheckRookCanCastle(Constants.RightRookFile))
-        //     {
-        //         //Console.WriteLine("Castle");
-        //     }
-        // }
+        if (LastMovePly == 0)
+        {
+            if (CheckRookCanCastleKingSide())
+            {
+                yield return SpecialMoveCodes.CastleKingSide;
+            }
+
+            if (CheckRookCanCastleQueenSide())
+            {
+                yield return SpecialMoveCodes.CastleQueenSide;
+            }
+        }
     }
 
-    private bool CheckRookCanCastle(int file)
+    private bool CheckRookCanCastleKingSide()
     {
-        var cell = (Rank, file).GetCellIndex();
+        var cell = (Rank, Constants.RightRookFile).GetCellIndex();
         
         if (Board.IsColour(cell, Colour) && Board.CellKind(cell) == Kind.Rook && Board.LastMovePly(cell) == 0)
         {
-            
+            if (Board.IsEmpty((Rank, Constants.RightKnightFile).GetCellIndex()) && Board.IsEmpty((Rank, Constants.RightBishopFile).GetCellIndex()))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private bool CheckRookCanCastleQueenSide()
+    {
+        var cell = (Rank, Constants.LeftRookFile).GetCellIndex();
+        
+        if (Board.IsColour(cell, Colour) && Board.CellKind(cell) == Kind.Rook && Board.LastMovePly(cell) == 0)
+        {
+            if (Board.IsEmpty((Rank, Constants.RightKnightFile).GetCellIndex()) 
+                && Board.IsEmpty((Rank, Constants.RightBishopFile).GetCellIndex())
+                && Board.IsEmpty((Rank, Constants.QueenFile).GetCellIndex()))
+            {
+                return true;
+            }
         }
 
         return false;

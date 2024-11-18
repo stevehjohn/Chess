@@ -103,6 +103,29 @@ public class Board
         
         _undoBuffer.Push(copy);
 
+        if (target == SpecialMoveCodes.CastleKingSide)
+        {
+            MovePiece(position, position + 2, ply);
+            
+            MovePiece(position + 3, position + 1, ply);
+            
+            return;
+        }
+
+        if (target == SpecialMoveCodes.CastleQueenSide)
+        {
+            MovePiece(position, position - 2, ply);
+            
+            MovePiece(position - 4, position + 3, ply);
+            
+            return;
+        }
+
+        MovePiece(position, target, ply);
+    }
+
+    private void MovePiece(int position, int target, int ply)
+    {
         _cells[target] = _cells[position];
 
         _cells[position] = 0;

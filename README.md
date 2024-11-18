@@ -25,7 +25,7 @@ Number of possible board combinations after each move (without pruning).
 ## TODOs
 
 - En passant
-- Castling
+- Castling (not castling through check)
 - Pawn promotion
 - Move cannot leave king in check
 - Stalemate detection

@@ -1,6 +1,7 @@
 namespace Engine.General;
 
-public class SpecialMoveCodes
+public static class SpecialMoveCodes
 {
-    public const int WhiteCastleKingSide = 100;
+    public const int CastleKingSide = 100;
+    public const int CastleQueenSide = 101;
 }
