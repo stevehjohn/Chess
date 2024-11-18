@@ -65,26 +65,28 @@ public class Core
                     
                     _depthCounts[ply]++;
 
-                    if (perftNode == null)
-                    {
-                        perftNode = (rank, file).ToStandardNotation();
-                    }
-                    else if (perftNode.Length == 2)
-                    {
-                        perftNode = $"{perftNode}{(rank, file).ToStandardNotation()}";
-                        
-                        _perftCounts.TryAdd(perftNode, 0);
-                    }
-                    else
-                    {
-                        _perftCounts[perftNode]++;
-                    }
 
                     _board.MakeMove(cell, move, ply);
 
                     if (depth > 1)
                     {
+                        if (perftNode == null)
+                        {
+                            perftNode = $"{(rank, file).ToStandardNotation()}{(move / 8, move % 8).ToStandardNotation()}";
+                        
+                            _perftCounts.TryAdd(perftNode, 0);
+                        }
+                        else
+                        {
+                            _perftCounts[perftNode]++;
+                        }
+                        
                         GetMoveInternal(colour.Invert(), maxDepth, depth - 1, perftNode);
+
+                        if (depth == maxDepth)
+                        {
+                            perftNode = null;
+                        }
                     }
                     
                     _board.UndoMove();
