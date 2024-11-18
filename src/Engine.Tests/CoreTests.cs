@@ -25,7 +25,12 @@ public class CoreTests
 
         for (var i = 1; i <= depth; i++)
         {
-            _outputHelper.WriteLine($"Depth: {i,2}    Combinations: {_core.DepthCounts[i],13:N0}    Expected: ");
+            var output = $"Depth: {i,2}    Combinations: {_core.DepthCounts[i],13:N0}    Expected: ";
+            
+            _outputHelper.WriteLine(output);
+            
+            // ReSharper disable once Xunit.XunitTestWithConsoleOutput
+            Console.WriteLine(output);
         }
     }
 }
