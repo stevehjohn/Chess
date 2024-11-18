@@ -26,4 +26,9 @@ public static class Constants
     public const int RightRookFile = 7;
 
     public const int MaxMoveDistance = 7;
+
+    public const int ColourBitOffset = 3;
+    public const int MoveCountBitOffset = 5;
+    public const int MoveCountMask = 0b1111_1111_1110_0000;
+    public const int PieceDescriptionMask = 0b0001_1111;
 }

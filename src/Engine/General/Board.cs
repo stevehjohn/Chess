@@ -96,6 +96,12 @@ public class Board
         _cells[target] = _cells[position];
 
         _cells[position] = 0;
+
+        var count = _cells[position] & Constants.MoveCountMask;
+
+        count++;
+
+        _cells[position] = (ushort) ((_cells[position] & Constants.PieceDescriptionMask) | count);
     }
 
     public void UndoMove()

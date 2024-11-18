@@ -48,9 +48,9 @@ public abstract class Piece
     {
         var code = (ushort) Kind;
 
-        code |= (ushort) ((ushort) Colour << 3);
+        code |= (ushort) ((ushort) Colour << Constants.ColourBitOffset);
 
-        code |= (ushort) (MoveCount << 5);
+        code |= (ushort) (MoveCount << Constants.MoveCountBitOffset);
 
         return code;
     }
