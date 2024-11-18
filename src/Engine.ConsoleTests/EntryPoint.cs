@@ -45,11 +45,11 @@ public static class EntryPoint
                 
                 var pass = count == expected;
                 
-                Console.Write($"  {(pass ? "PASS" : "FAIL")}    Depth: {i,2}    Combinations: {count,13:N0}    Expected: {expected,13:N0}");
+                Console.Write($"  {(pass ? "PASS" : "FAIL")}  Depth: {i,2}  Combinations: {count,13:N0}  Expected: {expected,13:N0}");
 
                 if (! pass)
                 {
-                    Console.Write($"    Delta: {expected - count}");
+                    Console.Write($"    Delta: {expected - count:4,N0}");
                 }
                 
                 Console.WriteLine();
