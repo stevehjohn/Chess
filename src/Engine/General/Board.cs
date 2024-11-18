@@ -97,7 +97,7 @@ public class Board
 
         _cells[position] = 0;
 
-        _cells[position] = (ushort) ((_cells[position] & Constants.PieceDescriptionMask) | (ply << Constants.LastPlyMoveBitOffset));
+        _cells[target] = (ushort) ((_cells[target] & Constants.PieceDescriptionMask) | (ply << Constants.LastPlyMoveBitOffset));
     }
 
     public void UndoMove()
