@@ -36,13 +36,13 @@ public class King : Piece
             }
         }
 
-        if (LastMovePly == 0)
-        {
-            if (CheckRookCanCastle(Constants.RightRookFile))
-            {
-                Console.WriteLine("Castle");
-            }
-        }
+        // if (LastMovePly == 0)
+        // {
+        //     if (CheckRookCanCastle(Constants.RightRookFile))
+        //     {
+        //         //Console.WriteLine("Castle");
+        //     }
+        // }
     }
 
     private bool CheckRookCanCastle(int file)
