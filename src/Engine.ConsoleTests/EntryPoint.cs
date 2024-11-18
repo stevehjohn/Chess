@@ -30,10 +30,7 @@ public static class EntryPoint
             int.TryParse(arguments[0], out depth);
         }
         
-        Console.Clear();
-        
         Console.WriteLine();
-
 
         for (var i = 1; i <= depth; i++)
         {
