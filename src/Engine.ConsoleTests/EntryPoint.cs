@@ -5,33 +5,42 @@ namespace Engine.ConsoleTests;
 
 public static class EntryPoint
 {
-    private const int Depth = 6;
-    
-    public static void Main()
+    public static void Main(string[] arguments)
     {
-        var core = new Core();
+        var depth = 6;
         
-        core.Initialise();
+        if (arguments.Length > 0)
+        {
+            int.TryParse(arguments[0], out depth);
+        }
         
         Console.Clear();
         
         Console.WriteLine();
 
-        var stopwatch = Stopwatch.StartNew();
-        
-        core.GetMove(Colour.White, 6);
-        
-        stopwatch.Stop();
 
-        for (var i = 1; i < Depth; i++)
+        for (var i = 1; i <= depth; i++)
         {
-            Console.WriteLine($"  Depth: {i,2}    Combinations: {core.DepthCounts[i],13:N0}    Expected: ");
+            var core = new Core();
+
+            core.Initialise();
+
+            var stopwatch = Stopwatch.StartNew();
+
+            core.GetMove(Colour.White, i);
+
+            stopwatch.Stop();
+
+            for (var j = 1; j < depth; j++)
+            {
+                Console.WriteLine($"  Depth: {i,2}    Combinations: {core.DepthCounts[j],13:N0}    Expected: ");
+            }
+
+            Console.WriteLine();
+
+            Console.WriteLine($"  {i} depths explored in {stopwatch.Elapsed:g}");
+
+            Console.WriteLine();
         }
-        
-        Console.WriteLine();
-        
-        Console.WriteLine($"  {Depth} depths explored in {stopwatch.Elapsed:g}");
-        
-        Console.WriteLine();
     }
 }

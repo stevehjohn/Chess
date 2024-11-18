@@ -10,7 +10,7 @@ public class Core
 
     private readonly Dictionary<int, int> _depthCounts = new();
 
-    public IReadOnlyDictionary<int, int> DepthCounts => _depthCounts;
+    public IReadOnlyDictionary<int, int> DepthCounts => _depthCounts.Reverse().ToDictionary();
     
     public void Initialise()
     {
