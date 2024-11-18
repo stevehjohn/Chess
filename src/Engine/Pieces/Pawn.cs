@@ -1,4 +1,5 @@
 using Engine.Extensions;
+using Engine.General;
 
 namespace Engine.Pieces;
 
@@ -54,9 +55,8 @@ public class Pawn : Piece
         //     {
         //         if (Board.IsEmpty(cell) && Board.IsColour(cell - Direction * 8, EnemyColour))
         //         {
-        //             Console.WriteLine("EP");
-        //             
-        //             yield return cell;
+        //             // TODO: Return Special Move Code
+        //             //yield return cell;
         //         }
         //     }
         //
@@ -66,9 +66,8 @@ public class Pawn : Piece
         //     {
         //         if (Board.IsEmpty(cell) && Board.IsColour(cell - Direction * 8, EnemyColour))
         //         {
-        //             Console.WriteLine("EP");
-        //
-        //             yield return cell;
+        //             // TODO: Return Special Move Code
+        //             //yield return cell;
         //         }
         //     }
         // }
