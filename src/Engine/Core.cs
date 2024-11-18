@@ -6,14 +6,20 @@ namespace Engine;
 
 public class Core
 {
-    private static readonly List<int> Orthogonals =
+    private static readonly List<(int RankDelta, int FileDelta)> Orthogonals =
     [
-        -1, 1, -8, 8
+        (-1, 0),
+        (0, -1),
+        (1, 0),
+        (0, 1)
     ];
 
-    private static readonly List<int> Diagonals =
+    private static readonly List<(int RankDelta, int FileDelta)> Diagonals =
     [
-        -9, 9, 7, -7
+        (-1, -1),
+        (1, -1),
+        (-1, 1),
+        (1, 1)
     ];
 
     private static readonly List<int> Knights =
@@ -81,7 +87,7 @@ public class Core
                         _board.UndoMove();
                         
                         _depthCounts[ply]--;
-
+                    
                         continue;
                     }
 
@@ -98,19 +104,28 @@ public class Core
 
     private bool IsKingInCheck(Colour colour)
     {
-        var kingCell = 0;
+        (int Rank, int File) kingCell = (0, 0);
 
-        for (var cell = 0; cell < 64; cell++)
+        int cell;
+        
+        for (var rank = 0; rank < Constants.Ranks; rank++)
         {
-            if (_board.IsColour(cell, colour) && _board.CellKind(cell) == Kind.King)
+            for (var file = 0; file < Constants.Files; file++)
             {
-                kingCell = cell;
+                cell = (rank, file).GetCellIndex();
+                
+                if (_board.IsColour(cell, colour) && _board.CellKind(cell) == Kind.King)
+                {
+                    kingCell = (rank, file);
 
-                break;
+                    break;
+                }
             }
         }
 
-        int checkCell;
+        (int Rank, int File) checkCell;
+
+        cell = 0;
 
         foreach (var direction in Orthogonals)
         {
@@ -118,19 +133,23 @@ public class Core
             
             for (var i = 0; i < Constants.MaxMoveDistance; i++)
             {
-                checkCell += direction;
+                checkCell.Rank += direction.RankDelta;
 
-                if (checkCell < 0 || checkCell >= Constants.BoardCells)
+                checkCell.File = direction.FileDelta;
+
+                cell = checkCell.GetCellIndex();
+
+                if (cell < 0 || cell >= Constants.BoardCells)
                 {
                     break;
                 }
 
-                if (_board.IsColour(checkCell, colour))
+                if (_board.IsColour(cell, colour))
                 {
                     break;
                 }
 
-                var kind = _board.CellKind(checkCell);
+                var kind = _board.CellKind(cell);
 
                 if (kind is Kind.Rook or Kind.Queen)
                 {
@@ -150,20 +169,24 @@ public class Core
             
             for (var i = 0; i < Constants.MaxMoveDistance; i++)
             {
-                checkCell += direction;
+                checkCell.Rank += direction.RankDelta;
 
-                if (checkCell < 0 || checkCell >= Constants.BoardCells)
+                checkCell.File = direction.FileDelta;
+
+                cell = checkCell.GetCellIndex();
+        
+                if (cell < 0 || cell >= Constants.BoardCells)
                 {
                     break;
                 }
-
-                if (_board.IsColour(checkCell, colour))
+        
+                if (_board.IsColour(cell, colour))
                 {
                     break;
                 }
-
-                var kind = _board.CellKind(checkCell);
-
+        
+                var kind = _board.CellKind(cell);
+        
                 if (kind is Kind.Bishop or Kind.Queen)
                 {
                     return true;
