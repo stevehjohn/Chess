@@ -13,6 +13,7 @@ public class Core
 
     private static readonly List<int> Diagonals =
     [
+        -9, 9, 7, -7
     ];
 
     private Board _board;
