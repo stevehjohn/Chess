@@ -38,7 +38,7 @@ public static class EntryPoint
 
             Console.WriteLine();
 
-            Console.WriteLine($"  {i} depths explored in {stopwatch.Elapsed:g}");
+            Console.WriteLine($"  {i} depths explored in {stopwatch.Elapsed.Seconds:N0}s {stopwatch.Elapsed.Milliseconds}ms");
 
             Console.WriteLine();
         }
