@@ -127,6 +127,11 @@ public class Core
                 {
                     return true;
                 }
+
+                if (kind is Kind.King && i == 0)
+                {
+                    return true;
+                }
             }
         }
 
@@ -149,6 +154,11 @@ public class Core
                 var kind = _board.CellKind(checkCell);
 
                 if (kind is Kind.Bishop or Kind.Queen)
+                {
+                    return true;
+                }
+                
+                if (kind is Kind.King && i == 0)
                 {
                     return true;
                 }
