@@ -67,6 +67,16 @@ public class Board
         return _cells[cell] == 0;
     }
 
+    public Kind CellKind(int cell)
+    {
+        return (Kind) (_cells[cell] & Constants.PieceKindMask);
+    }
+
+    public int LastMovePly(int cell)
+    {
+        return _cells[cell] >> Constants.LastPlyMoveBitOffset;
+    }
+
     public bool IsEmptyRankPath(int position, int target)
     {
         var direction = target < position ? -Constants.Files : Constants.Files;

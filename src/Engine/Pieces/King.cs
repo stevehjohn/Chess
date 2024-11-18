@@ -1,4 +1,5 @@
 using Engine.Extensions;
+using Engine.General;
 
 namespace Engine.Pieces;
 
@@ -34,5 +35,25 @@ public class King : Piece
                 yield return cell;
             }
         }
+
+        if (LastMovePly == 0)
+        {
+            if (CheckRookCanCastle(Constants.RightRookFile))
+            {
+                Console.WriteLine("Castle");
+            }
+        }
+    }
+
+    private bool CheckRookCanCastle(int file)
+    {
+        var cell = (Rank, file).GetCellIndex();
+        
+        if (Board.IsColour(cell, Colour) && Board.CellKind(cell) == Kind.Rook && Board.LastMovePly(cell) == 0)
+        {
+            
+        }
+
+        return false;
     }
 }
