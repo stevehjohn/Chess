@@ -11,7 +11,7 @@ public abstract class PieceTestBase
     
     protected void AssertAllExpectedMovesAreReturned(Piece piece, int rank, int file, string expected)
     {
-        var moves = piece.GetMoves(rank, file, Board).ToList();
+        var moves = piece.GetMoves(rank, file, 1, Board).ToList();
 
         if (expected == string.Empty)
         {

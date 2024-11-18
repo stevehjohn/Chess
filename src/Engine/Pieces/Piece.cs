@@ -31,7 +31,7 @@ public abstract class Piece
         Direction = colour == Colour.Black ? 1 : -1;
     }
 
-    public IEnumerable<int> GetMoves(int rank, int file, Board board)
+    public IEnumerable<int> GetMoves(int rank, int file, int ply, Board board)
     {
         Rank = rank;
 
@@ -39,10 +39,10 @@ public abstract class Piece
 
         Board = board;
 
-        return GetMoves();
+        return GetMoves(ply);
     }
 
-    protected abstract IEnumerable<int> GetMoves();
+    protected abstract IEnumerable<int> GetMoves(int ply);
 
     public ushort Encode()
     {

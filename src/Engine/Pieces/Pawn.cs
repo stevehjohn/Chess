@@ -19,7 +19,7 @@ public class Pawn : Piece
     {
     }
 
-    protected override IEnumerable<int> GetMoves()
+    protected override IEnumerable<int> GetMoves(int ply)
     {
         foreach (var move in Moves)
         {

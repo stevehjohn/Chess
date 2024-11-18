@@ -99,7 +99,7 @@ public class PawnTests : PieceTestBase
     
         pawn.LastMovePly = 1;
     
-        var moves = pawn.GetMoves(Constants.WhitePawnRank, 0, Board).ToList();
+        var moves = pawn.GetMoves(Constants.WhitePawnRank, 0, 1, Board).ToList();
         
         Assert.Single(moves);
     

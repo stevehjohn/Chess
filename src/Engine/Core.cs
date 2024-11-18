@@ -79,12 +79,12 @@ public class Core
 
                 var piece = _board[rank, file];
 
-                var moves = piece.GetMoves(rank, file, _board);
+                var ply = maxDepth - depth + 1;
+                    
+                var moves = piece.GetMoves(rank, file, ply, _board);
 
                 foreach (var move in moves)
                 {
-                    var ply = maxDepth - depth + 1;
-                    
                     _depthCounts[ply]++;
                     
                     _board.MakeMove(cell, move, ply);

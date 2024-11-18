@@ -8,7 +8,7 @@ public class Rook : Piece
     {
     }
 
-    protected override IEnumerable<int> GetMoves()
+    protected override IEnumerable<int> GetMoves(int ply)
     {
         return GetDirectionalMoves((-1, 0), (0, -1), (1, 0), (0, 1));
     }
