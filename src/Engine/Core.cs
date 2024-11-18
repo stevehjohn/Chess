@@ -165,6 +165,8 @@ public class Core
             }
         }
         
+        // TODO: Pawn, Knight
+        
         return false;
     }
 }
