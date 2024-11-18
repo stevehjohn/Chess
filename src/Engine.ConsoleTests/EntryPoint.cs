@@ -21,7 +21,7 @@ public static class EntryPoint
     
     public static void Main(string[] arguments)
     {
-        var depth = 6;
+        var depth = 7;
         
         if (arguments.Length > 0)
         {
@@ -57,7 +57,7 @@ public static class EntryPoint
 
                 if (! pass)
                 {
-                    Console.Write($"  Delta: {Math.Abs(count - expected),10:N0}");
+                    Console.Write($"  Delta: {Math.Abs(count - expected),11:N0}");
                 }
                 
                 Console.WriteLine();
