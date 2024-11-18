@@ -16,6 +16,11 @@ public class Core
         -9, 9, 7, -7
     ];
 
+    private static readonly List<int> Knights =
+    [
+        -17, -15, -6, 10, 17, 15, -10
+    ];
+
     private Board _board;
 
     private readonly Dictionary<int, long> _depthCounts = new();
@@ -93,20 +98,24 @@ public class Core
 
     private bool IsKingInCheck(Colour colour)
     {
-        var checkCell = 0;
+        var kingCell = 0;
 
         for (var cell = 0; cell < 64; cell++)
         {
             if (_board.IsColour(cell, colour) && _board.CellKind(cell) == Kind.King)
             {
-                checkCell = cell;
+                kingCell = cell;
 
                 break;
             }
         }
 
+        int checkCell;
+
         foreach (var direction in Orthogonals)
         {
+            checkCell = kingCell;
+            
             for (var i = 0; i < Constants.MaxMoveDistance; i++)
             {
                 checkCell += direction;
@@ -137,6 +146,8 @@ public class Core
 
         foreach (var direction in Diagonals)
         {
+            checkCell = kingCell;
+            
             for (var i = 0; i < Constants.MaxMoveDistance; i++)
             {
                 checkCell += direction;
@@ -164,6 +175,28 @@ public class Core
                 }
             }
         }
+
+        // foreach (var direction in Knights)
+        // {
+        //     checkCell = kingCell + direction;
+        //
+        //     if (checkCell < 0 || checkCell >= Constants.BoardCells)
+        //     {
+        //         continue;
+        //     }
+        //
+        //     if (_board.IsColour(checkCell, colour))
+        //     {
+        //         continue;
+        //     }
+        //
+        //     var kind = _board.CellKind(checkCell);
+        //
+        //     if (kind == Kind.Knight)
+        //     {
+        //         return true;
+        //     }
+        // }
         
         // TODO: Pawn, Knight
         
