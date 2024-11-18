@@ -1,4 +1,5 @@
 using Engine.Extensions;
+using Engine.General;
 
 namespace Engine.Pieces;
 
@@ -46,5 +47,31 @@ public class Pawn : Piece
         }
         
         // TODO: En passant
+        // if ((Colour == Colour.White && Rank == Constants.WhitePawnRank - 3) || (Colour == Colour.Black && Rank == Constants.BlackPawnRank + 3))
+        // {
+        //     var cell = (Rank + Direction, File - 1).GetCellIndex();
+        //
+        //     if (cell >= 0)
+        //     {
+        //         if (Board.IsEmpty(cell) && Board.IsColour(cell - Direction * 8, EnemyColour))
+        //         {
+        //             Console.WriteLine("EP");
+        //             
+        //             yield return cell;
+        //         }
+        //     }
+        //
+        //     cell = (Rank + Direction, File + 1).GetCellIndex();
+        //
+        //     if (cell >= 0)
+        //     {
+        //         if (Board.IsEmpty(cell) && Board.IsColour(cell - Direction * 8, EnemyColour))
+        //         {
+        //             Console.WriteLine("EP");
+        //
+        //             yield return cell;
+        //         }
+        //     }
+        // }
     }
 }
