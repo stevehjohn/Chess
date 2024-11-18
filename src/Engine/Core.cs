@@ -10,6 +10,8 @@ public class Core
 
     private readonly Dictionary<int, long> _depthCounts = new();
 
+    private readonly Dictionary<string, long> _perftCounts = new();
+
     public IReadOnlyDictionary<int, long> DepthCounts => _depthCounts;
     
     public void Initialise()
