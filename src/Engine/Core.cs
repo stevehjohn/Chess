@@ -228,8 +228,22 @@ public class Core
                 return true;
             }
         }
-        
-        // TODO: Pawn
+
+        var rankDirection = colour == Colour.Black ? 1 : 0;
+
+        cell = (kingCell.Rank + rankDirection, kingCell.File - 1).GetCellIndex();
+
+        if (cell >= 0 && _board.IsColour(cell, colour.Invert()) && _board.CellKind(cell) == Kind.Pawn)
+        {
+            return true;
+        }
+
+        cell = (kingCell.Rank + rankDirection, kingCell.File - 1).GetCellIndex();
+
+        if (cell >= 0 && _board.IsColour(cell, colour.Invert()) && _board.CellKind(cell) == Kind.Pawn)
+        {
+            return true;
+        }
         
         return false;
     }
