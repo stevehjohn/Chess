@@ -229,7 +229,7 @@ public class Core
             }
         }
 
-        var rankDirection = colour == Colour.Black ? 1 : 0;
+        var rankDirection = colour == Colour.Black ? 1 : -1;
 
         cell = (kingCell.Rank + rankDirection, kingCell.File - 1).GetCellIndex();
 
