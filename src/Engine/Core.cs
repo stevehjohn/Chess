@@ -6,6 +6,15 @@ namespace Engine;
 
 public class Core
 {
+    private static readonly List<int> Orthogonals =
+    [
+        -1, 1, -8, 8
+    ];
+
+    private static readonly List<int> Diagonals =
+    [
+    ];
+
     private Board _board;
 
     private readonly Dictionary<int, long> _depthCounts = new();
@@ -61,6 +70,15 @@ public class Core
                     
                     _board.MakeMove(cell, move, ply);
 
+                    if (IsKingInCheck(colour))
+                    {
+                        _board.UndoMove();
+                        
+                        _depthCounts[ply]--;
+
+                        continue;
+                    }
+
                     if (depth > 1)
                     {
                         GetMoveInternal(colour.Invert(), maxDepth, depth - 1);
@@ -70,5 +88,72 @@ public class Core
                 }
             }
         }
+    }
+
+    private bool IsKingInCheck(Colour colour)
+    {
+        var checkCell = 0;
+
+        for (var cell = 0; cell < 64; cell++)
+        {
+            if (_board.IsColour(cell, colour) && _board.CellKind(cell) == Kind.King)
+            {
+                checkCell = cell;
+
+                break;
+            }
+        }
+
+        foreach (var direction in Orthogonals)
+        {
+            for (var i = 0; i < Constants.MaxMoveDistance; i++)
+            {
+                checkCell += direction;
+
+                if (checkCell < 0 || checkCell >= Constants.BoardCells)
+                {
+                    break;
+                }
+
+                if (_board.IsColour(checkCell, colour))
+                {
+                    break;
+                }
+
+                var kind = _board.CellKind(checkCell);
+
+                if (kind is Kind.Rook or Kind.Queen)
+                {
+                    return true;
+                }
+            }
+        }
+
+        foreach (var direction in Diagonals)
+        {
+            for (var i = 0; i < Constants.MaxMoveDistance; i++)
+            {
+                checkCell += direction;
+
+                if (checkCell < 0 || checkCell >= Constants.BoardCells)
+                {
+                    break;
+                }
+
+                if (_board.IsColour(checkCell, colour))
+                {
+                    break;
+                }
+
+                var kind = _board.CellKind(checkCell);
+
+                if (kind is Kind.Bishop or Kind.Queen)
+                {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
     }
 }
