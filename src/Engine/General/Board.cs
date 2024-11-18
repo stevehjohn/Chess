@@ -95,7 +95,7 @@ public class Board
         return true;
     }
 
-    public void MakeMove(int position, int target, int ply)
+    public PlyOutcome MakeMove(int position, int target, int ply)
     {
         var copy = new ushort[Constants.BoardCells];
         
@@ -110,47 +110,49 @@ public class Board
             
                 MovePiece(position + 3, position + 1, ply);
             
-                return;
+                return PlyOutcome.Castle;
             
             case SpecialMoveCodes.CastleQueenSide:
                 MovePiece(position, position - 2, ply);
             
                 MovePiece(position - 4, position + 3, ply);
             
-                return;
+                return PlyOutcome.Castle;
             
             case SpecialMoveCodes.EnPassantUpLeft:
                 MovePiece(position, position - 9, ply);
 
                 _cells[position - 1] = 0;
 
-                break;
+                return PlyOutcome.EnPassant;
             
             case SpecialMoveCodes.EnPassantUpRight:
                 MovePiece(position, position - 7, ply);
 
                 _cells[position + 1] = 0;
 
-                break;
+                return PlyOutcome.EnPassant;
             
             case SpecialMoveCodes.EnPassantDownLeft:
                 MovePiece(position, position + 7, ply);
 
                 _cells[position - 1] = 0;
 
-                break;
+                return PlyOutcome.EnPassant;
             
             case SpecialMoveCodes.EnPassantDownRight:
                 MovePiece(position, position + 9, ply);
 
                 _cells[position + 1] = 0;
 
-                break;
+                return PlyOutcome.EnPassant;
             
             default:
-                MovePiece(position, target, ply);
+                var result = _cells[target] > 0 ? PlyOutcome.Capture : PlyOutcome.Move;
                 
-                break;
+                MovePiece(position, target, ply);
+
+                return result;
         }
     }
 
