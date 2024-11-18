@@ -49,11 +49,11 @@ public static class EntryPoint
             {
                 var count = core.DepthCounts[j];
 
-                var expected = ExpectedCombinations[j];
+                var expected = ExpectedCombinations[j - 1];
                 
                 var pass = count == expected;
                 
-                Console.Write($"  {(pass ? "PASS" : "FAIL")}  Depth: {i,2}  Combinations: {count,13:N0}  Expected: {expected,13:N0}");
+                Console.Write($"  {(pass ? "PASS" : "FAIL")}  Depth: {j,2}  Combinations: {count,13:N0}  Expected: {expected,13:N0}");
 
                 if (! pass)
                 {
