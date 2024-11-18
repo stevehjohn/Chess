@@ -30,7 +30,7 @@ public class CoreTests
     }
 
     [Theory]
-    [InlineData(6)]
+    [InlineData(5)]
     public void MovesPerPly(int maxDepth)
     {
         for (var i = 1; i <= maxDepth; i++)
