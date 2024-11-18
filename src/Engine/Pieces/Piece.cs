@@ -10,7 +10,7 @@ public abstract class Piece
 
     public Colour Colour { get; }
 
-    public int MoveCount { get; set; }
+    public int LastMovePly { get; set; }
 
     protected Colour EnemyColour { get; }
 
@@ -50,7 +50,7 @@ public abstract class Piece
 
         code |= (ushort) ((ushort) Colour << Constants.ColourBitOffset);
 
-        code |= (ushort) (MoveCount << Constants.MoveCountBitOffset);
+        code |= (ushort) (LastMovePly << Constants.LastPlyMoveBitOffset);
 
         return code;
     }
@@ -79,7 +79,7 @@ public abstract class Piece
 
         var lastMovePly = code & 0b1111_1111_1110_0000;
         
-        piece.MoveCount = lastMovePly;
+        piece.LastMovePly = lastMovePly;
 
         return piece;
     }

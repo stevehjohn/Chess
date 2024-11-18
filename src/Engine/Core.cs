@@ -55,9 +55,11 @@ public class Core
 
                 foreach (var move in moves)
                 {
-                    _depthCounts[maxDepth - depth + 1]++;
+                    var ply = maxDepth - depth + 1;
                     
-                    _board.MakeMove(cell, move);
+                    _depthCounts[ply]++;
+                    
+                    _board.MakeMove(cell, move, ply);
 
                     if (depth > 1)
                     {

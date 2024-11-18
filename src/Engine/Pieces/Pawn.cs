@@ -29,7 +29,7 @@ public class Pawn : Piece
                 continue;
             }
 
-            if (MoveCount > 0 && move.FirstMoveOnly)
+            if (LastMovePly > 0 && move.FirstMoveOnly)
             {
                 continue;
             }

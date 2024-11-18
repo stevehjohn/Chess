@@ -85,7 +85,7 @@ public class Board
         return true;
     }
 
-    public void MakeMove(int position, int target)
+    public void MakeMove(int position, int target, int ply)
     {
         var copy = new ushort[Constants.BoardCells];
         
@@ -97,11 +97,7 @@ public class Board
 
         _cells[position] = 0;
 
-        var count = _cells[position] & Constants.MoveCountMask;
-
-        count++;
-
-        _cells[position] = (ushort) ((_cells[position] & Constants.PieceDescriptionMask) | count);
+        _cells[position] = (ushort) ((_cells[position] & Constants.PieceDescriptionMask) | ply << Constants.LastPlyMoveBitOffset);
     }
 
     public void UndoMove()

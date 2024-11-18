@@ -23,7 +23,7 @@ public class BoardTests
         
         Assert.Equal("rnbqkbnr|pppppppp|        |        |        |        |PPPPPPPP|RNBQKBNR", _board.ToString());
 
-        _board.MakeMove((Constants.WhitePawnRank, 0).GetCellIndex(), (5, 0).GetCellIndex());
+        _board.MakeMove((Constants.WhitePawnRank, 0).GetCellIndex(), (5, 0).GetCellIndex(), 1);
         
         Assert.Equal("rnbqkbnr|pppppppp|        |        |        |P       | PPPPPPP|RNBQKBNR", _board.ToString());
         
