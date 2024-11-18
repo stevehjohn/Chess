@@ -22,9 +22,16 @@ public class Core
         (1, 1)
     ];
 
-    private static readonly List<int> Knights =
+    private static readonly List<(int RankDelta, int FileDelta)> Knights =
     [
-        -17, -15, -6, 10, 17, 15, -10
+        (2, -1),
+        (2, 1),
+        (-2, -1),
+        (-2, 1),
+        (1, -2),
+        (-1, -2),
+        (1, 2),
+        (-1, 2)
     ];
 
     private Board _board;
@@ -125,8 +132,6 @@ public class Core
 
         (int Rank, int File) checkCell;
 
-        cell = 0;
-
         foreach (var direction in Orthogonals)
         {
             checkCell = kingCell;
@@ -139,7 +144,7 @@ public class Core
 
                 cell = checkCell.GetCellIndex();
 
-                if (cell < 0 || cell >= Constants.BoardCells)
+                if (cell < 0)
                 {
                     break;
                 }
@@ -175,7 +180,7 @@ public class Core
 
                 cell = checkCell.GetCellIndex();
         
-                if (cell < 0 || cell >= Constants.BoardCells)
+                if (cell < 0)
                 {
                     break;
                 }
@@ -199,29 +204,35 @@ public class Core
             }
         }
 
-        // foreach (var direction in Knights)
-        // {
-        //     checkCell = kingCell + direction;
-        //
-        //     if (checkCell < 0 || checkCell >= Constants.BoardCells)
-        //     {
-        //         continue;
-        //     }
-        //
-        //     if (_board.IsColour(checkCell, colour))
-        //     {
-        //         continue;
-        //     }
-        //
-        //     var kind = _board.CellKind(checkCell);
-        //
-        //     if (kind == Kind.Knight)
-        //     {
-        //         return true;
-        //     }
-        // }
+        foreach (var direction in Knights)
+        {
+            checkCell = kingCell;
+            
+            checkCell.Rank += direction.RankDelta;
+
+            checkCell.File = direction.FileDelta;
+
+            cell = checkCell.GetCellIndex();
         
-        // TODO: Pawn, Knight
+            if (cell < 0)
+            {
+                break;
+            }
+        
+            if (_board.IsColour(cell, colour))
+            {
+                continue;
+            }
+        
+            var kind = _board.CellKind(cell);
+        
+            if (kind == Kind.Knight)
+            {
+                return true;
+            }
+        }
+        
+        // TODO: Pawn
         
         return false;
     }
