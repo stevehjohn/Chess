@@ -40,6 +40,8 @@ public static class EntryPoint
 
             Console.WriteLine($"  {DateTime.Now:HH:mm:ss} Starting depth {i}");
             
+            Console.WriteLine();
+            
             var stopwatch = Stopwatch.StartNew();
 
             core.GetMove(Colour.White, i);
