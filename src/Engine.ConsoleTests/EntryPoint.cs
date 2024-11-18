@@ -38,6 +38,8 @@ public static class EntryPoint
 
             core.Initialise();
 
+            Console.WriteLine($"  {DateTime.Now:HH:mm:ss} Starting depth {i}");
+            
             var stopwatch = Stopwatch.StartNew();
 
             core.GetMove(Colour.White, i);
@@ -64,7 +66,7 @@ public static class EntryPoint
 
             Console.WriteLine();
 
-            Console.WriteLine($"  {i} depths explored in {stopwatch.Elapsed.Minutes}m {stopwatch.Elapsed.Seconds:N0}s {stopwatch.Elapsed.Milliseconds}ms");
+            Console.WriteLine($"  {i} depth{(i > 1 ? "s" : string.Empty)} explored in {stopwatch.Elapsed.Minutes}m {stopwatch.Elapsed.Seconds:N0}s {stopwatch.Elapsed.Milliseconds}ms");
 
             Console.WriteLine();
         }
