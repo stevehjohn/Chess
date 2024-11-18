@@ -37,7 +37,7 @@ public class PawnTests : PieceTestBase
 
         var pawn = Board[rank, file];
 
-        pawn.LastMovePly = 1;
+        pawn.MoveCount = 1;
 
         AssertAllExpectedMovesAreReturned(pawn, rank, file, expected);
     }
@@ -65,7 +65,7 @@ public class PawnTests : PieceTestBase
 
         var pawn = Board[rank, file];
 
-        pawn.LastMovePly = 1;
+        pawn.MoveCount = 1;
 
         AssertAllExpectedMovesAreReturned(pawn, rank, file, expected);
     }
@@ -81,7 +81,7 @@ public class PawnTests : PieceTestBase
 
         var pawn = Board[rank, file];
 
-        pawn.LastMovePly = 1;
+        pawn.MoveCount = 1;
 
         AssertAllExpectedMovesAreReturned(pawn, rank, file, expected);
     }
@@ -97,7 +97,7 @@ public class PawnTests : PieceTestBase
 
         var pawn = Board[Constants.WhitePawnRank, 0];
 
-        pawn.LastMovePly = 1;
+        pawn.MoveCount = 1;
 
         var moves = pawn.GetMoves(Constants.WhitePawnRank, 0, Board).ToList();
         
