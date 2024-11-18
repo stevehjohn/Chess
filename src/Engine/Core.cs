@@ -71,7 +71,7 @@ public class Core
                     {
                         perftNode = $"{(rank, file).ToStandardNotation()}{(move / 8, move % 8).ToStandardNotation()}";
                         
-                        _perftCounts.TryAdd(perftNode, maxDepth == 1 ? 1 : 0);
+                        _perftCounts.TryAdd(perftNode, 1);
                     }
                     else
                     {
@@ -81,13 +81,15 @@ public class Core
                     if (depth > 1)
                     {
                         GetMoveInternal(colour.Invert(), maxDepth, depth - 1, perftNode);
+
+                        _perftCounts[perftNode]--;
                     }
 
                     if (depth == maxDepth)
                     {
                         perftNode = null;
                     }
-                    
+
                     _board.UndoMove();
                 }
             }
