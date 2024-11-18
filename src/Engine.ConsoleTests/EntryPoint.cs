@@ -1,4 +1,5 @@
-﻿using Engine.Pieces;
+﻿using System.Diagnostics;
+using Engine.Pieces;
 
 namespace Engine.ConsoleTests;
 
@@ -15,12 +16,22 @@ public static class EntryPoint
         Console.Clear();
         
         Console.WriteLine();
+
+        var stopwatch = Stopwatch.StartNew();
         
         core.GetMove(Colour.White, 6);
+        
+        stopwatch.Stop();
 
         for (var i = 1; i < Depth; i++)
         {
             Console.WriteLine($"  Depth: {i,2}    Combinations: {core.DepthCounts[i],13:N0}    Expected: ");
         }
+        
+        Console.WriteLine();
+        
+        Console.WriteLine($"  {Depth} depths explored in {stopwatch.Elapsed:g}");
+        
+        Console.WriteLine();
     }
 }
