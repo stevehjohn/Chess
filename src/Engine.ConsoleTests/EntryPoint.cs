@@ -5,6 +5,12 @@ namespace Engine.ConsoleTests;
 
 public static class EntryPoint
 {
+    private static List<int> ExpectedCombinations =
+    [
+        20,
+        400
+    ];
+    
     public static void Main(string[] arguments)
     {
         var depth = 6;
@@ -33,7 +39,20 @@ public static class EntryPoint
 
             for (var j = 1; j <= i; j++)
             {
-                Console.WriteLine($"  Depth: {i,2}    Combinations: {core.DepthCounts[j],13:N0}    Expected: ");
+                var count = core.DepthCounts[j];
+
+                var expected = ExpectedCombinations[j];
+                
+                var pass = count == expected;
+                
+                Console.Write($"  {(pass ? "PASS" : "FAIL")}    Depth: {i,2}    Combinations: {count,13:N0}    Expected: {expected,13:N0}");
+
+                if (! pass)
+                {
+                    Console.Write($"    Delta: {expected - count}");
+                }
+                
+                Console.WriteLine();
             }
 
             Console.WriteLine();
