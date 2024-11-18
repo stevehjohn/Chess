@@ -60,7 +60,9 @@ public static class EntryPoint
 
                 if (! pass)
                 {
-                    Console.Write($"  Delta: {expected - count,13:N0}");
+                    var delta = count - expected;
+                    
+                    Console.Write($"  Delta: {(delta > 0 ? "+" : string.Empty)}{delta,13:N0}");
                 }
                 
                 Console.WriteLine();
