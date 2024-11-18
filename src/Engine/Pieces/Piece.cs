@@ -26,7 +26,7 @@ public abstract class Piece
     {
         Colour = colour;
 
-        EnemyColour = 3 - colour;
+        EnemyColour = colour.Invert();
 
         Direction = colour == Colour.Black ? 1 : -1;
     }
