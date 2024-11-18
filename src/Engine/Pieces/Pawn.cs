@@ -46,14 +46,14 @@ public class Pawn : Piece
             }
         }
         
-        // TODO: Check last move was a 2fer.
         if ((Colour == Colour.White && Rank == Constants.WhitePawnRank - 3) || (Colour == Colour.Black && Rank == Constants.BlackPawnRank + 3))
         {
             var cell = (Rank + Direction, File - 1).GetCellIndex();
         
+            // TODO: Check last opponent was a 2fer.
             if (cell >= 0)
             {
-                if (Board.IsEmpty(cell) && Board.IsColour(cell - Direction * 8, EnemyColour))
+                if (Board.IsEmpty(cell) && Board.IsColour(cell - Direction * 8, EnemyColour) && Board.CellKind(cell - Direction * 8) == Kind.Pawn)
                 {
                     yield return Direction == -1 ? SpecialMoveCodes.EnPassantUpLeft : SpecialMoveCodes.EnPassantDownLeft;
                 }
@@ -63,7 +63,7 @@ public class Pawn : Piece
         
             if (cell >= 0)
             {
-                if (Board.IsEmpty(cell) && Board.IsColour(cell - Direction * 8, EnemyColour))
+                if (Board.IsEmpty(cell) && Board.IsColour(cell - Direction * 8, EnemyColour) && Board.CellKind(cell - Direction * 8) == Kind.Pawn)
                 {
                     yield return Direction == -1 ? SpecialMoveCodes.EnPassantUpRight : SpecialMoveCodes.EnPassantDownRight;
                 }
