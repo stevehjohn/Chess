@@ -64,6 +64,16 @@ public static class EntryPoint
                 }
                 
                 Console.WriteLine();
+
+                if (j == i)
+                {
+                    Console.WriteLine();
+                    
+                    foreach (var node in core.PerftCounts.OrderBy(n => n.Key))
+                    {
+                        Console.WriteLine($"  {node.Key}: {node.Value}");
+                    }
+                }
             }
 
             Console.WriteLine();
