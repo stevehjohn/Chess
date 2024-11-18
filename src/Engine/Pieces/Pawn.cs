@@ -50,12 +50,16 @@ public class Pawn : Piece
         {
             var cell = (Rank + Direction, File - 1).GetCellIndex();
         
-            // TODO: Check last opponent was a 2fer.
+            var target = cell - Direction * 8;
+                
             if (cell >= 0)
             {
-                if (Board.IsEmpty(cell) && Board.IsColour(cell - Direction * 8, EnemyColour) && Board.CellKind(cell - Direction * 8) == Kind.Pawn)
+                if (Board.IsEmpty(cell) && Board.IsColour(target, EnemyColour) && Board.CellKind(target) == Kind.Pawn)
                 {
-                    yield return Direction == -1 ? SpecialMoveCodes.EnPassantUpLeft : SpecialMoveCodes.EnPassantDownLeft;
+                    if (Board.LastMovePly(target) == ply - 1)
+                    {
+                        yield return Direction == -1 ? SpecialMoveCodes.EnPassantUpLeft : SpecialMoveCodes.EnPassantDownLeft;
+                    }
                 }
             }
         
