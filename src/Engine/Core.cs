@@ -63,6 +63,8 @@ public class Core
                     {
                         GetMoveInternal(colour.Invert(), depth - 1);
                     }
+                    
+                    _board.UndoMove();
                 }
             }
         }
