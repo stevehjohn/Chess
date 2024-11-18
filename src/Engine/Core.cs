@@ -6,6 +6,26 @@ namespace Engine;
 
 public class Core
 {
+    private static readonly List<(int RankDelta, int FileDelta)> Orthogonals =
+    [
+        (-1, 0),
+        (0, -1),
+        (1, 0),
+        (0, 1)
+    ];
+
+    private static readonly List<(int RankDelta, int FileDelta)> Diagonals =
+    [
+        (-1, -1),
+        (1, -1),
+        (-1, 1),
+        (1, 1)
+    ];
+
+    private static readonly List<(int RankDelta, int FileDelta)> Knights =
+    [
+    ];
+
     private Board _board;
 
     private readonly Dictionary<int, long> _depthCounts = new();
@@ -67,6 +87,15 @@ public class Core
 
                     _board.MakeMove(cell, move, ply);
 
+                    if (IsKingInCheck(colour))
+                    {
+                        _board.UndoMove();
+                        
+                        _depthCounts[ply]--;
+                    
+                        continue;
+                    }
+
                     if (perftNode == null)
                     {
                         perftNode = $"{(rank, file).ToStandardNotation()}{(move / 8, move % 8).ToStandardNotation()}";
@@ -94,5 +123,127 @@ public class Core
                 }
             }
         }
+    }
+
+    private bool IsKingInCheck(Colour colour)
+    {
+        (int Rank, int File) kingCell = (0, 0);
+
+        int cell;
+        
+        for (var rank = 0; rank < Constants.Ranks; rank++)
+        {
+            for (var file = 0; file < Constants.Files; file++)
+            {
+                cell = (rank, file).GetCellIndex();
+                
+                if (_board.IsColour(cell, colour) && _board.CellKind(cell) == Kind.King)
+                {
+                    kingCell = (rank, file);
+
+                    break;
+                }
+            }
+        }
+
+        (int Rank, int File) checkCell;
+
+        foreach (var direction in Orthogonals)
+        {
+            checkCell = kingCell;
+            
+            for (var i = 0; i < Constants.MaxMoveDistance; i++)
+            {
+                checkCell.Rank += direction.RankDelta;
+
+                checkCell.File = direction.FileDelta;
+
+                cell = checkCell.GetCellIndex();
+
+                if (cell < 0 || cell >= Constants.BoardCells)
+                {
+                    break;
+                }
+
+                if (_board.IsColour(cell, colour))
+                {
+                    break;
+                }
+
+                var kind = _board.CellKind(cell);
+
+                if (kind is Kind.Rook or Kind.Queen)
+                {
+                    return true;
+                }
+
+                if (kind is Kind.King && i == 0)
+                {
+                    return true;
+                }
+            }
+        }
+
+        foreach (var direction in Diagonals)
+        {
+            checkCell = kingCell;
+            
+            for (var i = 0; i < Constants.MaxMoveDistance; i++)
+            {
+                checkCell.Rank += direction.RankDelta;
+
+                checkCell.File = direction.FileDelta;
+
+                cell = checkCell.GetCellIndex();
+        
+                if (cell < 0 || cell >= Constants.BoardCells)
+                {
+                    break;
+                }
+        
+                if (_board.IsColour(cell, colour))
+                {
+                    break;
+                }
+        
+                var kind = _board.CellKind(cell);
+        
+                if (kind is Kind.Bishop or Kind.Queen)
+                {
+                    return true;
+                }
+                
+                if (kind is Kind.King && i == 0)
+                {
+                    return true;
+                }
+            }
+        }
+
+        // foreach (var direction in Knights)
+        // {
+        //     checkCell = kingCell + direction;
+        //
+        //     if (checkCell < 0 || checkCell >= Constants.BoardCells)
+        //     {
+        //         continue;
+        //     }
+        //
+        //     if (_board.IsColour(checkCell, colour))
+        //     {
+        //         continue;
+        //     }
+        //
+        //     var kind = _board.CellKind(checkCell);
+        //
+        //     if (kind == Kind.Knight)
+        //     {
+        //         return true;
+        //     }
+        // }
+        
+        // TODO: Pawn, Knight
+        
+        return false;
     }
 }

@@ -56,11 +56,13 @@ public static class EntryPoint
                 
                 var pass = count == expected;
                 
-                Console.Write($"  {(pass ? "✓ PASS" : "  FAIL")}  Depth: {j,2}  Combinations: {count,13:N0}  Expected: {expected,13:N0}");
+                Console.Write($"  {(pass ? "✓ PASS" : "  FAIL")}  Depth: {j,2}  Combinations: {count,14:N0}  Expected: {expected,14:N0}");
 
                 if (! pass)
                 {
-                    Console.Write($"  Delta: {Math.Abs(count - expected),11:N0}");
+                    var delta = count - expected;
+                    
+                    Console.Write($"  Delta: {(delta > 0 ? ">" : "<")}{delta,13:N0}");
                 }
                 
                 Console.WriteLine();
@@ -78,7 +80,7 @@ public static class EntryPoint
 
             Console.WriteLine();
 
-            Console.WriteLine($"  {i} depth{(i > 1 ? "s" : string.Empty)} explored in {stopwatch.Elapsed.Minutes}m {stopwatch.Elapsed.Seconds:N0}s {stopwatch.Elapsed.Milliseconds}ms");
+            Console.WriteLine($"  {i} depth{(i > 1 ? "s" : string.Empty)} explored in {(stopwatch.Elapsed.Hours > 0 ? $"{stopwatch.Elapsed.Hours}h" : string.Empty)}{stopwatch.Elapsed.Minutes}m {stopwatch.Elapsed.Seconds:N0}s {stopwatch.Elapsed.Milliseconds}ms");
 
             Console.WriteLine();
         }

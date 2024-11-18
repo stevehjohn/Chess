@@ -29,3 +29,8 @@ Number of possible board combinations after each move (without pruning).
 - Pawn promotion
 - Move cannot leave king in check
 - Stalemate detection
+
+After matching the above table.
+
+- Ranking move quality
+- Pruning
