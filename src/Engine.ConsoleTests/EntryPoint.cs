@@ -49,7 +49,7 @@ public static class EntryPoint
 
                 if (! pass)
                 {
-                    Console.Write($"    Delta: {expected - count:4,N0}");
+                    Console.Write($"  Delta: {expected - count,4:N0}");
                 }
                 
                 Console.WriteLine();
