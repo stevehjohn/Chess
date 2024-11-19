@@ -37,6 +37,8 @@ public class Core
     private Board _board;
 
     private readonly Dictionary<int, long> _depthCounts = new();
+    
+    private readonly Dictionary<(int Ply, PlyOutcome Outcome), int> _outcomes = new();
 
     public IReadOnlyDictionary<int, long> DepthCounts => _depthCounts;
     
@@ -50,10 +52,17 @@ public class Core
     public void GetMove(Colour colour, int depth)
     {
         _depthCounts.Clear();
+        
+        _outcomes.Clear();
 
         for (var i = 1; i <= depth; i++)
         {
             _depthCounts[i] = 0;
+
+            foreach (var outcome in Enum.GetValuesAsUnderlyingType<PlyOutcome>())
+            {
+                _outcomes[(i, (PlyOutcome) outcome)] = 0;
+            }
         }
         
         GetMoveInternal(colour, depth, depth);
@@ -87,7 +96,7 @@ public class Core
                 {
                     _depthCounts[ply]++;
                     
-                    _board.MakeMove(cell, move, ply);
+                    var outcome = _board.MakeMove(cell, move, ply);
 
                     if (IsKingInCheck(colour))
                     {
@@ -97,6 +106,8 @@ public class Core
                     
                         continue;
                     }
+
+                    _outcomes[(ply, outcome)]++;
 
                     if (depth > 1)
                     {
