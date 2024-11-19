@@ -169,15 +169,11 @@ public class Board
                 return PlyOutcome.EnPassant;
             
             default:
-                var result = _cells[target] > 0 ? PlyOutcome.Capture : PlyOutcome.Move;
-                
-                MovePiece(position, target, ply);
-
-                return result;
+                return MovePiece(position, target, ply);;
         }
     }
 
-    private void MovePiece(int position, int target, int ply)
+    private PlyOutcome MovePiece(int position, int target, int ply)
     {
         if (CellKind(position) == Kind.King)
         {
@@ -191,6 +187,8 @@ public class Board
             }
         }
 
+        var outcome = _cells[target] > 0 ? PlyOutcome.Capture : PlyOutcome.Move;
+
         _cells[target] = _cells[position];
 
         _cells[position] = 0;
@@ -201,6 +199,8 @@ public class Board
         {
             _cells[target] |= Constants.PawnMoved2RanksFlag;
         }
+
+        return outcome;
     }
 
     public void UndoMove()
