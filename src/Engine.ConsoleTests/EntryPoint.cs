@@ -159,17 +159,6 @@ public static class EntryPoint
                 {
                     Console.WriteLine($"  Delta: {core.Outcomes[(j, PlyOutcome.Check)] - ExpectedOutcomes[(j, PlyOutcome.Check)],13:N0}");
                 }
-                
-                Console.WriteLine($"      Check Mate: {core.Outcomes[(j, PlyOutcome.Check)],13:N0} ?");
-                // Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.Check)] == core.Outcomes[(j, PlyOutcome.Check)] ? "✓" : string.Empty)}");
-                // if (ExpectedOutcomes[(j, PlyOutcome.Check)] == core.Outcomes[(j, PlyOutcome.Check)])
-                // {
-                //     Console.WriteLine();
-                // }
-                // else
-                // {
-                //     Console.WriteLine($"  Delta: {core.Outcomes[(j, PlyOutcome.Check)] - ExpectedOutcomes[(j, PlyOutcome.Check)],13:N0}");
-                // }
             }
 
             Console.WriteLine();
