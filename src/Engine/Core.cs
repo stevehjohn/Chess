@@ -116,6 +116,11 @@ public class Core
 
                     _outcomes[(ply, outcome)]++;
 
+                    if (outcome == PlyOutcome.EnPassant)
+                    {
+                        _outcomes[(ply, PlyOutcome.Capture)]++;
+                    }
+
                     if (depth > 1)
                     {
                         GetMoveInternal(colour.Invert(), maxDepth, depth - 1);
