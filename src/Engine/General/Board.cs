@@ -10,6 +10,12 @@ public class Board
 
     private readonly Stack<ushort[]> _undoBuffer = [];
 
+    private readonly Stack<BoardState> _stateBuffer = [];
+
+    public int BlackKingCell => _stateBuffer.Peek().BlackKingCell;
+
+    public int WhiteKingCell => _stateBuffer.Peek().WhiteKingCell;
+
     public Piece this[int rank, int file]
     {
         get
@@ -31,6 +37,8 @@ public class Board
         _cells = new ushort[Constants.BoardCells];
         
         _undoBuffer.Clear();
+        
+        _stateBuffer.Clear();
 
         for (var file = 0; file < Constants.Files; file++)
         {
@@ -55,6 +63,12 @@ public class Board
         _cells[(Constants.WhiteHomeRank, Constants.RightBishopFile).GetCellIndex()] = new Bishop(Colour.White).Encode();
         _cells[(Constants.WhiteHomeRank, Constants.RightKnightFile).GetCellIndex()] = new Knight(Colour.White).Encode();
         _cells[(Constants.WhiteHomeRank, Constants.RightRookFile).GetCellIndex()] = new Rook(Colour.White).Encode();
+        
+        _stateBuffer.Push(new BoardState
+        {
+            BlackKingCell = (Constants.BlackHomeRank, Constants.KingFile).GetCellIndex(),
+            WhiteKingCell = (Constants.WhiteHomeRank, Constants.KingFile).GetCellIndex()
+        });
     }
 
     public bool IsColour(int cell, Colour colour)
@@ -102,6 +116,8 @@ public class Board
         Buffer.BlockCopy(_cells, 0, copy, 0, Constants.BoardCells * sizeof(ushort));
         
         _undoBuffer.Push(copy);
+        
+        _stateBuffer.Push(new BoardState(_stateBuffer.Peek()));
 
         switch (target)
         {
@@ -158,6 +174,18 @@ public class Board
 
     private void MovePiece(int position, int target, int ply)
     {
+        if (CellKind(position) == Kind.King)
+        {
+            if (IsColour(position, Colour.Black))
+            {
+                _stateBuffer.Peek().BlackKingCell = target;
+            }
+            else
+            {
+                _stateBuffer.Peek().WhiteKingCell = target;
+            }
+        }
+
         _cells[target] = _cells[position];
 
         _cells[position] = 0;
@@ -173,6 +201,8 @@ public class Board
     public void UndoMove()
     {
         _cells = _undoBuffer.Pop();
+
+        _stateBuffer.Pop();
     }
 
     public override string ToString()
