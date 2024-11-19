@@ -21,6 +21,50 @@ public static class EntryPoint
         2_439_530_234_167,
         69_352_859_712_417
     ];
+
+    private static readonly Dictionary<(int Ply, PlyOutcome Outcome), long> ExpectedOutcomes = new()
+    {
+        { (1, PlyOutcome.Capture), 0 },
+        { (1, PlyOutcome.EnPassant), 0 },
+        { (1, PlyOutcome.Castle), 0 },
+        { (1, PlyOutcome.Check), 0 },
+        { (2, PlyOutcome.Capture), 0 },
+        { (2, PlyOutcome.EnPassant), 0 },
+        { (2, PlyOutcome.Castle), 0 },
+        { (2, PlyOutcome.Check), 0 },
+        { (3, PlyOutcome.Capture), 0 },
+        { (3, PlyOutcome.EnPassant), 0 },
+        { (3, PlyOutcome.Castle), 0 },
+        { (3, PlyOutcome.Check), 0 },
+        { (4, PlyOutcome.Capture), 0 },
+        { (4, PlyOutcome.EnPassant), 0 },
+        { (4, PlyOutcome.Castle), 0 },
+        { (4, PlyOutcome.Check), 0 },
+        { (5, PlyOutcome.Capture), 0 },
+        { (5, PlyOutcome.EnPassant), 0 },
+        { (5, PlyOutcome.Castle), 0 },
+        { (5, PlyOutcome.Check), 0 },
+        { (6, PlyOutcome.Capture), 0 },
+        { (6, PlyOutcome.EnPassant), 0 },
+        { (6, PlyOutcome.Castle), 0 },
+        { (6, PlyOutcome.Check), 0 },
+        { (7, PlyOutcome.Capture), 0 },
+        { (7, PlyOutcome.EnPassant), 0 },
+        { (7, PlyOutcome.Castle), 0 },
+        { (7, PlyOutcome.Check), 0 },
+        { (8, PlyOutcome.Capture), 0 },
+        { (8, PlyOutcome.EnPassant), 0 },
+        { (8, PlyOutcome.Castle), 0 },
+        { (8, PlyOutcome.Check), 0 },
+        { (9, PlyOutcome.Capture), 0 },
+        { (9, PlyOutcome.EnPassant), 0 },
+        { (9, PlyOutcome.Castle), 0 },
+        { (9, PlyOutcome.Check), 0 },
+        { (10, PlyOutcome.Capture), 0 },
+        { (10, PlyOutcome.EnPassant), 0 },
+        { (10, PlyOutcome.Castle), 0 },
+        { (10, PlyOutcome.Check), 0 },
+    };
     
     public static void Main(string[] arguments)
     {
@@ -68,10 +112,11 @@ public static class EntryPoint
                 
                 Console.WriteLine();
                 
-                Console.WriteLine($"      Captures:   {core.Outcomes[(j, PlyOutcome.Capture)],13:N0}");
-                Console.WriteLine($"      En Passant: {core.Outcomes[(j, PlyOutcome.EnPassant)],13:N0}");
-                Console.WriteLine($"      Castle:     {core.Outcomes[(j, PlyOutcome.Castle)],13:N0}");
-                Console.WriteLine($"      Check:      {core.Outcomes[(j, PlyOutcome.Check)],13:N0}");
+                Console.Write($"      Captures:   {core.Outcomes[(j, PlyOutcome.Capture)],13:N0}");
+                Console.WriteLine($" {(ExpectedOutcomes[(j, PlyOutcome.Capture)] == core.Outcomes[(j, PlyOutcome.Capture)] ? "✓" : string.Empty)}");
+                Console.Write($"      En Passant: {core.Outcomes[(j, PlyOutcome.EnPassant)],13:N0}");
+                Console.Write($"      Castle:     {core.Outcomes[(j, PlyOutcome.Castle)],13:N0}");
+                Console.Write($"      Check:      {core.Outcomes[(j, PlyOutcome.Check)],13:N0}");
             }
 
             Console.WriteLine();
