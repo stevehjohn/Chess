@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using Engine.General;
 using Engine.Pieces;
 
 namespace Engine.ConsoleTests;
@@ -57,7 +58,7 @@ public static class EntryPoint
                 var pass = count == expected;
                 
                 Console.Write($"  {(pass ? "✓ PASS" : "  FAIL")}  Depth: {j,2}  Combinations: {count,14:N0}  Expected: {expected,14:N0}");
-
+                
                 if (! pass)
                 {
                     var delta = count - expected;
@@ -66,6 +67,8 @@ public static class EntryPoint
                 }
                 
                 Console.WriteLine();
+                
+                Console.WriteLine($"    Captures: {core.Outcomes[(j, PlyOutcome.Capture)],13:N0}");
             }
 
             Console.WriteLine();

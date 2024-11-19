@@ -41,6 +41,8 @@ public class Core
     private readonly Dictionary<(int Ply, PlyOutcome Outcome), int> _outcomes = new();
 
     public IReadOnlyDictionary<int, long> DepthCounts => _depthCounts;
+
+    public IReadOnlyDictionary<(int Ply, PlyOutcome Outcome), int> Outcomes => _outcomes;
     
     public void Initialise()
     {
