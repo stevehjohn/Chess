@@ -117,13 +117,45 @@ public static class EntryPoint
                 Console.WriteLine();
                 
                 Console.Write($"      Captures:   {core.Outcomes[(j, PlyOutcome.Capture)],13:N0}");
-                Console.WriteLine($" {(ExpectedOutcomes[(j, PlyOutcome.Capture)] == core.Outcomes[(j, PlyOutcome.Capture)] ? "✓" : string.Empty)}");
+                Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.Capture)] == core.Outcomes[(j, PlyOutcome.Capture)] ? "✓" : string.Empty)}");
+                if (ExpectedOutcomes[(j, PlyOutcome.Capture)] == core.Outcomes[(j, PlyOutcome.Capture)])
+                {
+                    Console.WriteLine();
+                }
+                else
+                {
+                    Console.WriteLine($"  {ExpectedOutcomes[(j, PlyOutcome.Capture)] - core.Outcomes[(j, PlyOutcome.Capture)],13:N0}");
+                }
                 Console.Write($"      En Passant: {core.Outcomes[(j, PlyOutcome.EnPassant)],13:N0}");
-                Console.WriteLine($" {(ExpectedOutcomes[(j, PlyOutcome.EnPassant)] == core.Outcomes[(j, PlyOutcome.EnPassant)] ? "✓" : string.Empty)}");
+                Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.EnPassant)] == core.Outcomes[(j, PlyOutcome.EnPassant)] ? "✓" : string.Empty)}");
+                if (ExpectedOutcomes[(j, PlyOutcome.EnPassant)] == core.Outcomes[(j, PlyOutcome.EnPassant)])
+                {
+                    Console.WriteLine();
+                }
+                else
+                {
+                    Console.WriteLine($"  {ExpectedOutcomes[(j, PlyOutcome.Capture)] - core.Outcomes[(j, PlyOutcome.Capture)],13:N0}");
+                }
                 Console.Write($"      Castle:     {core.Outcomes[(j, PlyOutcome.Castle)],13:N0}");
-                Console.WriteLine($" {(ExpectedOutcomes[(j, PlyOutcome.Castle)] == core.Outcomes[(j, PlyOutcome.Castle)] ? "✓" : string.Empty)}");
+                Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.Castle)] == core.Outcomes[(j, PlyOutcome.Castle)] ? "✓" : string.Empty)}");
+                if (ExpectedOutcomes[(j, PlyOutcome.Castle)] == core.Outcomes[(j, PlyOutcome.Castle)])
+                {
+                    Console.WriteLine();
+                }
+                else
+                {
+                    Console.WriteLine($"  {ExpectedOutcomes[(j, PlyOutcome.Capture)] - core.Outcomes[(j, PlyOutcome.Capture)],13:N0}");
+                }
                 Console.Write($"      Check:      {core.Outcomes[(j, PlyOutcome.Check)],13:N0}");
-                Console.WriteLine($" {(ExpectedOutcomes[(j, PlyOutcome.Check)] == core.Outcomes[(j, PlyOutcome.Check)] ? "✓" : string.Empty)}");
+                Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.Check)] == core.Outcomes[(j, PlyOutcome.Check)] ? "✓" : string.Empty)}");
+                if (ExpectedOutcomes[(j, PlyOutcome.Check)] == core.Outcomes[(j, PlyOutcome.Check)])
+                {
+                    Console.WriteLine();
+                }
+                else
+                {
+                    Console.WriteLine($"  {ExpectedOutcomes[(j, PlyOutcome.Capture)] - core.Outcomes[(j, PlyOutcome.Capture)],13:N0}");
+                }
             }
 
             Console.WriteLine();
