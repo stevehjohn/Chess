@@ -225,7 +225,7 @@ public class Core
             
             checkCell.Rank += direction.RankDelta;
 
-            checkCell.File = direction.FileDelta;
+            checkCell.File += direction.FileDelta;
 
             cell = checkCell.GetCellIndex();
         
