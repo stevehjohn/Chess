@@ -7,5 +7,6 @@ public enum PlyOutcome
     EnPassant,
     Castle,
     Promotion,
-    Check
+    Check,
+    CheckMate
 }

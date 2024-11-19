@@ -94,8 +94,12 @@ public class Core
                     
                 var moves = piece.GetMoves(rank, file, ply, _board);
 
+                var moved = false;
+                
                 foreach (var move in moves)
                 {
+                    moved = true;
+                    
                     _depthCounts[ply]++;
                     
                     var outcome = _board.MakeMove(cell, move, ply);
@@ -127,6 +131,11 @@ public class Core
                     }
                     
                     _board.UndoMove();
+                }
+
+                if (! moved)
+                {
+                    _outcomes[(ply, PlyOutcome.CheckMate)]++;
                 }
             }
         }
