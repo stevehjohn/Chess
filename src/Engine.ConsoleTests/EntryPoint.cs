@@ -119,8 +119,11 @@ public static class EntryPoint
                 Console.Write($"      Captures:   {core.Outcomes[(j, PlyOutcome.Capture)],13:N0}");
                 Console.WriteLine($" {(ExpectedOutcomes[(j, PlyOutcome.Capture)] == core.Outcomes[(j, PlyOutcome.Capture)] ? "✓" : string.Empty)}");
                 Console.Write($"      En Passant: {core.Outcomes[(j, PlyOutcome.EnPassant)],13:N0}");
+                Console.WriteLine($" {(ExpectedOutcomes[(j, PlyOutcome.EnPassant)] == core.Outcomes[(j, PlyOutcome.EnPassant)] ? "✓" : string.Empty)}");
                 Console.Write($"      Castle:     {core.Outcomes[(j, PlyOutcome.Castle)],13:N0}");
+                Console.WriteLine($" {(ExpectedOutcomes[(j, PlyOutcome.Castle)] == core.Outcomes[(j, PlyOutcome.Castle)] ? "✓" : string.Empty)}");
                 Console.Write($"      Check:      {core.Outcomes[(j, PlyOutcome.Check)],13:N0}");
+                Console.WriteLine($" {(ExpectedOutcomes[(j, PlyOutcome.Check)] == core.Outcomes[(j, PlyOutcome.Check)] ? "✓" : string.Empty)}");
             }
 
             Console.WriteLine();
