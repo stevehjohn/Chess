@@ -27,7 +27,6 @@ Number of possible board combinations after each move (without pruning).
 - En passant
 - Castling (not castling through check)
 - Pawn promotion
-- Move cannot leave king in check
 - Stalemate detection
 
 After matching the above table.
