@@ -6,34 +6,6 @@ namespace Engine;
 
 public class Core
 {
-    private static readonly List<(int RankDelta, int FileDelta)> Orthogonals =
-    [
-        (-1, 0),
-        (0, -1),
-        (1, 0),
-        (0, 1)
-    ];
-
-    private static readonly List<(int RankDelta, int FileDelta)> Diagonals =
-    [
-        (-1, -1),
-        (1, -1),
-        (-1, 1),
-        (1, 1)
-    ];
-
-    private static readonly List<(int RankDelta, int FileDelta)> Knights =
-    [
-        (2, -1),
-        (2, 1),
-        (-2, -1),
-        (-2, 1),
-        (1, -2),
-        (-1, -2),
-        (1, 2),
-        (-1, 2)
-    ];
-
     private Board _board;
 
     private readonly Dictionary<int, long> _depthCounts = new();
@@ -99,8 +71,8 @@ public class Core
                     _depthCounts[ply]++;
                     
                     var outcome = _board.MakeMove(cell, move, ply);
-
-                    if (IsKingInCheck(colour))
+                    
+                    if (_board.IsKingInCheck(colour, colour == Colour.Black ? _board.BlackKingCell : _board.WhiteKingCell))
                     {
                         _board.UndoMove();
                         
@@ -109,7 +81,7 @@ public class Core
                         continue;
                     }
 
-                    if (IsKingInCheck(colour.Invert()))
+                    if (_board.IsKingInCheck(colour.Invert(), colour == Colour.White ? _board.BlackKingCell : _board.WhiteKingCell))
                     {
                         outcome = PlyOutcome.Check;
                     }
@@ -130,144 +102,5 @@ public class Core
                 }
             }
         }
-    }
-
-    private bool IsKingInCheck(Colour colour)
-    {
-        var kingCellIndex = colour == Colour.Black ? _board.BlackKingCell : _board.WhiteKingCell;
-
-        var kingCell = (Rank: kingCellIndex / 8, File: kingCellIndex % 8);
-
-        int cell;
-
-        (int Rank, int File) checkCell;
-
-        foreach (var direction in Orthogonals)
-        {
-            checkCell = kingCell;
-            
-            for (var i = 0; i < Constants.MaxMoveDistance; i++)
-            {
-                checkCell.Rank += direction.RankDelta;
-
-                checkCell.File += direction.FileDelta;
-
-                cell = checkCell.GetCellIndex();
-
-                if (cell < 0)
-                {
-                    break;
-                }
-
-                if (_board.IsColour(cell, colour))
-                {
-                    break;
-                }
-
-                var kind = _board.CellKind(cell);
-
-                if (kind is Kind.Rook or Kind.Queen)
-                {
-                    return true;
-                }
-
-                if (kind is Kind.King && i == 0)
-                {
-                    return true;
-                }
-
-                if (! _board.IsEmpty(cell))
-                {
-                    break;
-                }
-            }
-        }
-
-        foreach (var direction in Diagonals)
-        {
-            checkCell = kingCell;
-            
-            for (var i = 0; i < Constants.MaxMoveDistance; i++)
-            {
-                checkCell.Rank += direction.RankDelta;
-
-                checkCell.File += direction.FileDelta;
-
-                cell = checkCell.GetCellIndex();
-        
-                if (cell < 0)
-                {
-                    break;
-                }
-        
-                if (_board.IsColour(cell, colour))
-                {
-                    break;
-                }
-        
-                var kind = _board.CellKind(cell);
-        
-                if (kind is Kind.Bishop or Kind.Queen)
-                {
-                    return true;
-                }
-                
-                if (kind is Kind.King && i == 0)
-                {
-                    return true;
-                }
-
-                if (! _board.IsEmpty(cell))
-                {
-                    break;
-                }
-            }
-        }
-
-        foreach (var direction in Knights)
-        {
-            checkCell = kingCell;
-            
-            checkCell.Rank += direction.RankDelta;
-
-            checkCell.File += direction.FileDelta;
-
-            cell = checkCell.GetCellIndex();
-        
-            if (cell < 0)
-            {
-                continue;
-            }
-        
-            if (_board.IsColour(cell, colour))
-            {
-                continue;
-            }
-        
-            var kind = _board.CellKind(cell);
-        
-            if (kind == Kind.Knight)
-            {
-                return true;
-            }
-        }
-
-        var rankDirection = colour == Colour.Black ? 1 : -1;
-
-        cell = (kingCell.Rank + rankDirection, kingCell.File - 1).GetCellIndex();
-
-        if (cell >= 0 && _board.IsColour(cell, colour.Invert()) && _board.CellKind(cell) == Kind.Pawn)
-        {
-            return true;
-        }
-
-        cell = (kingCell.Rank + rankDirection, kingCell.File + 1).GetCellIndex();
-
-        if (cell >= 0 && _board.IsColour(cell, colour.Invert()) && _board.CellKind(cell) == Kind.Pawn)
-        {
-            return true;
-        }
-        
-        return false;
     }
 }
