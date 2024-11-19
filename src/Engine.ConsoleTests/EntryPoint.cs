@@ -156,6 +156,16 @@ public static class EntryPoint
                 {
                     Console.WriteLine($"  Delta: {core.Outcomes[(j, PlyOutcome.Check)] - ExpectedOutcomes[(j, PlyOutcome.Check)],13:N0}");
                 }
+                
+                if (j == i)
+                {
+                    Console.WriteLine();
+
+                    foreach (var node in core.PerftCounts.OrderBy(n => n.Key))
+                    {
+                        Console.WriteLine($"  {node.Key}: {node.Value:N0}");
+                    }
+                }
             }
 
             Console.WriteLine();

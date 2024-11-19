@@ -40,6 +40,10 @@ public class Core
     
     private readonly Dictionary<(long Ply, PlyOutcome Outcome), int> _outcomes = new();
 
+    private readonly Dictionary<string, long> _perftCounts = new();
+    
+    public IReadOnlyDictionary<string, long> PerftCounts => _perftCounts;
+    
     public IReadOnlyDictionary<int, long> DepthCounts => _depthCounts;
 
     public IReadOnlyDictionary<(long Ply, PlyOutcome Outcome), int> Outcomes => _outcomes;
@@ -56,7 +60,9 @@ public class Core
         _depthCounts.Clear();
         
         _outcomes.Clear();
-
+        
+        _perftCounts.Clear();
+        
         for (var i = 1; i <= depth; i++)
         {
             _depthCounts[i] = 0;
@@ -70,7 +76,7 @@ public class Core
         GetMoveInternal(colour, depth, depth);
     }
 
-    private void GetMoveInternal(Colour colour, int maxDepth, int depth)
+    private void GetMoveInternal(Colour colour, int maxDepth, int depth, string perftNode = null)
     {
         for (var rank = 0; rank < Constants.Ranks; rank++)
         {
@@ -108,6 +114,17 @@ public class Core
                     
                         continue;
                     }
+                    
+                    if (perftNode == null)
+                    {
+                        perftNode = $"{(rank, file).ToStandardNotation()}{(move / 8, move % 8).ToStandardNotation()}";
+
+                        _perftCounts.TryAdd(perftNode, 1);
+                    }
+                    else
+                    {
+                        _perftCounts[perftNode]++;
+                    }
 
                     if (IsKingInCheck(colour.Invert()))
                     {
@@ -118,7 +135,14 @@ public class Core
 
                     if (depth > 1)
                     {
-                        GetMoveInternal(colour.Invert(), maxDepth, depth - 1);
+                        GetMoveInternal(colour.Invert(), maxDepth, depth - 1, perftNode);
+                        
+                        _perftCounts[perftNode]--;
+                    }
+
+                    if (depth == maxDepth)
+                    {
+                        perftNode = null;
                     }
                     
                     _board.UndoMove();
