@@ -37,12 +37,16 @@ public class Core
     private Board _board;
 
     private readonly Dictionary<int, long> _depthCounts = new();
+    
+    private readonly Dictionary<(long Ply, PlyOutcome Outcome), int> _outcomes = new();
 
     private readonly Dictionary<string, long> _perftCounts = new();
 
     public IReadOnlyDictionary<int, long> DepthCounts => _depthCounts;
 
     public IReadOnlyDictionary<string, long> PerftCounts => _perftCounts;
+
+    public IReadOnlyDictionary<(long Ply, PlyOutcome Outcome), int> Outcomes => _outcomes;
     
     public void Initialise()
     {
@@ -55,9 +59,16 @@ public class Core
     {
         _depthCounts.Clear();
         
+        _outcomes.Clear();
+
         for (var i = 1; i <= depth; i++)
         {
             _depthCounts[i] = 0;
+
+            foreach (var outcome in Enum.GetValuesAsUnderlyingType<PlyOutcome>())
+            {
+                _outcomes[(i, (PlyOutcome) outcome)] = 0;
+            }
         }
 
         _perftCounts.Clear();
@@ -94,6 +105,8 @@ public class Core
                     _depthCounts[ply]++;
 
                     _board.MakeMove(cell, move, ply);
+                    
+                    var outcome = _board.MakeMove(cell, move, ply);
 
                     if (IsKingInCheck(colour))
                     {
@@ -103,7 +116,7 @@ public class Core
                     
                         continue;
                     }
-
+                    
                     if (perftNode == null)
                     {
                         perftNode = $"{(rank, file).ToStandardNotation()}{(move / 8, move % 8).ToStandardNotation()}";
@@ -114,6 +127,13 @@ public class Core
                     {
                         _perftCounts[perftNode]++;
                     }
+                    
+                    if (IsKingInCheck(colour.Invert()))
+                    {
+                        outcome = PlyOutcome.Check;
+                    }
+
+                    _outcomes[(ply, outcome)]++;
 
                     if (depth > 1)
                     {
@@ -135,21 +155,11 @@ public class Core
 
     private bool IsKingInCheck(Colour colour)
     {
-        // TODO: Track king on board to avoid this lookup.
-        
-        (int Rank, int File) kingCell = (0, 0);
+        var kingCellIndex = colour == Colour.Black ? _board.BlackKingCell : _board.WhiteKingCell;
+
+        var kingCell = (Rank: kingCellIndex / 8, File: kingCellIndex % 8);
 
         int cell;
-        
-        for (cell = 0; cell < Constants.BoardCells; cell++)
-        {
-            if (_board.IsColour(cell, colour) && _board.CellKind(cell) == Kind.King)
-            {
-                kingCell = (cell / 8, cell % 8);
-
-                break;
-            }
-        }
 
         (int Rank, int File) checkCell;
 
@@ -231,13 +241,13 @@ public class Core
             
             checkCell.Rank += direction.RankDelta;
 
-            checkCell.File = direction.FileDelta;
+            checkCell.File += direction.FileDelta;
 
             cell = checkCell.GetCellIndex();
         
             if (cell < 0)
             {
-                break;
+                continue;
             }
         
             if (_board.IsColour(cell, colour))
@@ -262,7 +272,7 @@ public class Core
             return true;
         }
 
-        cell = (kingCell.Rank + rankDirection, kingCell.File - 1).GetCellIndex();
+        cell = (kingCell.Rank + rankDirection, kingCell.File + 1).GetCellIndex();
 
         if (cell >= 0 && _board.IsColour(cell, colour.Invert()) && _board.CellKind(cell) == Kind.Pawn)
         {
