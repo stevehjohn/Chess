@@ -68,7 +68,10 @@ public static class EntryPoint
                 
                 Console.WriteLine();
                 
-                Console.WriteLine($"    Captures: {core.Outcomes[(j, PlyOutcome.Capture)],13:N0}");
+                Console.WriteLine($"      Captures:   {core.Outcomes[(j, PlyOutcome.Capture)],13:N0}");
+                Console.WriteLine($"      En Passant: {core.Outcomes[(j, PlyOutcome.EnPassant)],13:N0}");
+                Console.WriteLine($"      Castle:     {core.Outcomes[(j, PlyOutcome.Castle)],13:N0}");
+                Console.WriteLine($"      Check:      {core.Outcomes[(j, PlyOutcome.Check)],13:N0}");
             }
 
             Console.WriteLine();
