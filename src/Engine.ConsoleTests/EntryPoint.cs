@@ -124,7 +124,7 @@ public static class EntryPoint
                 }
                 else
                 {
-                    Console.WriteLine($"  Delta: {ExpectedOutcomes[(j, PlyOutcome.Capture)] - core.Outcomes[(j, PlyOutcome.Capture)],13:N0}");
+                    Console.WriteLine($"  Delta: {core.Outcomes[(j, PlyOutcome.Capture)] - ExpectedOutcomes[(j, PlyOutcome.Capture)],13:N0}");
                 }
                 Console.Write($"      En Passant: {core.Outcomes[(j, PlyOutcome.EnPassant)],13:N0}");
                 Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.EnPassant)] == core.Outcomes[(j, PlyOutcome.EnPassant)] ? "✓" : string.Empty)}");
@@ -134,7 +134,7 @@ public static class EntryPoint
                 }
                 else
                 {
-                    Console.WriteLine($"  Delta: {ExpectedOutcomes[(j, PlyOutcome.Capture)] - core.Outcomes[(j, PlyOutcome.Capture)],13:N0}");
+                    Console.WriteLine($"  Delta: {core.Outcomes[(j, PlyOutcome.Capture)] - ExpectedOutcomes[(j, PlyOutcome.Capture)],13:N0}");
                 }
                 Console.Write($"      Castle:     {core.Outcomes[(j, PlyOutcome.Castle)],13:N0}");
                 Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.Castle)] == core.Outcomes[(j, PlyOutcome.Castle)] ? "✓" : string.Empty)}");
@@ -144,7 +144,7 @@ public static class EntryPoint
                 }
                 else
                 {
-                    Console.WriteLine($"  Delta: {ExpectedOutcomes[(j, PlyOutcome.Capture)] - core.Outcomes[(j, PlyOutcome.Capture)],13:N0}");
+                    Console.WriteLine($"  Delta: {core.Outcomes[(j, PlyOutcome.Capture)] - ExpectedOutcomes[(j, PlyOutcome.Capture)],13:N0}");
                 }
                 Console.Write($"      Check:      {core.Outcomes[(j, PlyOutcome.Check)],13:N0}");
                 Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.Check)] == core.Outcomes[(j, PlyOutcome.Check)] ? "✓" : string.Empty)}");
@@ -154,7 +154,7 @@ public static class EntryPoint
                 }
                 else
                 {
-                    Console.WriteLine($"  Delta: {ExpectedOutcomes[(j, PlyOutcome.Capture)] - core.Outcomes[(j, PlyOutcome.Capture)],13:N0}");
+                    Console.WriteLine($"  Delta: {core.Outcomes[(j, PlyOutcome.Capture)] - ExpectedOutcomes[(j, PlyOutcome.Capture)],13:N0}");
                 }
             }
 
