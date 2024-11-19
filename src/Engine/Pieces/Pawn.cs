@@ -54,7 +54,7 @@ public class Pawn : Piece
             {
                 if (Board.IsEmpty(cell) && Board.IsColour(target, EnemyColour) && Board.CellKind(target) == Kind.Pawn)
                 {
-                    if (Board.LastMovePly(target) == ply - 1)
+                    if (Board.LastMovePly(target) == ply - 1 && Board.LastMoveWas2Ranks(target))
                     {
                         yield return Direction == -1 ? SpecialMoveCodes.EnPassantUpLeft : SpecialMoveCodes.EnPassantDownLeft;
                     }
@@ -69,7 +69,7 @@ public class Pawn : Piece
             {
                 if (Board.IsEmpty(cell) && Board.IsColour(target, EnemyColour) && Board.CellKind(target) == Kind.Pawn)
                 {
-                    if (Board.LastMovePly(target) == ply - 1)
+                    if (Board.LastMovePly(target) == ply - 1 && Board.LastMoveWas2Ranks(target))
                     {
                         yield return Direction == -1 ? SpecialMoveCodes.EnPassantUpRight : SpecialMoveCodes.EnPassantDownRight;
                     }

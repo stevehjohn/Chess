@@ -91,6 +91,11 @@ public class Board
         return _cells[cell] >> Constants.LastPlyMoveBitOffset;
     }
 
+    public bool LastMoveWas2Ranks(int cell)
+    {
+        return (_cells[cell] & Constants.PawnMoved2RanksFlag) > 0;
+    }
+
     public bool IsEmptyRankPath(int position, int target)
     {
         var direction = target < position ? -Constants.Files : Constants.Files;
