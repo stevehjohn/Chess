@@ -18,8 +18,7 @@ public static class EntryPoint
         119_060_324,
         3_195_901_860,
         84_998_978_956,
-        2_439_530_234_167,
-        69_352_859_712_417
+        2_439_530_234_167
     ];
 
     private static readonly Dictionary<(int Ply, PlyOutcome Outcome), long> ExpectedOutcomes = new()
@@ -52,18 +51,14 @@ public static class EntryPoint
         { (7, PlyOutcome.EnPassant), 319_617 },
         { (7, PlyOutcome.Castle), 883_453 },
         { (7, PlyOutcome.Check), 33_103_848 },
-        { (8, PlyOutcome.Capture), 0 },
-        { (8, PlyOutcome.EnPassant), 0 },
-        { (8, PlyOutcome.Castle), 0 },
-        { (8, PlyOutcome.Check), 0 },
-        { (9, PlyOutcome.Capture), 0 },
-        { (9, PlyOutcome.EnPassant), 0 },
-        { (9, PlyOutcome.Castle), 0 },
-        { (9, PlyOutcome.Check), 0 },
-        { (10, PlyOutcome.Capture), 0 },
-        { (10, PlyOutcome.EnPassant), 0 },
-        { (10, PlyOutcome.Castle), 0 },
-        { (10, PlyOutcome.Check), 0 }
+        { (8, PlyOutcome.Capture), 3_523_740_106 },
+        { (8, PlyOutcome.EnPassant), 7_187_977 },
+        { (8, PlyOutcome.Castle), 23_605_205 },
+        { (8, PlyOutcome.Check), 968_981_593 },
+        { (9, PlyOutcome.Capture), 125_208_536_153 },
+        { (9, PlyOutcome.EnPassant), 319_496_827 },
+        { (9, PlyOutcome.Castle), 1_784_356_000 },
+        { (9, PlyOutcome.Check), 36_095_901_903 }
     };
     
     public static void Main(string[] arguments)
