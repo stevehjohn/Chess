@@ -109,6 +109,11 @@ public class Core
                         continue;
                     }
 
+                    if (IsKingInCheck(colour.Invert()))
+                    {
+                        outcome = PlyOutcome.Check;
+                    }
+
                     _outcomes[(ply, outcome)]++;
 
                     if (depth > 1)
