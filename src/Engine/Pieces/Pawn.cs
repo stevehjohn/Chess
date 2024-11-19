@@ -64,12 +64,17 @@ public class Pawn : Piece
             }
         
             cell = (Rank + Direction, File + 1).GetCellIndex();
-        
+
+            target = cell - Direction * 8;
+
             if (cell >= 0)
             {
-                if (Board.IsEmpty(cell) && Board.IsColour(cell - Direction * 8, EnemyColour) && Board.CellKind(cell - Direction * 8) == Kind.Pawn)
+                if (Board.IsEmpty(cell) && Board.IsColour(target, EnemyColour) && Board.CellKind(target) == Kind.Pawn)
                 {
-                    yield return Direction == -1 ? SpecialMoveCodes.EnPassantUpRight : SpecialMoveCodes.EnPassantDownRight;
+                    if (Board.LastMovePly(target) == ply - 1)
+                    {
+                        yield return Direction == -1 ? SpecialMoveCodes.EnPassantUpRight : SpecialMoveCodes.EnPassantDownRight;
+                    }
                 }
             }
         }
