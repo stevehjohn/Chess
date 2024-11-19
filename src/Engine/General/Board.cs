@@ -169,7 +169,7 @@ public class Board
                 return PlyOutcome.EnPassant;
             
             default:
-                return MovePiece(position, target, ply);;
+                return MovePiece(position, target, ply);
         }
     }
 
