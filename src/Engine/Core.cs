@@ -170,6 +170,11 @@ public class Core
                 {
                     return true;
                 }
+
+                if (! _board.IsEmpty(cell))
+                {
+                    break;
+                }
             }
         }
 
