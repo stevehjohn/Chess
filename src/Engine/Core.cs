@@ -256,7 +256,7 @@ public class Core
             return true;
         }
 
-        cell = (kingCell.Rank + rankDirection, kingCell.File - 1).GetCellIndex();
+        cell = (kingCell.Rank + rankDirection, kingCell.File + 1).GetCellIndex();
 
         if (cell >= 0 && _board.IsColour(cell, colour.Invert()) && _board.CellKind(cell) == Kind.Pawn)
         {
