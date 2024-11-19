@@ -231,7 +231,7 @@ public class Core
         
             if (cell < 0)
             {
-                break;
+                continue;
             }
         
             if (_board.IsColour(cell, colour))
