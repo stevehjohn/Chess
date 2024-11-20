@@ -42,19 +42,19 @@ public class King : Piece
 
         if (LastMovePly == 0)
         {
-            if (CheckRookCanCastleKingSide())
+            if (CheckCanCastleKingSide())
             {
                 yield return SpecialMoveCodes.CastleKingSide;
             }
 
-            if (CheckRookCanCastleQueenSide())
+            if (CheckCanCastleQueenSide())
             {
                 yield return SpecialMoveCodes.CastleQueenSide;
             }
         }
     }
 
-    private bool CheckRookCanCastleKingSide()
+    private bool CheckCanCastleKingSide()
     {
         var cell = (Rank, Constants.RightRookFile).GetCellIndex();
         
@@ -63,7 +63,6 @@ public class King : Piece
             if (Board.IsEmpty((Rank, Constants.RightKnightFile).GetCellIndex()) && Board.IsEmpty((Rank, Constants.RightBishopFile).GetCellIndex()))
             {
                 if (! Board.IsKingInCheck(Colour, (Rank, Constants.RightBishopFile).GetCellIndex()))
-                //     && ! Board.IsKingInCheck(Colour, (Rank, Constants.RightKnightFile).GetCellIndex()))
                 {
                     return true;
                 }
@@ -73,17 +72,18 @@ public class King : Piece
         return false;
     }
 
-    private bool CheckRookCanCastleQueenSide()
+    private bool CheckCanCastleQueenSide()
     {
         var cell = (Rank, Constants.LeftRookFile).GetCellIndex();
         
         if (Board.IsColour(cell, Colour) && Board.CellKind(cell) == Kind.Rook && Board.LastMovePly(cell) == 0)
         {
-            if (Board.IsEmpty((Rank, Constants.RightKnightFile).GetCellIndex()) 
-                && Board.IsEmpty((Rank, Constants.RightBishopFile).GetCellIndex())
-                && Board.IsEmpty((Rank, Constants.QueenFile).GetCellIndex()))
+            if (Board.IsEmpty((Rank, Constants.QueenFile).GetCellIndex()) 
+                && Board.IsEmpty((Rank, Constants.LeftBishopFile).GetCellIndex())
+                && Board.IsEmpty((Rank, Constants.LeftKnightFile).GetCellIndex()))
             {
-                // if (! Board.IsKingInCheck(Colour, (Rank, Constants.QueenFile).GetCellIndex()))
+                if (! Board.IsKingInCheck(Colour, (Rank, Constants.QueenFile).GetCellIndex())
+                    && ! Board.IsKingInCheck(Colour, (Rank, Constants.LeftBishopFile).GetCellIndex()))
                 {
                     return true;
                 }
