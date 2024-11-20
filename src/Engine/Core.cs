@@ -80,8 +80,6 @@ public class Core
 
     private void GetMoveInternal(Board board, Colour colour, int maxDepth, int depth, string perftNode = null)
     {
-        //Console.WriteLine(board.ToString());
-        
         for (var rank = 0; rank < Constants.Ranks; rank++)
         {
             for (var file = 0; file < Constants.Files; file++)
