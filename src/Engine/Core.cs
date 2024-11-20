@@ -121,7 +121,7 @@ public class Core
                     {
                         perftNode = $"{(rank, file).ToStandardNotation()}{(move / 8, move % 8).ToStandardNotation()}";
 
-                        _perftCounts.Add(perftNode, 1);
+                        _perftCounts.TryAdd(perftNode, 1);
                     }
                     else
                     {
@@ -155,7 +155,7 @@ public class Core
                     if (depth > 1)
                     {
                         GetMoveInternal(copy, colour.Invert(), maxDepth, depth - 1, perftNode);
-                        
+
                         _perftCounts[perftNode]--;
                     }
                     
