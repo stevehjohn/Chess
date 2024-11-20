@@ -4,6 +4,8 @@ public class Rook : Piece
 {
     public override Kind Kind => Kind.Rook;
 
+    public override int Value => 50;
+
     public Rook(Colour colour) : base(colour)
     {
     }

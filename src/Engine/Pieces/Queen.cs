@@ -4,6 +4,8 @@ public class Queen : Piece
 {
     public override Kind Kind => Kind.Queen;
 
+    public override int Value => 90;
+
     public Queen(Colour colour) : base(colour)
     {
     }
