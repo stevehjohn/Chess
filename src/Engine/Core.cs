@@ -88,6 +88,13 @@ public class Core
                             _outcomes[(ply, PlyOutcome.Capture)]++;
                         }
 
+                        if (outcome == PlyOutcome.EnPassant)
+                        {
+                            _outcomes[(ply, PlyOutcome.Capture)]++;
+
+                            _outcomes[(ply, PlyOutcome.EnPassant)]++;
+                        }
+
                         outcome = PlyOutcome.Check;
                     }
 
