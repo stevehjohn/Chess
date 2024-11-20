@@ -43,6 +43,10 @@ public class Board
 
     public int WhiteKingCell => _state.WhiteKingCell;
 
+    public int BlackScore => _state.BlackScore;
+
+    public int WhiteScore => _state.WhiteScore;
+
     public Board()
     {
         _state = new BoardState();
