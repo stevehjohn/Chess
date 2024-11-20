@@ -31,3 +31,7 @@ After matching the above table.
 
 - Ranking move quality
 - Pruning
+
+# Useful links
+
+- https://www.chessprogramming.org/Perft_Results
