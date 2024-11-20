@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Engine.General;
-using Engine.Pieces;
 
 namespace Engine.ConsoleTests;
 
@@ -93,7 +92,7 @@ public static class EntryPoint
             
             var stopwatch = Stopwatch.StartNew();
 
-            core.GetMove(Colour.White, i);
+            core.GetMove(i);
 
             stopwatch.Stop();
 
@@ -158,6 +157,16 @@ public static class EntryPoint
                 else
                 {
                     Console.WriteLine($"  Delta: {core.Outcomes[(j, PlyOutcome.Check)] - ExpectedOutcomes[(j, PlyOutcome.Check)],13:N0}");
+                }
+                
+                if (j == i)
+                {
+                    Console.WriteLine();
+
+                    foreach (var node in core.PerftCounts.OrderBy(n => n.Key))
+                    {
+                        Console.WriteLine($"  {node.Key}: {node.Value:N0}");
+                    }
                 }
             }
 

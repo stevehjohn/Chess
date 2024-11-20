@@ -1,4 +1,3 @@
-using Engine.Pieces;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -37,7 +36,7 @@ public class CoreTests
         {
             _core.Initialise();
 
-            _core.GetMove(Colour.White, i);
+            _core.GetMove(i);
 
             for (var j = 1; j <= i; j++)
             {                

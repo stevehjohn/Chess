@@ -12,7 +12,12 @@ public static class TupleExtensions
         }
 
         var cell = position.Rank * 8 + position.File;
-        
+
         return cell;
+    }
+
+    public static string ToStandardNotation(this (int Rank, int File) position)
+    {
+        return $"{(char) ('a' + position.File)}{8 - position.Rank}";
     }
 }
