@@ -62,8 +62,8 @@ public class King : Piece
         {
             if (Board.IsEmpty((Rank, Constants.RightKnightFile).GetCellIndex()) && Board.IsEmpty((Rank, Constants.RightBishopFile).GetCellIndex()))
             {
-                if (! Board.IsKingInCheck(Colour, (Rank, Constants.RightBishopFile).GetCellIndex())
-                    && ! Board.IsKingInCheck(Colour, (Rank, Constants.RightKnightFile).GetCellIndex()))
+                if (! Board.IsKingInCheck(Colour, (Rank, Constants.RightBishopFile).GetCellIndex()))
+                //     && ! Board.IsKingInCheck(Colour, (Rank, Constants.RightKnightFile).GetCellIndex()))
                 {
                     return true;
                 }
@@ -83,7 +83,7 @@ public class King : Piece
                 && Board.IsEmpty((Rank, Constants.RightBishopFile).GetCellIndex())
                 && Board.IsEmpty((Rank, Constants.QueenFile).GetCellIndex()))
             {
-                if (! Board.IsKingInCheck(Colour, (Rank, Constants.QueenFile).GetCellIndex()))
+                // if (! Board.IsKingInCheck(Colour, (Rank, Constants.QueenFile).GetCellIndex()))
                 {
                     return true;
                 }
