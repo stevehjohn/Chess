@@ -83,6 +83,11 @@ public class Core
 
                     if (_board.IsKingInCheck(colour.Invert(), colour == Colour.White ? _board.BlackKingCell : _board.WhiteKingCell))
                     {
+                        if (outcome == PlyOutcome.Capture)
+                        {
+                            _outcomes[(ply, PlyOutcome.Capture)]++;
+                        }
+
                         outcome = PlyOutcome.Check;
                     }
 
