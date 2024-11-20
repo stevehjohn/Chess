@@ -64,6 +64,40 @@ public class KingTests : PieceTestBase
     }
 
     [Fact]
+    public void KingCannotCastleKingSideWhenBlocked()
+    {
+        var king = new King(Colour.White);
+
+        Board[Constants.WhiteHomeRank, Constants.KingFile] = king;
+
+        Board[Constants.WhiteHomeRank, Constants.RightRookFile] = new Rook(Colour.White);
+
+        Board[Constants.WhiteHomeRank, Constants.RightKnightFile] = new Knight(Colour.White);
+
+        var moves = king.GetMoves(Constants.WhiteHomeRank, Constants.KingFile, 1, Board);
+
+        Assert.DoesNotContain(SpecialMoveCodes.CastleKingSide, moves);
+    }
+    
+    [Fact]
+    public void KingCannotCastleKingSideIntoCheck()
+    {
+        var king = new King(Colour.White);
+
+        Board[Constants.WhiteHomeRank, Constants.KingFile] = king;
+
+        Board[Constants.WhiteHomeRank, Constants.RightRookFile] = new Rook(Colour.White);
+
+        Board[Constants.WhiteHomeRank, Constants.RightKnightFile] = new Knight(Colour.White);
+
+        Board[Constants.BlackHomeRank, Constants.RightKnightFile] = new Queen(Colour.Black);
+
+        var moves = king.GetMoves(Constants.WhiteHomeRank, Constants.KingFile, 1, Board);
+
+        Assert.DoesNotContain(SpecialMoveCodes.CastleKingSide, moves);
+    }
+
+    [Fact]
     public void KingCanCastleQueenSide()
     {
         var king = new King(Colour.White);
