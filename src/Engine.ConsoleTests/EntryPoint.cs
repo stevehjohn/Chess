@@ -89,12 +89,22 @@ public static class EntryPoint
     public static void Main(string[] arguments)
     {
         var depth = 6;
+
+        var perft = false;
         
         if (arguments.Length > 0)
         {
             int.TryParse(arguments[0], out depth);
         }
-        
+
+        if (arguments.Length > 1)
+        {
+            if (arguments[1].ToLowerInvariant() == "perft")
+            {
+                perft = true;
+            }
+        }
+
         Console.WriteLine();
 
         for (var i = 1; i <= depth; i++)
@@ -176,13 +186,27 @@ public static class EntryPoint
                     Console.WriteLine($"  Delta: {core.Outcomes[(j, PlyOutcome.Check)] - ExpectedOutcomes[(j, PlyOutcome.Check)],13:N0}");
                 }
                 
-                if (j == i)
+                Console.Write($"      Check Mate: {core.Outcomes[(j, PlyOutcome.CheckMate)],13:N0}");
+                Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.CheckMate)] == core.Outcomes[(j, PlyOutcome.CheckMate)] ? "✓" : string.Empty)}");
+                if (ExpectedOutcomes[(j, PlyOutcome.CheckMate)] == core.Outcomes[(j, PlyOutcome.CheckMate)])
                 {
                     Console.WriteLine();
+                }
+                else
+                {
+                    Console.WriteLine($"  Delta: {core.Outcomes[(j, PlyOutcome.CheckMate)] - ExpectedOutcomes[(j, PlyOutcome.CheckMate)],13:N0}");
+                }
 
-                    foreach (var node in core.PerftCounts.OrderBy(n => n.Key))
+                if (perft)
+                {
+                    if (j == i)
                     {
-                        Console.WriteLine($"  {node.Key}: {node.Value:N0}");
+                        Console.WriteLine();
+
+                        foreach (var node in core.PerftCounts.OrderBy(n => n.Key))
+                        {
+                            Console.WriteLine($"  {node.Key}: {node.Value:N0}");
+                        }
                     }
                 }
             }
