@@ -121,7 +121,7 @@ public class Core
                     {
                         perftNode = $"{(rank, file).ToStandardNotation()}{(move / 8, move % 8).ToStandardNotation()}";
 
-                        _perftCounts.TryAdd(perftNode, 1);
+                        _perftCounts.Add(perftNode, 1);
                     }
                     else
                     {
