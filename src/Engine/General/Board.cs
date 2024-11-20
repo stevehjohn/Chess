@@ -400,6 +400,43 @@ public class Board
         return false;
     }
     
+    private PlyOutcome MovePiece(int position, int target, int ply)
+    {
+        if (CellKind(position) == Kind.King)
+        {
+            if (IsColour(position, Colour.Black))
+            {
+                _state.BlackKingCell = target;
+            }
+            else
+            {
+                _state.WhiteKingCell = target;
+            }
+        }
+
+        var outcome = _cells[target] > 0 ? PlyOutcome.Capture : PlyOutcome.Move;
+
+        _cells[target] = _cells[position];
+
+        _cells[position] = 0;
+
+        _cells[target] = (ushort) ((_cells[target] & Constants.PieceDescriptionMask) | (ply << Constants.LastPlyMoveBitOffset));
+
+        if (CellKind(target) == Kind.Pawn)
+        {
+            if (Math.Abs(position - target) > 9)
+            {
+                _cells[target] |= Constants.PawnMoved2RanksFlag;
+            }
+            else
+            {
+                _cells[target] &= ushort.MaxValue ^ Constants.PawnMoved2RanksFlag;
+            }
+        }
+
+        return outcome;
+    }
+    
     public override string ToString()
     {
         var builder = new StringBuilder();
@@ -442,42 +479,5 @@ public class Board
         }
 
         return builder.ToString();
-    }
-
-    private PlyOutcome MovePiece(int position, int target, int ply)
-    {
-        if (CellKind(position) == Kind.King)
-        {
-            if (IsColour(position, Colour.Black))
-            {
-                _state.BlackKingCell = target;
-            }
-            else
-            {
-                _state.WhiteKingCell = target;
-            }
-        }
-
-        var outcome = _cells[target] > 0 ? PlyOutcome.Capture : PlyOutcome.Move;
-
-        _cells[target] = _cells[position];
-
-        _cells[position] = 0;
-
-        _cells[target] = (ushort) ((_cells[target] & Constants.PieceDescriptionMask) | (ply << Constants.LastPlyMoveBitOffset));
-
-        if (CellKind(target) == Kind.Pawn)
-        {
-            if (Math.Abs(position - target) > 9)
-            {
-                _cells[target] |= Constants.PawnMoved2RanksFlag;
-            }
-            else
-            {
-                _cells[target] &= ushort.MaxValue ^ Constants.PawnMoved2RanksFlag;
-            }
-        }
-
-        return outcome;
     }
 }
