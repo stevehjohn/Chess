@@ -175,7 +175,7 @@ public static class EntryPoint
                     Console.WriteLine($"  Delta: {core.Outcomes[(j, PlyOutcome.Castle)] - ExpectedOutcomes[(j, PlyOutcome.Castle)],13:N0}");
                 }
                 
-                Console.Write($"      Promotion: {core.Outcomes[(j, PlyOutcome.Promotion)],13:N0}");
+                Console.Write($"      Promotion:  {core.Outcomes[(j, PlyOutcome.Promotion)],13:N0}");
                 Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.Promotion)] == core.Outcomes[(j, PlyOutcome.Promotion)] ? "✓" : string.Empty)}");
                 if (ExpectedOutcomes[(j, PlyOutcome.Promotion)] == core.Outcomes[(j, PlyOutcome.Promotion)])
                 {
