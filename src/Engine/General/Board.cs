@@ -52,7 +52,7 @@ public class Board
     {
         _cells = new ushort[Constants.BoardCells];
         
-        Buffer.BlockCopy(board._cells, 0, _cells, 0, Constants.BoardCells);
+        Buffer.BlockCopy(board._cells, 0, _cells, 0, Constants.BoardCells * sizeof(ushort));
 
         _state = new BoardState(board._state);
     }

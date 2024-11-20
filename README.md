@@ -2,6 +2,10 @@
 
 Second attempt at creating a chess engine.
 
+## Notes
+
+- Keep `parallel` branch separate until pruning is implemented. There's a good reason for this.
+
 ## Expected Results
 
 Number of possible board combinations after each move (without pruning).
