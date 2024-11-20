@@ -484,13 +484,16 @@ public class Board
 
         _cells[target] = (ushort) ((_cells[target] & Constants.PieceDescriptionMask) | (ply << Constants.LastPlyMoveBitOffset));
 
-        if (CellKind(target) == Kind.Pawn && Math.Abs(position - target) > 8)
+        if (CellKind(target) == Kind.Pawn)
         {
-            _cells[target] |= Constants.PawnMoved2RanksFlag;
-        }
-        else
-        {
-            _cells[target] &= ushort.MaxValue ^ Constants.PawnMoved2RanksFlag;
+            if (Math.Abs(position - target) > 8)
+            {
+                _cells[target] |= Constants.PawnMoved2RanksFlag;
+            }
+            else
+            {
+                _cells[target] &= ushort.MaxValue ^ Constants.PawnMoved2RanksFlag;
+            }
         }
 
         return outcome;
