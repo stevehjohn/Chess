@@ -48,4 +48,32 @@ public class KingTests : PieceTestBase
         
         AssertAllExpectedMovesAreReturned(king, rank, file, expected);
     }
+
+    [Fact]
+    public void KingCanCastleKingSide()
+    {
+        var king = new King(Colour.White);
+
+        Board[Constants.WhiteHomeRank, Constants.KingFile] = king;
+
+        Board[Constants.WhiteHomeRank, Constants.RightRookFile] = new Rook(Colour.White);
+
+        var moves = king.GetMoves(Constants.WhiteHomeRank, Constants.KingFile, 1, Board);
+
+        Assert.Contains(SpecialMoveCodes.CastleKingSide, moves);
+    }
+
+    [Fact]
+    public void KingCanCastleQueenSide()
+    {
+        var king = new King(Colour.White);
+
+        Board[Constants.WhiteHomeRank, Constants.KingFile] = king;
+
+        Board[Constants.WhiteHomeRank, Constants.LeftRookFile] = new Rook(Colour.White);
+
+        var moves = king.GetMoves(Constants.WhiteHomeRank, Constants.KingFile, 1, Board);
+
+        Assert.Contains(SpecialMoveCodes.CastleQueenSide, moves);
+    }
 }
