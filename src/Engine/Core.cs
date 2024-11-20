@@ -102,6 +102,8 @@ public class Core
                     
                 var moves = piece.GetMoves(rank, file, ply, _board);
 
+                var check = _board.IsKingInCheck(colour, colour == Colour.Black ? _board.BlackKingCell : _board.WhiteKingCell);
+                
                 foreach (var move in moves)
                 {
                     _depthCounts[ply]++;
@@ -116,6 +118,8 @@ public class Core
                     
                         continue;
                     }
+
+                    check = false;
                     
                     if (perftNode == null)
                     {
@@ -165,6 +169,11 @@ public class Core
                     }
                     
                     _board.UndoMove();
+                }
+
+                if (check)
+                {
+                    _outcomes[(ply, PlyOutcome.CheckMate)]++;
                 }
             }
         }
