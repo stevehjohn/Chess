@@ -17,6 +17,8 @@ public class Core
     private readonly Dictionary<(long Ply, PlyOutcome Outcome), long> _outcomes = new();
 
     private readonly Dictionary<string, long> _perftCounts = new();
+
+    private readonly Dictionary<int, int> _plyBestScores = new();
     
     public IReadOnlyDictionary<int, long> DepthCounts => _depthCounts;
 
@@ -65,9 +67,13 @@ public class Core
         
         _perftCounts.Clear();
         
+        _plyBestScores.Clear();
+        
         for (var i = 1; i <= depth; i++)
         {
             _depthCounts[i] = 0;
+
+            _plyBestScores[i] = 0;
 
             foreach (var outcome in Enum.GetValuesAsUnderlyingType<PlyOutcome>())
             {
@@ -109,7 +115,14 @@ public class Core
                     var copy = new Board(board);
                     
                     var outcome = copy.MakeMove(cell, move, ply);
-                    
+
+                    var score = colour == Colour.Black ? copy.BlackScore : copy.WhiteScore;
+
+                    if (score > _plyBestScores[ply])
+                    {
+                        _plyBestScores[ply] = score;
+                    }
+
                     if (copy.IsKingInCheck(colour, colour == Colour.Black ? copy.BlackKingCell : copy.WhiteKingCell))
                     {
                         _depthCounts[ply]--;
