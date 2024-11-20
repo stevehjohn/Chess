@@ -24,7 +24,6 @@ Number of possible board combinations after each move (without pruning).
 
 ## TODOs
 
-- Castling (not castling through check)
 - Pawn promotion
 - Stalemate detection
 
