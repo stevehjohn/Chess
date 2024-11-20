@@ -57,7 +57,12 @@ public class King : Piece
     private bool CheckCanCastleKingSide()
     {
         var cell = (Rank, Constants.RightRookFile).GetCellIndex();
-        
+
+        if (Board.IsKingInCheck(Colour, (Rank, File).GetCellIndex()))
+        {
+            return false;
+        }
+
         if (Board.IsColour(cell, Colour) && Board.CellKind(cell) == Kind.Rook && Board.LastMovePly(cell) == 0)
         {
             if (Board.IsEmpty((Rank, Constants.RightBishopFile).GetCellIndex()) 
@@ -77,6 +82,11 @@ public class King : Piece
     {
         var cell = (Rank, Constants.LeftRookFile).GetCellIndex();
         
+        if (Board.IsKingInCheck(Colour, (Rank, File).GetCellIndex()))
+        {
+            return false;
+        }
+
         if (Board.IsColour(cell, Colour) && Board.CellKind(cell) == Kind.Rook && Board.LastMovePly(cell) == 0)
         {
             if (Board.IsEmpty((Rank, Constants.QueenFile).GetCellIndex()) 
