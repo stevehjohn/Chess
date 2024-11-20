@@ -116,7 +116,7 @@ public static class EntryPoint
                 
                 Console.WriteLine();
                 
-                Console.Write($"      Captures:   {core.Outcomes[(j, PlyOutcome.Capture)],13:N0}");
+                Console.Write($"      Capture:    {core.Outcomes[(j, PlyOutcome.Capture)],13:N0}");
                 Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.Capture)] == core.Outcomes[(j, PlyOutcome.Capture)] ? "✓" : string.Empty)}");
                 if (ExpectedOutcomes[(j, PlyOutcome.Capture)] == core.Outcomes[(j, PlyOutcome.Capture)])
                 {
