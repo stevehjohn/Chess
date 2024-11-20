@@ -402,19 +402,27 @@ public class Board
     
     private PlyOutcome MovePiece(int position, int target, int ply)
     {
-        if (CellKind(position) == Kind.King)
+        var kind = CellKind(position);
+        
+        var playerIsBlack = IsColour(position, Colour.Black);
+        
+        var outcome = _cells[target] > 0 ? PlyOutcome.Capture : PlyOutcome.Move;
+
+        if (kind == Kind.King)
         {
-            if (IsColour(position, Colour.Black))
+            if (playerIsBlack)
             {
                 _state.BlackKingCell = target;
+
+                _state.BlackScore += Piece.Decode(_cells[target]).Value;
             }
             else
             {
                 _state.WhiteKingCell = target;
+
+                _state.WhiteScore += Piece.Decode(_cells[target]).Value;
             }
         }
-
-        var outcome = _cells[target] > 0 ? PlyOutcome.Capture : PlyOutcome.Move;
 
         _cells[target] = _cells[position];
 
