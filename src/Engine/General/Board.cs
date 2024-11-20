@@ -37,13 +37,25 @@ public class Board
 
     private ushort[] _cells = new ushort[Constants.BoardCells];
 
-    private readonly Stack<ushort[]> _undoBuffer = [];
+    private readonly BoardState _state;
 
-    private readonly Stack<BoardState> _stateBuffer = [];
+    public int BlackKingCell => _state.BlackKingCell;
 
-    public int BlackKingCell => _stateBuffer.Peek().BlackKingCell;
+    public int WhiteKingCell => _state.WhiteKingCell;
 
-    public int WhiteKingCell => _stateBuffer.Peek().WhiteKingCell;
+    public Board()
+    {
+        _state = new BoardState();
+    }
+
+    public Board(Board board)
+    {
+        _cells = new ushort[Constants.BoardCells];
+        
+        Buffer.BlockCopy(board._cells, 0, _cells, 0, Constants.BoardCells * sizeof(ushort));
+
+        _state = new BoardState(board._state);
+    }
 
     public Piece this[int rank, int file]
     {
@@ -64,10 +76,6 @@ public class Board
     public void InitialisePieces()
     {
         _cells = new ushort[Constants.BoardCells];
-        
-        _undoBuffer.Clear();
-        
-        _stateBuffer.Clear();
 
         for (var file = 0; file < Constants.Files; file++)
         {
@@ -92,20 +100,13 @@ public class Board
         _cells[(Constants.WhiteHomeRank, Constants.RightBishopFile).GetCellIndex()] = new Bishop(Colour.White).Encode();
         _cells[(Constants.WhiteHomeRank, Constants.RightKnightFile).GetCellIndex()] = new Knight(Colour.White).Encode();
         _cells[(Constants.WhiteHomeRank, Constants.RightRookFile).GetCellIndex()] = new Rook(Colour.White).Encode();
-        
-        _stateBuffer.Push(new BoardState
-        {
-            BlackKingCell = (Constants.BlackHomeRank, Constants.KingFile).GetCellIndex(),
-            WhiteKingCell = (Constants.WhiteHomeRank, Constants.KingFile).GetCellIndex()
-        });
+
+        _state.BlackKingCell = (Constants.BlackHomeRank, Constants.KingFile).GetCellIndex();
+        _state.WhiteKingCell = (Constants.WhiteHomeRank, Constants.KingFile).GetCellIndex();
     }
     
     public void InitialisePieces(string fen)
     {
-        _undoBuffer.Clear();
-        
-        _stateBuffer.Clear(); 
-        
         try
         {
             var parts = fen.Split(' ');
@@ -113,8 +114,6 @@ public class Board
             var board = parts[0];
 
             var ranks = board.Split('/');
-
-            var state = new BoardState();
 
             for (var rankIndex = 0; rankIndex < Constants.Ranks; rankIndex++)
             {
@@ -150,11 +149,11 @@ public class Board
                     {
                         if (colour == Colour.Black)
                         {
-                            state.BlackKingCell = rankIndex * 8 + file;
+                            _state.BlackKingCell = rankIndex * 8 + file;
                         }
                         else
                         {
-                            state.WhiteKingCell = rankIndex * 8 + file;
+                            _state.WhiteKingCell = rankIndex * 8 + file;
                         }
                     }
 
@@ -162,8 +161,6 @@ public class Board
 
                     file++;
                 }
-                
-                _stateBuffer.Push(state);
             }
         }
         catch (Exception exception)
@@ -217,14 +214,6 @@ public class Board
 
     public PlyOutcome MakeMove(int position, int target, int ply)
     {
-        var copy = new ushort[Constants.BoardCells];
-        
-        Buffer.BlockCopy(_cells, 0, copy, 0, Constants.BoardCells * sizeof(ushort));
-        
-        _undoBuffer.Push(copy);
-        
-        _stateBuffer.Push(new BoardState(_stateBuffer.Peek()));
-
         switch (target)
         {
             case SpecialMoveCodes.CastleKingSide:
@@ -272,13 +261,6 @@ public class Board
             default:
                 return MovePiece(position, target, ply);
         }
-    }
-
-    public void UndoMove()
-    {
-        _cells = _undoBuffer.Pop();
-
-        _stateBuffer.Pop();
     }
 
     public bool IsKingInCheck(Colour colour, int kingCellIndex)
@@ -418,6 +400,43 @@ public class Board
         return false;
     }
     
+    private PlyOutcome MovePiece(int position, int target, int ply)
+    {
+        if (CellKind(position) == Kind.King)
+        {
+            if (IsColour(position, Colour.Black))
+            {
+                _state.BlackKingCell = target;
+            }
+            else
+            {
+                _state.WhiteKingCell = target;
+            }
+        }
+
+        var outcome = _cells[target] > 0 ? PlyOutcome.Capture : PlyOutcome.Move;
+
+        _cells[target] = _cells[position];
+
+        _cells[position] = 0;
+
+        _cells[target] = (ushort) ((_cells[target] & Constants.PieceDescriptionMask) | (ply << Constants.LastPlyMoveBitOffset));
+
+        if (CellKind(target) == Kind.Pawn)
+        {
+            if (Math.Abs(position - target) > 9)
+            {
+                _cells[target] |= Constants.PawnMoved2RanksFlag;
+            }
+            else
+            {
+                _cells[target] &= ushort.MaxValue ^ Constants.PawnMoved2RanksFlag;
+            }
+        }
+
+        return outcome;
+    }
+    
     public override string ToString()
     {
         var builder = new StringBuilder();
@@ -460,42 +479,5 @@ public class Board
         }
 
         return builder.ToString();
-    }
-
-    private PlyOutcome MovePiece(int position, int target, int ply)
-    {
-        if (CellKind(position) == Kind.King)
-        {
-            if (IsColour(position, Colour.Black))
-            {
-                _stateBuffer.Peek().BlackKingCell = target;
-            }
-            else
-            {
-                _stateBuffer.Peek().WhiteKingCell = target;
-            }
-        }
-
-        var outcome = _cells[target] > 0 ? PlyOutcome.Capture : PlyOutcome.Move;
-
-        _cells[target] = _cells[position];
-
-        _cells[position] = 0;
-
-        _cells[target] = (ushort) ((_cells[target] & Constants.PieceDescriptionMask) | (ply << Constants.LastPlyMoveBitOffset));
-
-        if (CellKind(target) == Kind.Pawn)
-        {
-            if (Math.Abs(position - target) > 9)
-            {
-                _cells[target] |= Constants.PawnMoved2RanksFlag;
-            }
-            else
-            {
-                _cells[target] &= ushort.MaxValue ^ Constants.PawnMoved2RanksFlag;
-            }
-        }
-
-        return outcome;
     }
 }

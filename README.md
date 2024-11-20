@@ -2,6 +2,11 @@
 
 Second attempt at creating a chess engine.
 
+## Notes
+
+- Keep `parallel` branch separate until pruning is implemented. There's a good reason for this.
+- Copying boards is faster than move/undo. It can also be parallelised.
+
 ## Expected Results
 
 Number of possible board combinations after each move (without pruning).
