@@ -75,10 +75,10 @@ public class Core
             }
         }
         
-        GetMoveInternal(_player, depth, depth);
+        GetMoveInternal(_board, _player, depth, depth);
     }
 
-    private void GetMoveInternal(Colour colour, int maxDepth, int depth, string perftNode = null)
+    private void GetMoveInternal(Board board, Colour colour, int maxDepth, int depth, string perftNode = null)
     {
         for (var rank = 0; rank < Constants.Ranks; rank++)
         {
@@ -86,40 +86,36 @@ public class Core
             {
                 var cell = (rank, file).GetCellIndex();
                 
-                if (_board.IsEmpty(cell))
+                if (board.IsEmpty(cell))
                 {
                     continue;
                 }
 
-                if (! _board.IsColour(cell, colour))
+                if (! board.IsColour(cell, colour))
                 {
                     continue;
                 }
 
-                var piece = _board[rank, file];
+                var piece = board[rank, file];
 
                 var ply = maxDepth - depth + 1;
                     
-                var moves = piece.GetMoves(rank, file, ply, _board);
+                var moves = piece.GetMoves(rank, file, ply, board);
 
-                var check = _board.IsKingInCheck(colour, colour == Colour.Black ? _board.BlackKingCell : _board.WhiteKingCell);
-                
                 foreach (var move in moves)
                 {
                     _depthCounts[ply]++;
+
+                    var copy = new Board(board);
                     
-                    var outcome = _board.MakeMove(cell, move, ply);
+                    var outcome = copy.MakeMove(cell, move, ply);
                     
-                    if (_board.IsKingInCheck(colour, colour == Colour.Black ? _board.BlackKingCell : _board.WhiteKingCell))
+                    if (copy.IsKingInCheck(colour, colour == Colour.Black ? copy.BlackKingCell : copy.WhiteKingCell))
                     {
-                        _board.UndoMove();
-                        
                         _depthCounts[ply]--;
                     
                         continue;
                     }
-
-                    check = false;
                     
                     if (perftNode == null)
                     {
@@ -132,7 +128,7 @@ public class Core
                         _perftCounts[perftNode]++;
                     }
 
-                    if (_board.IsKingInCheck(colour.Invert(), colour == Colour.White ? _board.BlackKingCell : _board.WhiteKingCell))
+                    if (copy.IsKingInCheck(colour.Invert(), colour == Colour.White ? copy.BlackKingCell : copy.WhiteKingCell))
                     {
                         if (outcome == PlyOutcome.Capture)
                         {
@@ -158,7 +154,7 @@ public class Core
 
                     if (depth > 1)
                     {
-                        GetMoveInternal(colour.Invert(), maxDepth, depth - 1, perftNode);
+                        GetMoveInternal(copy, colour.Invert(), maxDepth, depth - 1, perftNode);
                         
                         _perftCounts[perftNode]--;
                     }
@@ -167,13 +163,6 @@ public class Core
                     {
                         perftNode = null;
                     }
-                    
-                    _board.UndoMove();
-                }
-
-                if (check)
-                {
-                    _outcomes[(ply, PlyOutcome.CheckMate)]++;
                 }
             }
         }
