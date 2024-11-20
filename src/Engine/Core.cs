@@ -72,8 +72,6 @@ public class Core
                     
                     var outcome = _board.MakeMove(cell, move, ply);
                     
-                    _outcomes[(ply, outcome)]++;
-
                     if (_board.IsKingInCheck(colour, colour == Colour.Black ? _board.BlackKingCell : _board.WhiteKingCell))
                     {
                         _board.UndoMove();
@@ -87,6 +85,8 @@ public class Core
                     {
                         outcome = PlyOutcome.Check;
                     }
+
+                    _outcomes[(ply, outcome)]++;
 
                     if (outcome == PlyOutcome.EnPassant)
                     {
