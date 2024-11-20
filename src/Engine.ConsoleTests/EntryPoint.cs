@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Engine.General;
-using Engine.Pieces;
 
 namespace Engine.ConsoleTests;
 
@@ -93,7 +92,7 @@ public static class EntryPoint
             
             var stopwatch = Stopwatch.StartNew();
 
-            core.GetMove(Colour.White, i);
+            core.GetMove(i);
 
             stopwatch.Stop();
 

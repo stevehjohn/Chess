@@ -1,5 +1,6 @@
 using System.Text;
 using Engine.Extensions;
+using Engine.Infrastructure;
 using Engine.Pieces;
 
 namespace Engine.General;
@@ -98,7 +99,79 @@ public class Board
             WhiteKingCell = (Constants.WhiteHomeRank, Constants.KingFile).GetCellIndex()
         });
     }
+    
+    public void InitialisePieces(string fen)
+    {
+        _undoBuffer.Clear();
+        
+        _stateBuffer.Clear(); 
+        
+        try
+        {
+            var parts = fen.Split(' ');
 
+            var board = parts[0];
+
+            var ranks = board.Split('/');
+
+            var state = new BoardState();
+
+            for (var rankIndex = 0; rankIndex < Constants.Ranks; rankIndex++)
+            {
+                var file = 0;
+
+                var rank = ranks[rankIndex];
+
+                while (file < rank.Length)
+                {
+                    var character = rank[file];
+                    
+                    if (char.IsNumber(character))
+                    {
+                        file += character - '0';
+                        
+                        continue;
+                    }
+
+                    var colour = char.IsUpper(character) ? Colour.White : Colour.Black;
+
+                    Piece piece = char.ToLower(character) switch
+                    {
+                        'p' => new Pawn(colour),
+                        'r' => new Rook(colour),
+                        'n' => new Knight(colour),
+                        'b' => new Bishop(colour),
+                        'q' => new Queen(colour),
+                        'k' => new King(colour),
+                        _ => throw new EngineException("Invalid piece in FEN string.")
+                    };
+
+                    if (piece.Kind == Kind.King)
+                    {
+                        if (colour == Colour.Black)
+                        {
+                            state.BlackKingCell = rankIndex * 8 + file;
+                        }
+                        else
+                        {
+                            state.WhiteKingCell = rankIndex * 8 + file;
+                        }
+                    }
+
+                    _cells[(rankIndex, file).GetCellIndex()] = piece.Encode();
+
+                    file++;
+                }
+                
+                _stateBuffer.Push(state);
+            }
+        }
+        catch (Exception exception)
+        {
+            throw new EngineException($"Invalid FEN string provided. {exception.Message}");
+        }
+    }
+    
     public bool IsColour(int cell, Colour colour)
     {
         return (_cells[cell] & (ushort) colour << 3) > 0;

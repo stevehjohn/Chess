@@ -7,7 +7,11 @@ namespace Engine;
 public class Core
 {
     private Board _board;
+    
+    private int _ply;
 
+    private Colour _player;
+    
     private readonly Dictionary<int, long> _depthCounts = new();
     
     private readonly Dictionary<(long Ply, PlyOutcome Outcome), long> _outcomes = new();
@@ -20,14 +24,40 @@ public class Core
         
     public IReadOnlyDictionary<string, long> PerftCounts => _perftCounts;
     
-    public void Initialise()
+    public void Initialise(Colour colour = Colour.White)
     {
         _board = new Board();
         
+        _ply = 1;
+
+        _player = colour;
+        
         _board.InitialisePieces();
     }
+    
+    public void Initialise(string fen)
+    {
+        _board = new Board();
 
-    public void GetMove(Colour colour, int depth)
+        _ply = 1;
+        
+        var parts = fen.Split(' ');
+
+        _player = parts[1] == "w" ? Colour.White : Colour.Black;
+        
+        _board.InitialisePieces(parts[0]);
+    }
+    
+    public void MakeMove(int position, int target)
+    {
+        _board.MakeMove(position, target, _ply);
+        
+        _player = _player.Invert();
+
+        _ply++;
+    }
+    
+    public void GetMove(int depth)
     {
         _depthCounts.Clear();
         
@@ -45,7 +75,7 @@ public class Core
             }
         }
         
-        GetMoveInternal(colour, depth, depth);
+        GetMoveInternal(_player, depth, depth);
     }
 
     private void GetMoveInternal(Colour colour, int maxDepth, int depth, string perftNode = null)
