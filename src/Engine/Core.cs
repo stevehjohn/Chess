@@ -124,7 +124,7 @@ public class Core
 
                     if (depth > 1)
                     {
-                        GetMoveInternal(colour.Invert(), maxDepth, depth - 1);
+                        GetMoveInternal(colour.Invert(), maxDepth, depth - 1, perftNode);
                         
                         _perftCounts[perftNode]--;
                     }
