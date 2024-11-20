@@ -18,6 +18,8 @@ public class Knight : Piece
             
     public override Kind Kind => Kind.Knight;
 
+    public override int Value => 30;
+
     public Knight(Colour colour) : base(colour)
     {
     }

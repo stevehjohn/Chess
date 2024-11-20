@@ -19,6 +19,8 @@ public class King : Piece
 
     public override Kind Kind => Kind.King;
 
+    public override int Value => int.MaxValue;
+
     public King(Colour colour) : base(colour)
     {
     }

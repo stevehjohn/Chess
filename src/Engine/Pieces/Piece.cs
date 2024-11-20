@@ -7,6 +7,8 @@ namespace Engine.Pieces;
 public abstract class Piece
 {
     public abstract Kind Kind { get; }
+    
+    public abstract int Value { get; }
 
     public Colour Colour { get; }
 

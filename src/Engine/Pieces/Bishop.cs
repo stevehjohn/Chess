@@ -4,6 +4,8 @@ public class Bishop : Piece
 {
     public override Kind Kind => Kind.Bishop;
 
+    public override int Value => 30;
+
     public Bishop(Colour colour) : base(colour)
     {
     }

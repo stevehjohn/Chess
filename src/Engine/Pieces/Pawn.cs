@@ -7,6 +7,8 @@ public class Pawn : Piece
 {
     public override Kind Kind => Kind.Pawn;
 
+    public override int Value => 10;
+
     public Pawn(Colour colour) : base(colour)
     {
     }
