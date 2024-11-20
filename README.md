@@ -36,7 +36,9 @@ After matching the above table.
 
 - Ranking move quality
 - Pruning
+- Move ordering (prefer captures, ideally ordered by lowest value catches highest value first)
 
 # Useful links
 
 - https://www.chessprogramming.org/Perft_Results
+- https://database.lichess.org/
