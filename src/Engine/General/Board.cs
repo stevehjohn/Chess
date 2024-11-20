@@ -486,7 +486,7 @@ public class Board
 
         if (CellKind(target) == Kind.Pawn)
         {
-            if (Math.Abs(position - target) > 8)
+            if (Math.Abs(position - target) > 9)
             {
                 _cells[target] |= Constants.PawnMoved2RanksFlag;
             }
