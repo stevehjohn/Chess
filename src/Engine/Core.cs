@@ -104,67 +104,74 @@ public class Core
 
                 foreach (var move in moves)
                 {
-                    _depthCounts[ply]++;
-
-                    var copy = new Board(board);
-                    
-                    var outcome = copy.MakeMove(cell, move, ply);
-                    
-                    if (copy.IsKingInCheck(colour, colour == Colour.Black ? copy.BlackKingCell : copy.WhiteKingCell))
-                    {
-                        _depthCounts[ply]--;
-                    
-                        continue;
-                    }
-                    
-                    if (perftNode == null)
-                    {
-                        perftNode = $"{(rank, file).ToStandardNotation()}{(move / 8, move % 8).ToStandardNotation()}";
-
-                        _perftCounts.Add(perftNode, 1);
-                    }
-                    else
-                    {
-                        _perftCounts[perftNode]++;
-                    }
-
-                    if (copy.IsKingInCheck(colour.Invert(), colour == Colour.White ? copy.BlackKingCell : copy.WhiteKingCell))
-                    {
-                        if (outcome == PlyOutcome.Capture)
-                        {
-                            _outcomes[(ply, PlyOutcome.Capture)]++;
-                        }
-
-                        if (outcome == PlyOutcome.EnPassant)
-                        {
-                            _outcomes[(ply, PlyOutcome.Capture)]++;
-
-                            _outcomes[(ply, PlyOutcome.EnPassant)]++;
-                        }
-
-                        outcome = PlyOutcome.Check;
-                    }
-
-                    _outcomes[(ply, outcome)]++;
-
-                    if (outcome == PlyOutcome.EnPassant)
-                    {
-                        _outcomes[(ply, PlyOutcome.Capture)]++;
-                    }
-
-                    if (depth > 1)
-                    {
-                        GetMoveInternal(copy, colour.Invert(), maxDepth, depth - 1, perftNode);
-                        
-                        _perftCounts[perftNode]--;
-                    }
-                    
-                    if (depth == maxDepth)
-                    {
-                        perftNode = null;
-                    }
+                    ExploreMove(board, colour, maxDepth, depth, cell, move, perftNode);
+                }
+        
+                if (depth == maxDepth)
+                {
+                    perftNode = null;
                 }
             }
+        }
+    }
+
+    private void ExploreMove(Board board, Colour colour, int maxDepth, int depth, int cell, int move, string perftNode = null)
+    {
+        var ply = maxDepth - depth + 1;
+
+        _depthCounts[ply]++;
+
+        var copy = new Board(board);
+        
+        var outcome = copy.MakeMove(cell, move, ply);
+        
+        if (copy.IsKingInCheck(colour, colour == Colour.Black ? copy.BlackKingCell : copy.WhiteKingCell))
+        {
+            _depthCounts[ply]--;
+        
+            return;
+        }
+        
+        if (perftNode == null)
+        {
+            perftNode = $"{(cell / 8, cell % 8).ToStandardNotation()}{(move / 8, move % 8).ToStandardNotation()}";
+
+            _perftCounts.Add(perftNode, 1);
+        }
+        else
+        {
+            _perftCounts[perftNode]++;
+        }
+
+        if (copy.IsKingInCheck(colour.Invert(), colour == Colour.White ? copy.BlackKingCell : copy.WhiteKingCell))
+        {
+            if (outcome == PlyOutcome.Capture)
+            {
+                _outcomes[(ply, PlyOutcome.Capture)]++;
+            }
+
+            if (outcome == PlyOutcome.EnPassant)
+            {
+                _outcomes[(ply, PlyOutcome.Capture)]++;
+
+                _outcomes[(ply, PlyOutcome.EnPassant)]++;
+            }
+
+            outcome = PlyOutcome.Check;
+        }
+
+        _outcomes[(ply, outcome)]++;
+
+        if (outcome == PlyOutcome.EnPassant)
+        {
+            _outcomes[(ply, PlyOutcome.Capture)]++;
+        }
+
+        if (depth > 1)
+        {
+            GetMoveInternal(copy, colour.Invert(), maxDepth, depth - 1, perftNode);
+            
+            _perftCounts[perftNode]--;
         }
     }
 }
