@@ -410,20 +410,28 @@ public class Board
         
         var playerIsBlack = IsColour(position, Colour.Black);
         
-        var outcome = _cells[target] > 0 ? PlyOutcome.Capture : PlyOutcome.Move;
-
         if (kind == Kind.King)
         {
             if (playerIsBlack)
             {
                 _state.BlackKingCell = target;
-
-                _state.BlackScore += Piece.Decode(_cells[target]).Value;
             }
             else
             {
                 _state.WhiteKingCell = target;
+            }
+        }
+        
+        var outcome = _cells[target] > 0 ? PlyOutcome.Capture : PlyOutcome.Move;
 
+        if (outcome == PlyOutcome.Capture)
+        {
+            if (playerIsBlack)
+            {
+                _state.BlackScore += Piece.Decode(_cells[target]).Value;
+            }
+            else
+            {
                 _state.WhiteScore += Piece.Decode(_cells[target]).Value;
             }
         }
