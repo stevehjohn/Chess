@@ -488,6 +488,10 @@ public class Board
         {
             _cells[target] |= Constants.PawnMoved2RanksFlag;
         }
+        else
+        {
+            _cells[target] &= ushort.MaxValue ^ Constants.PawnMoved2RanksFlag;
+        }
 
         return outcome;
     }
