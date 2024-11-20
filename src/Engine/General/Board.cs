@@ -162,9 +162,9 @@ public class Board
                 return PlyOutcome.Castle;
             
             case SpecialMoveCodes.CastleQueenSide:
-                MovePiece(position, position - 3, ply);
+                MovePiece(position, position - 2, ply);
             
-                MovePiece(position - 4, position - 3, ply);
+                MovePiece(position - 4, position - 1, ply);
             
                 return PlyOutcome.Castle;
             

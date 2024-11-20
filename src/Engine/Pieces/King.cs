@@ -60,7 +60,8 @@ public class King : Piece
         
         if (Board.IsColour(cell, Colour) && Board.CellKind(cell) == Kind.Rook && Board.LastMovePly(cell) == 0)
         {
-            if (Board.IsEmpty((Rank, Constants.RightKnightFile).GetCellIndex()) && Board.IsEmpty((Rank, Constants.RightBishopFile).GetCellIndex()))
+            if (Board.IsEmpty((Rank, Constants.RightBishopFile).GetCellIndex()) 
+                && Board.IsEmpty((Rank, Constants.RightKnightFile).GetCellIndex()))
             {
                 if (! Board.IsKingInCheck(Colour, (Rank, Constants.RightBishopFile).GetCellIndex()))
                 {
@@ -82,8 +83,7 @@ public class King : Piece
                 && Board.IsEmpty((Rank, Constants.LeftBishopFile).GetCellIndex())
                 && Board.IsEmpty((Rank, Constants.LeftKnightFile).GetCellIndex()))
             {
-                if (! Board.IsKingInCheck(Colour, (Rank, Constants.QueenFile).GetCellIndex())
-                    && ! Board.IsKingInCheck(Colour, (Rank, Constants.LeftBishopFile).GetCellIndex()))
+                if (! Board.IsKingInCheck(Colour, (Rank, Constants.QueenFile).GetCellIndex()))
                 {
                     return true;
                 }
