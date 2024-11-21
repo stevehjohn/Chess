@@ -81,11 +81,21 @@ public class Core
             }
         }
         
-        GetMoveInternal(_board, _player, depth, depth);
+        GetMoveInternal(new PlyState(_board, _player, depth, depth));
     }
 
-    private void GetMoveInternal(Board board, Colour colour, int maxDepth, int depth, string perftNode = null)
+    private void GetMoveInternal(PlyState state)
     {
+        var board = state.Board;
+
+        var colour = state.Colour;
+
+        var maxDepth = state.MaxDepth;
+
+        var depth = state.Depth;
+
+        var perftNode = state.PerftNode;
+        
         for (var rank = 0; rank < Constants.Ranks; rank++)
         {
             for (var file = 0; file < Constants.Files; file++)
@@ -167,7 +177,7 @@ public class Core
 
                     if (depth > 1)
                     {
-                        GetMoveInternal(copy, colour.Invert(), maxDepth, depth - 1, perftNode);
+                        GetMoveInternal(new PlyState(copy, colour.Invert(), maxDepth, depth - 1, perftNode));
 
                         _perftCounts[perftNode]--;
                     }
