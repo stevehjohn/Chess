@@ -15,6 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{2D6A
 		..\test.sh = ..\test.sh
 		..\console-test.sh = ..\console-test.sh
 		..\perftree.sh = ..\perftree.sh
+		..\console-test.bat = ..\console-test.bat
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine.ConsoleTests", "Engine.ConsoleTests\Engine.ConsoleTests.csproj", "{EE9A2348-8C3A-493F-AC28-403AB5A15F98}"
