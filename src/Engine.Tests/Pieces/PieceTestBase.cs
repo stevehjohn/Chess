@@ -32,7 +32,7 @@ public abstract class PieceTestBase
 
             var expectedFile = int.Parse(parts[1]);
             
-            Assert.Contains((expectedRank, expectedFile).GetCellIndex(), moves);
+            Assert.Contains((expectedRank, expectedFile).GetCellIndex(), moves.Select(m => m.Position));
         }
     }
 }

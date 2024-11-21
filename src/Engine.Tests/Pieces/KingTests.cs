@@ -60,7 +60,7 @@ public class KingTests : PieceTestBase
 
         var moves = king.GetMoves(Constants.WhiteHomeRank, Constants.KingFile, 1, Board);
 
-        Assert.Contains(SpecialMoveCodes.CastleKingSide, moves);
+        Assert.Contains(SpecialMoveCodes.CastleKingSide, moves.Select(m => m.Position));
     }
 
     [Fact]
@@ -76,7 +76,7 @@ public class KingTests : PieceTestBase
 
         var moves = king.GetMoves(Constants.WhiteHomeRank, Constants.KingFile, 1, Board);
 
-        Assert.DoesNotContain(SpecialMoveCodes.CastleKingSide, moves);
+        Assert.DoesNotContain(SpecialMoveCodes.CastleKingSide, moves.Select(m => m.Position));
     }
     
     [Fact]
@@ -94,7 +94,7 @@ public class KingTests : PieceTestBase
 
         var moves = king.GetMoves(Constants.WhiteHomeRank, Constants.KingFile, 1, Board);
 
-        Assert.DoesNotContain(SpecialMoveCodes.CastleKingSide, moves);
+        Assert.DoesNotContain(SpecialMoveCodes.CastleKingSide, moves.Select(m => m.Position));
     }
 
     [Fact]
@@ -108,6 +108,6 @@ public class KingTests : PieceTestBase
 
         var moves = king.GetMoves(Constants.WhiteHomeRank, Constants.KingFile, 1, Board);
 
-        Assert.Contains(SpecialMoveCodes.CastleQueenSide, moves);
+        Assert.Contains(SpecialMoveCodes.CastleQueenSide, moves.Select(m => m.Position));
     }
 }

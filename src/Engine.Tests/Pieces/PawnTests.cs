@@ -103,6 +103,6 @@ public class PawnTests : PieceTestBase
         
         Assert.Single(moves);
     
-        Assert.Equal((5, 1).GetCellIndex(), moves.First());
+        Assert.Equal((5, 1).GetCellIndex(), moves.Select(m => m.Position).First());
     }
 }
