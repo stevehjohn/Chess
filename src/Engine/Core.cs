@@ -19,6 +19,8 @@ public class Core
     private readonly Dictionary<string, long> _perftCounts = new();
 
     private readonly Dictionary<int, int> _plyBestScores = new();
+
+    private readonly ManualResetEvent _manualReset = new(false);
     
     public IReadOnlyDictionary<int, long> DepthCounts => _depthCounts;
 
@@ -80,12 +82,18 @@ public class Core
                 _outcomes[(i, (PlyOutcome) outcome)] = 0;
             }
         }
+
+        _manualReset.Reset();
         
         GetMoveInternal(new PlyState(_board, _player, depth, depth));
+
+        _manualReset.WaitOne();
     }
 
-    private void GetMoveInternal(PlyState state)
+    private void GetMoveInternal(object stateObject)
     {
+        var state = (PlyState) stateObject;
+        
         var board = state.Board;
 
         var colour = state.Colour;
@@ -120,7 +128,10 @@ public class Core
 
                 foreach (var move in moves)
                 {
-                    _depthCounts[ply]++;
+                    lock (_depthCounts)
+                    {
+                        _depthCounts[ply]++;
+                    }
 
                     var copy = new Board(board);
                     
@@ -135,8 +146,11 @@ public class Core
 
                     if (copy.IsKingInCheck(colour, colour == Colour.Black ? copy.BlackKingCell : copy.WhiteKingCell))
                     {
-                        _depthCounts[ply]--;
-                    
+                        lock (_depthCounts)
+                        {
+                            _depthCounts[ply]--;
+                        }
+
                         continue;
                     }
                     
@@ -177,7 +191,7 @@ public class Core
 
                     if (depth > 1)
                     {
-                        GetMoveInternal(new PlyState(copy, colour.Invert(), maxDepth, depth - 1, perftNode));
+                        ThreadPool.QueueUserWorkItem(GetMoveInternal, new PlyState(copy, colour.Invert(), maxDepth, depth - 1, perftNode));
 
                         _perftCounts[perftNode]--;
                     }
@@ -188,6 +202,11 @@ public class Core
                     }
                 }
             }
+        }
+
+        if (depth == maxDepth)
+        {
+            _manualReset.Set();
         }
     }
 }
