@@ -33,7 +33,7 @@ public abstract class Piece
         Direction = colour == Colour.Black ? 1 : -1;
     }
 
-    public IEnumerable<int> GetMoves(int rank, int file, int ply, Board board)
+    public IEnumerable<(int Position, bool Check)> GetMoves(int rank, int file, int ply, Board board)
     {
         Rank = rank;
 
@@ -44,7 +44,7 @@ public abstract class Piece
         return GetMoves(ply);
     }
 
-    protected abstract IEnumerable<int> GetMoves(int ply);
+    protected abstract IEnumerable<(int Position, bool Check)> GetMoves(int ply);
 
     public ushort Encode()
     {
@@ -86,7 +86,7 @@ public abstract class Piece
         return piece;
     }
 
-    protected IEnumerable<int> GetDirectionalMoves(params (int RankDelta, int FileDelta)[] directions)
+    protected IEnumerable<(int Position, bool Check)> GetDirectionalMoves(params (int RankDelta, int FileDelta)[] directions)
     {
         foreach (var direction in directions)
         {
@@ -105,12 +105,12 @@ public abstract class Piece
 
                 if (Board.IsEmpty(cell))
                 {
-                    yield return cell;
+                    yield return (cell, false);
                 }
 
                 if (Board.IsColour(cell, EnemyColour))
                 {
-                    yield return cell;
+                    yield return (cell, Board.CellKind(cell) == Kind.King);
                     
                     break;
                 }

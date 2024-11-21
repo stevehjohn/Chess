@@ -13,13 +13,13 @@ public class Pawn : Piece
     {
     }
 
-    protected override IEnumerable<int> GetMoves(int ply)
+    protected override IEnumerable<(int Position, bool Check)> GetMoves(int ply)
     {
         var cell = (Rank + Direction, File).GetCellIndex();
 
         if (cell >= 0 && Board.IsEmpty(cell))
         {
-            yield return cell;
+            yield return (cell, false);
         }
 
         if (LastMovePly == 0)
@@ -28,7 +28,7 @@ public class Pawn : Piece
 
             if (cell >= 0 && Board.IsEmptyRankPath((Rank, File).GetCellIndex(), cell))
             {
-                yield return cell;
+                yield return (cell, false);
             }
         }
 
@@ -36,14 +36,14 @@ public class Pawn : Piece
 
         if (cell >= 0 && Board.IsColour(cell, EnemyColour))
         {
-            yield return cell;
+            yield return  (cell, Board.CellKind(cell) == Kind.King);
         }
 
         cell = (Rank + Direction, File + 1).GetCellIndex();
 
         if (cell >= 0 && Board.IsColour(cell, EnemyColour))
         {
-            yield return cell;
+            yield return  (cell, Board.CellKind(cell) == Kind.King);
         }
 
         if ((Colour == Colour.White && Rank == Constants.WhitePawnRank - 3) || (Colour == Colour.Black && Rank == Constants.BlackPawnRank + 3))
@@ -58,7 +58,7 @@ public class Pawn : Piece
                 {
                     if (Board.LastMovePly(target) == ply - 1 && Board.LastMoveWas2Ranks(target))
                     {
-                        yield return Direction == -1 ? SpecialMoveCodes.EnPassantUpLeft : SpecialMoveCodes.EnPassantDownLeft;
+                        yield return (Direction == -1 ? SpecialMoveCodes.EnPassantUpLeft : SpecialMoveCodes.EnPassantDownLeft, false);
                     }
                 }
             }
@@ -73,7 +73,7 @@ public class Pawn : Piece
                 {
                     if (Board.LastMovePly(target) == ply - 1 && Board.LastMoveWas2Ranks(target))
                     {
-                        yield return Direction == -1 ? SpecialMoveCodes.EnPassantUpRight : SpecialMoveCodes.EnPassantDownRight;
+                        yield return (Direction == -1 ? SpecialMoveCodes.EnPassantUpRight : SpecialMoveCodes.EnPassantDownRight, false);
                     }
                 }
             }

@@ -25,7 +25,7 @@ public class King : Piece
     {
     }
 
-    protected override IEnumerable<int> GetMoves(int ply)
+    protected override IEnumerable<(int Position, bool Check)> GetMoves(int ply)
     {
         foreach (var move in Moves)
         {
@@ -38,7 +38,7 @@ public class King : Piece
 
             if (Board.IsEmpty(cell) || Board.IsColour(cell, EnemyColour))
             {
-                yield return cell;
+                yield return (cell, Board.CellKind(cell) == Kind.King);
             }
         }
 
@@ -46,12 +46,12 @@ public class King : Piece
         {
             if (CheckCanCastleKingSide())
             {
-                yield return SpecialMoveCodes.CastleKingSide;
+                yield return (SpecialMoveCodes.CastleKingSide, false);
             }
 
             if (CheckCanCastleQueenSide())
             {
-                yield return SpecialMoveCodes.CastleQueenSide;
+                yield return (SpecialMoveCodes.CastleQueenSide, false);
             }
         }
     }

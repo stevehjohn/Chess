@@ -24,7 +24,7 @@ public class Knight : Piece
     {
     }
 
-    protected override IEnumerable<int> GetMoves(int ply)
+    protected override IEnumerable<(int Position, bool Check)> GetMoves(int ply)
     {
         foreach (var move in Moves)
         {
@@ -37,7 +37,7 @@ public class Knight : Piece
 
             if (Board.IsEmpty(cell) || Board.IsColour(cell, EnemyColour))
             {
-                yield return cell;
+                yield return (cell, Board.CellKind(cell) == Kind.King);
             }
         }
     }

@@ -116,14 +116,14 @@ public class Core
 
                 var copy = new Board(board);
                 
-                var outcome = copy.MakeMove(cell, move, ply);
+                var outcome = copy.MakeMove(cell, move.Position, ply);
 
-                if (copy.IsKingInCheck(colour, colour == Colour.Black ? copy.BlackKingCell : copy.WhiteKingCell))
-                {
-                    _depthCounts[ply]--;
-                
-                    continue;
-                }
+                // if (copy.IsKingInCheck(colour, colour == Colour.Black ? copy.BlackKingCell : copy.WhiteKingCell))
+                // {
+                //     _depthCounts[ply]--;
+                //
+                //     continue;
+                // }
                 
                 moved = true;
                 
@@ -138,7 +138,7 @@ public class Core
                 
                 if (perftNode == null)
                 {
-                    perftNode = $"{(rank, file).ToStandardNotation()}{(move / 8, move % 8).ToStandardNotation()}";
+                    perftNode = $"{(rank, file).ToStandardNotation()}{(move.Position / 8, move.Position % 8).ToStandardNotation()}";
 
                     _perftCounts.TryAdd(perftNode, 1);
                 }
@@ -225,7 +225,7 @@ public class Core
             {
                 var copy = new Board(board);
 
-                copy.MakeMove(cell, move, 1);
+                copy.MakeMove(cell, move.Position, 1);
 
                 if (copy.IsKingInCheck(colour, colour == Colour.Black ? copy.BlackKingCell : copy.WhiteKingCell))
                 {
