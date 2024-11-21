@@ -167,11 +167,6 @@ public class Core
                         _plyBestScores[ply] = score;
                     }
                     
-                    if (perftNode == null)
-                    {
-                        perftNode = $"{(rank, file).ToStandardNotation()}{(move / 8, move % 8).ToStandardNotation()}";
-                    }
-
                     lock (_perftCounts)
                     {
                         if (perftNode == null)
