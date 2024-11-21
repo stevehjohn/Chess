@@ -190,7 +190,7 @@ public class Core
 
         if (isKingInCheck && ! moved)
         {
-            _outcomes[(ply, PlyOutcome.CheckMate)]++;
+            _outcomes[(ply - 1, PlyOutcome.CheckMate)]++;
         }
     }
 }

@@ -131,7 +131,7 @@ public static class EntryPoint
                 
                 var pass = count == expected;
                 
-                Console.Write($"  {(pass ? "✓ PASS" : "  FAIL")}  Depth: {j,2}  Combinations: {count,14:N0}  Expected: {expected,14:N0}");
+                Console.Write($"  {(pass ? "✓ PASS" : "  FAIL")}  Depth: {j,2}  Combinations: {count,15:N0}  Expected: {expected,15:N0}");
                 
                 if (! pass)
                 {
