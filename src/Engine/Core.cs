@@ -86,8 +86,6 @@ public class Core
 
     private void GetMoveInternal(Board board, Colour colour, int maxDepth, int depth, string perftNode = null)
     {
-        var isKingInCheck = board.IsKingInCheck(colour, colour == Colour.Black ? board.BlackKingCell : board.WhiteKingCell);
-
         var moved = false;
        
         var ply = maxDepth - depth + 1;
@@ -164,6 +162,14 @@ public class Core
                         }
 
                         outcome = PlyOutcome.Check;
+
+                        if (depth == 1)
+                        {
+                            if (! OpponentCanMove(copy, colour.Invert()))
+                            {
+                                _outcomes[(ply, PlyOutcome.CheckMate)]++;
+                            }
+                        }
                     }
 
                     _outcomes[(ply, outcome)]++;
@@ -179,7 +185,7 @@ public class Core
 
                         _perftCounts[perftNode]--;
                     }
-                    
+
                     if (depth == maxDepth)
                     {
                         perftNode = null;
@@ -188,9 +194,50 @@ public class Core
             }
         }
 
-        if (isKingInCheck && ! moved)
+        if (board.IsKingInCheck(colour, colour == Colour.Black ? board.BlackKingCell : board.WhiteKingCell) && ! moved)
         {
             _outcomes[(ply - 1, PlyOutcome.CheckMate)]++;
         }
+    }
+
+    private static bool OpponentCanMove(Board board, Colour colour)
+    {
+        for (var rank = 0; rank < Constants.Ranks; rank++)
+        {
+            for (var file = 0; file < Constants.Files; file++)
+            {
+                var cell = (rank, file).GetCellIndex();
+
+                if (board.IsEmpty(cell))
+                {
+                    continue;
+                }
+
+                if (! board.IsColour(cell, colour))
+                {
+                    continue;
+                }
+
+                var piece = board[rank, file];
+                
+                var moves = piece.GetMoves(rank, file, 1, board);
+
+                foreach (var move in moves)
+                {
+                    var copy = new Board(board);
+
+                    copy.MakeMove(cell, move, 1);
+
+                    if (copy.IsKingInCheck(colour, colour == Colour.Black ? copy.BlackKingCell : copy.WhiteKingCell))
+                    {
+                        continue;
+                    }
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
