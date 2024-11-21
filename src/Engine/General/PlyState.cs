@@ -2,7 +2,7 @@ using Engine.Pieces;
 
 namespace Engine.General;
 
-public class PlyState
+public struct PlyState
 {
     public Board Board { get; }
     

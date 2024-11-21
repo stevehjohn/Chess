@@ -1,6 +1,7 @@
 using Engine.Extensions;
 using Engine.General;
 using Engine.Pieces;
+// ReSharper disable InconsistentlySynchronizedField
 
 namespace Engine;
 
