@@ -90,106 +90,105 @@ public class Core
        
         var ply = maxDepth - depth + 1;
  
-        for (var rank = 0; rank < Constants.Ranks; rank++)
+        for (var cell = 0; cell < Constants.BoardCells; cell++)
         {
-            for (var file = 0; file < Constants.Files; file++)
+            var rank = cell / 8;
+
+            var file = cell % 8;
+            
+            if (board.IsEmpty(cell))
             {
-                var cell = (rank, file).GetCellIndex();
+                continue;
+            }
+
+            if (! board.IsColour(cell, colour))
+            {
+                continue;
+            }
+
+            var piece = board[rank, file];
                 
-                if (board.IsEmpty(cell))
+            var moves = piece.GetMoves(rank, file, ply, board);
+
+            foreach (var move in moves)
+            {
+                _depthCounts[ply]++;
+
+                var copy = new Board(board);
+                
+                var outcome = copy.MakeMove(cell, move, ply);
+
+                var score = colour == Colour.Black ? copy.BlackScore : copy.WhiteScore;
+
+                if (copy.IsKingInCheck(colour, colour == Colour.Black ? copy.BlackKingCell : copy.WhiteKingCell))
                 {
+                    _depthCounts[ply]--;
+                
                     continue;
                 }
-
-                if (! board.IsColour(cell, colour))
+                
+                moved = true;
+                
+                // TODO: When not doing a full explore, stop if score is worse?
+                
+                if (score > _plyBestScores[ply])
                 {
-                    continue;
+                    _plyBestScores[ply] = score;
+                }
+                
+                if (perftNode == null)
+                {
+                    perftNode = $"{(rank, file).ToStandardNotation()}{(move / 8, move % 8).ToStandardNotation()}";
+
+                    _perftCounts.TryAdd(perftNode, 1);
+                }
+                else
+                {
+                    _perftCounts[perftNode]++;
                 }
 
-                var piece = board[rank, file];
-                    
-                var moves = piece.GetMoves(rank, file, ply, board);
-
-                foreach (var move in moves)
+                if (copy.IsKingInCheck(colour.Invert(), colour == Colour.White ? copy.BlackKingCell : copy.WhiteKingCell))
                 {
-                    _depthCounts[ply]++;
-
-                    var copy = new Board(board);
-                    
-                    var outcome = copy.MakeMove(cell, move, ply);
-
-                    var score = colour == Colour.Black ? copy.BlackScore : copy.WhiteScore;
-
-                    if (copy.IsKingInCheck(colour, colour == Colour.Black ? copy.BlackKingCell : copy.WhiteKingCell))
-                    {
-                        _depthCounts[ply]--;
-                    
-                        continue;
-                    }
-                    
-                    moved = true;
-                    
-                    // TODO: When not doing a full explore, stop if score is worse?
-                    
-                    if (score > _plyBestScores[ply])
-                    {
-                        _plyBestScores[ply] = score;
-                    }
-                    
-                    if (perftNode == null)
-                    {
-                        perftNode = $"{(rank, file).ToStandardNotation()}{(move / 8, move % 8).ToStandardNotation()}";
-
-                        _perftCounts.TryAdd(perftNode, 1);
-                    }
-                    else
-                    {
-                        _perftCounts[perftNode]++;
-                    }
-
-                    if (copy.IsKingInCheck(colour.Invert(), colour == Colour.White ? copy.BlackKingCell : copy.WhiteKingCell))
-                    {
-                        if (outcome == PlyOutcome.Capture)
-                        {
-                            _outcomes[(ply, PlyOutcome.Capture)]++;
-                        }
-
-                        if (outcome == PlyOutcome.EnPassant)
-                        {
-                            _outcomes[(ply, PlyOutcome.Capture)]++;
-
-                            _outcomes[(ply, PlyOutcome.EnPassant)]++;
-                        }
-
-                        outcome = PlyOutcome.Check;
-
-                        if (depth == 1)
-                        {
-                            if (! OpponentCanMove(copy, colour.Invert()))
-                            {
-                                _outcomes[(ply, PlyOutcome.CheckMate)]++;
-                            }
-                        }
-                    }
-
-                    _outcomes[(ply, outcome)]++;
-
-                    if (outcome == PlyOutcome.EnPassant)
+                    if (outcome == PlyOutcome.Capture)
                     {
                         _outcomes[(ply, PlyOutcome.Capture)]++;
                     }
 
-                    if (depth > 1)
+                    if (outcome == PlyOutcome.EnPassant)
                     {
-                        GetMoveInternal(copy, colour.Invert(), maxDepth, depth - 1, perftNode);
+                        _outcomes[(ply, PlyOutcome.Capture)]++;
 
-                        _perftCounts[perftNode]--;
+                        _outcomes[(ply, PlyOutcome.EnPassant)]++;
                     }
 
-                    if (depth == maxDepth)
+                    outcome = PlyOutcome.Check;
+
+                    if (depth == 1)
                     {
-                        perftNode = null;
+                        if (! OpponentCanMove(copy, colour.Invert()))
+                        {
+                            _outcomes[(ply, PlyOutcome.CheckMate)]++;
+                        }
                     }
+                }
+
+                _outcomes[(ply, outcome)]++;
+
+                if (outcome == PlyOutcome.EnPassant)
+                {
+                    _outcomes[(ply, PlyOutcome.Capture)]++;
+                }
+
+                if (depth > 1)
+                {
+                    GetMoveInternal(copy, colour.Invert(), maxDepth, depth - 1, perftNode);
+
+                    _perftCounts[perftNode]--;
+                }
+
+                if (depth == maxDepth)
+                {
+                    perftNode = null;
                 }
             }
         }
@@ -202,39 +201,38 @@ public class Core
 
     private static bool OpponentCanMove(Board board, Colour colour)
     {
-        for (var rank = 0; rank < Constants.Ranks; rank++)
+        for (var cell = 0; cell < Constants.BoardCells; cell++)
         {
-            for (var file = 0; file < Constants.Files; file++)
+            var rank = cell / 8;
+
+            var file = cell % 8;
+            
+            if (board.IsEmpty(cell))
             {
-                var cell = (rank, file).GetCellIndex();
+                continue;
+            }
 
-                if (board.IsEmpty(cell))
+            if (! board.IsColour(cell, colour))
+            {
+                continue;
+            }
+
+            var piece = board[rank, file];
+            
+            var moves = piece.GetMoves(rank, file, 1, board);
+
+            foreach (var move in moves)
+            {
+                var copy = new Board(board);
+
+                copy.MakeMove(cell, move, 1);
+
+                if (copy.IsKingInCheck(colour, colour == Colour.Black ? copy.BlackKingCell : copy.WhiteKingCell))
                 {
                     continue;
                 }
 
-                if (! board.IsColour(cell, colour))
-                {
-                    continue;
-                }
-
-                var piece = board[rank, file];
-                
-                var moves = piece.GetMoves(rank, file, 1, board);
-
-                foreach (var move in moves)
-                {
-                    var copy = new Board(board);
-
-                    copy.MakeMove(cell, move, 1);
-
-                    if (copy.IsKingInCheck(colour, colour == Colour.Black ? copy.BlackKingCell : copy.WhiteKingCell))
-                    {
-                        continue;
-                    }
-
-                    return true;
-                }
+                return true;
             }
         }
 
