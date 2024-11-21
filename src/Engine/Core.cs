@@ -86,6 +86,12 @@ public class Core
 
     private void GetMoveInternal(Board board, Colour colour, int maxDepth, int depth, string perftNode = null)
     {
+        var isKingInCheck = board.IsKingInCheck(colour, colour == Colour.Black ? board.BlackKingCell : board.WhiteKingCell);
+
+        var moved = false;
+       
+        var ply = maxDepth - depth + 1;
+ 
         for (var rank = 0; rank < Constants.Ranks; rank++)
         {
             for (var file = 0; file < Constants.Files; file++)
@@ -103,8 +109,6 @@ public class Core
                 }
 
                 var piece = board[rank, file];
-
-                var ply = maxDepth - depth + 1;
                     
                 var moves = piece.GetMoves(rank, file, ply, board);
 
@@ -117,13 +121,15 @@ public class Core
                     var outcome = copy.MakeMove(cell, move, ply);
 
                     var score = colour == Colour.Black ? copy.BlackScore : copy.WhiteScore;
-                    
+
                     if (copy.IsKingInCheck(colour, colour == Colour.Black ? copy.BlackKingCell : copy.WhiteKingCell))
                     {
                         _depthCounts[ply]--;
                     
                         continue;
                     }
+                    
+                    moved = true;
                     
                     // TODO: When not doing a full explore, stop if score is worse?
                     
@@ -180,6 +186,11 @@ public class Core
                     }
                 }
             }
+        }
+
+        if (isKingInCheck && ! moved)
+        {
+            _outcomes[(ply, PlyOutcome.CheckMate)]++;
         }
     }
 }
