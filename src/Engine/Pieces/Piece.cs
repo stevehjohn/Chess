@@ -61,7 +61,7 @@ public abstract class Piece
     {
         var kind = (Kind) (code & 0b0000_0111);
 
-        var colour = ((code & 0b0001_1000) >> 3) switch
+        var colour = ((code & 0b0001_1000) >> Constants.ColourBitOffset) switch
         {
             1 => Colour.White,
             2 => Colour.Black,
