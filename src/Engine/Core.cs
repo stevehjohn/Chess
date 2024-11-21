@@ -20,7 +20,7 @@ public class Core
 
     private readonly Dictionary<int, int> _plyBestScores = new();
 
-    private readonly ManualResetEvent _manualReset = new(false);
+    private readonly CountdownEvent _countdownEvent = new(1);
     
     public IReadOnlyDictionary<int, long> DepthCounts => _depthCounts;
 
@@ -83,11 +83,9 @@ public class Core
             }
         }
 
-        _manualReset.Reset();
-        
         GetMoveInternal(new PlyState(_board, _player, depth, depth));
 
-        _manualReset.WaitOne();
+        _countdownEvent.Wait();
     }
 
     private void GetMoveInternal(object stateObject)
@@ -139,9 +137,12 @@ public class Core
 
                     var score = colour == Colour.Black ? copy.BlackScore : copy.WhiteScore;
 
-                    if (score > _plyBestScores[ply])
+                    lock (_plyBestScores)
                     {
-                        _plyBestScores[ply] = score;
+                        if (score > _plyBestScores[ply])
+                        {
+                            _plyBestScores[ply] = score;
+                        }
                     }
 
                     if (copy.IsKingInCheck(colour, colour == Colour.Black ? copy.BlackKingCell : copy.WhiteKingCell))
@@ -153,47 +154,61 @@ public class Core
 
                         continue;
                     }
-                    
-                    if (perftNode == null)
-                    {
-                        perftNode = $"{(rank, file).ToStandardNotation()}{(move / 8, move % 8).ToStandardNotation()}";
 
-                        _perftCounts.TryAdd(perftNode, 1);
-                    }
-                    else
+                    lock (_perftCounts)
                     {
-                        _perftCounts[perftNode]++;
+                        if (perftNode == null)
+                        {
+                            perftNode = $"{(rank, file).ToStandardNotation()}{(move / 8, move % 8).ToStandardNotation()}";
+
+                            _perftCounts.TryAdd(perftNode, 1);
+                        }
+                        else
+                        {
+                            _perftCounts[perftNode]++;
+                        }
                     }
 
                     if (copy.IsKingInCheck(colour.Invert(), colour == Colour.White ? copy.BlackKingCell : copy.WhiteKingCell))
                     {
-                        if (outcome == PlyOutcome.Capture)
+                        lock (_outcomes)
                         {
-                            _outcomes[(ply, PlyOutcome.Capture)]++;
-                        }
+                            if (outcome == PlyOutcome.Capture)
+                            {
+                                _outcomes[(ply, PlyOutcome.Capture)]++;
+                            }
 
-                        if (outcome == PlyOutcome.EnPassant)
-                        {
-                            _outcomes[(ply, PlyOutcome.Capture)]++;
+                            if (outcome == PlyOutcome.EnPassant)
+                            {
+                                _outcomes[(ply, PlyOutcome.Capture)]++;
 
-                            _outcomes[(ply, PlyOutcome.EnPassant)]++;
+                                _outcomes[(ply, PlyOutcome.EnPassant)]++;
+                            }
                         }
 
                         outcome = PlyOutcome.Check;
                     }
 
-                    _outcomes[(ply, outcome)]++;
-
-                    if (outcome == PlyOutcome.EnPassant)
+                    lock (_outcomes)
                     {
-                        _outcomes[(ply, PlyOutcome.Capture)]++;
-                    }
+                        _outcomes[(ply, outcome)]++;
 
+                        if (outcome == PlyOutcome.EnPassant)
+                        {
+                            _outcomes[(ply, PlyOutcome.Capture)]++;
+                        }
+                    }
+                    
                     if (depth > 1)
                     {
+                        _countdownEvent.AddCount();
+                        
                         ThreadPool.QueueUserWorkItem(GetMoveInternal, new PlyState(copy, colour.Invert(), maxDepth, depth - 1, perftNode));
 
-                        _perftCounts[perftNode]--;
+                        lock (_perftCounts)
+                        {
+                            _perftCounts[perftNode]--;
+                        }
                     }
                     
                     if (depth == maxDepth)
@@ -204,9 +219,6 @@ public class Core
             }
         }
 
-        if (depth == maxDepth)
-        {
-            _manualReset.Set();
-        }
+        _countdownEvent.Signal();
     }
 }
