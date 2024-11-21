@@ -92,10 +92,6 @@ public class Core
  
         for (var cell = 0; cell < Constants.BoardCells; cell++)
         {
-            var rank = cell / 8;
-
-            var file = cell % 8;
-            
             if (board.IsEmpty(cell))
             {
                 continue;
@@ -106,6 +102,10 @@ public class Core
                 continue;
             }
 
+            var rank = cell / 8;
+
+            var file = cell % 8;
+            
             var piece = board[rank, file];
                 
             var moves = piece.GetMoves(rank, file, ply, board);
