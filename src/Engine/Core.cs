@@ -118,13 +118,6 @@ public class Core
                 
                 var outcome = copy.MakeMove(cell, move.Position, ply);
 
-                // if (copy.IsKingInCheck(colour, colour == Colour.Black ? copy.BlackKingCell : copy.WhiteKingCell))
-                // {
-                //     _depthCounts[ply]--;
-                //
-                //     continue;
-                // }
-                
                 moved = true;
                 
                 // TODO: When not doing a full explore, stop if score is worse?
