@@ -6,14 +6,14 @@ public struct Direction
     
     public int FileDelta { get; }
     
-    public bool IsOrthagonal { get; }
+    public bool IsOrthogonal { get; }
 
-    public Direction(int rankDelta, int fileDelta, bool isOrthagonal)
+    public Direction(int rankDelta, int fileDelta, bool isOrthogonal)
     {
         RankDelta = rankDelta;
         
         FileDelta = fileDelta;
         
-        IsOrthagonal = isOrthagonal;
+        IsOrthogonal = isOrthogonal;
     }
 }

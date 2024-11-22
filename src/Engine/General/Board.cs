@@ -311,8 +311,8 @@ public class Board
                 var isAttacking = kind switch
                 {
                     Kind.Queen => true,
-                    Kind.Rook => direction.IsOrthagonal,
-                    Kind.Bishop => ! direction.IsOrthagonal,
+                    Kind.Rook => direction.IsOrthogonal,
+                    Kind.Bishop => ! direction.IsOrthogonal,
                     Kind.King => i == 1,
                     _ => false
                 };
