@@ -272,23 +272,29 @@ public class Board
 
     public bool IsKingInCheck(Colour colour, int kingCellIndex)
     {
-        var kingCell = (Rank: kingCellIndex >> 3, File: kingCellIndex & 7);
+        var kingRank = kingCellIndex >> 3;
+        
+        var kingFile = kingCellIndex & 7;
+
+        int cellRank;
+
+        int cellFile;
 
         int cell;
 
-        (int Rank, int File) checkCell;
-
         foreach (var direction in Directions)
         {
-            checkCell = kingCell;
+            cellRank = kingRank;
+
+            cellFile = kingFile;
             
             for (var i = 0; i < Constants.MaxMoveDistance; i++)
             {
-                checkCell.Rank += direction.RankDelta;
+                cellRank += direction.RankDelta;
 
-                checkCell.File += direction.FileDelta;
+                cellFile += direction.FileDelta;
 
-                cell = checkCell.GetCellIndex();
+                cell = (cellRank, cellFile).GetCellIndex();
 
                 if (cell < 0)
                 {
@@ -325,13 +331,15 @@ public class Board
         
         foreach (var direction in Knights)
         {
-            checkCell = kingCell;
-            
-            checkCell.Rank += direction.RankDelta;
+            cellRank = kingRank;
 
-            checkCell.File += direction.FileDelta;
+            cellFile = kingFile;
 
-            cell = checkCell.GetCellIndex();
+            cellRank += direction.RankDelta;
+
+            cellFile += direction.FileDelta;
+
+            cell = (cellRank, cellFile).GetCellIndex();
         
             if (cell < 0)
             {
@@ -353,14 +361,14 @@ public class Board
 
         var rankDirection = colour == Colour.Black ? 1 : -1;
 
-        cell = (kingCell.Rank + rankDirection, kingCell.File - 1).GetCellIndex();
+        cell = (kingRank + rankDirection, kingFile - 1).GetCellIndex();
 
         if (cell >= 0 && IsColour(cell, colour.Invert()) && CellKind(cell) == Kind.Pawn)
         {
             return true;
         }
 
-        cell = (kingCell.Rank + rankDirection, kingCell.File + 1).GetCellIndex();
+        cell = (kingRank + rankDirection, kingFile + 1).GetCellIndex();
 
         if (cell >= 0 && IsColour(cell, colour.Invert()) && CellKind(cell) == Kind.Pawn)
         {
