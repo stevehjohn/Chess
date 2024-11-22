@@ -72,9 +72,4 @@ public static class Console
     {
         System.Console.Clear();
     }
-
-    public static string ReadLine()
-    {
-        return System.Console.ReadLine() ?? string.Empty;
-    }
 }

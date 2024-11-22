@@ -239,7 +239,7 @@ public class LiChessClient : IDisposable
             OutputLine($"&NL;  &Green;Engine&White;: {engineMove}");
             
             await Post<NullRequest, BasicResponse>($"bot/game/{id}/move/{engineMove}", null);
-            
+
             _core.MakeMove(engineMove);
         }
         else

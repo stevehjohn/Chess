@@ -13,7 +13,4 @@ public class ChallengeResponse
     
     [JsonPropertyName("status")]
     public string Status { get; set; }
-    
-    [JsonPropertyName("url")]
-    public string Url { get; set; }
 }
