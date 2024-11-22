@@ -31,9 +31,9 @@ public static class EntryPoint
 
             foreach (var move in moves)
             {
-                var position = move[..2].CellFromAlgebraicNotation();
+                var position = move[..2].CellFromStandardNotation();
 
-                var target = move[2..].CellFromAlgebraicNotation();
+                var target = move[2..].CellFromStandardNotation();
             
                 core.MakeMove(position, target);
             

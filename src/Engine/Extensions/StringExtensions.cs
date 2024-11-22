@@ -2,7 +2,7 @@ namespace Engine.Extensions;
 
 public static class StringExtensions
 {
-    public static int CellFromAlgebraicNotation(this string cell)
+    public static int CellFromStandardNotation(this string cell)
     {
         var file = cell[0] - 'a';
 

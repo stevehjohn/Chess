@@ -49,7 +49,12 @@ public class Core
         
         _board.InitialisePieces(parts[0]);
     }
-    
+
+    public void MakeMove(string move)
+    {
+        MakeMove(move[..2].CellFromStandardNotation(), move[2..].CellFromStandardNotation());
+    }
+
     public void MakeMove(int position, int target)
     {
         _board.MakeMove(position, target, _ply);
@@ -59,7 +64,7 @@ public class Core
         _ply++;
     }
     
-    public void GetMove(int depth)
+    public int GetMove(int depth)
     {
         _depthCounts = new long[depth + 1];
         
@@ -81,6 +86,8 @@ public class Core
         }
         
         GetMoveInternal(_board, _player, depth, depth);
+
+        return 0;
     }
 
     private void GetMoveInternal(Board board, Colour colour, int maxDepth, int depth, string perftNode = null)
