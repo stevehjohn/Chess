@@ -68,14 +68,14 @@ public class Board
     {
         get
         {
-            var cell = _cells[(rank, file).GetCellIndex()];
+            var cell = _cells.Value((rank, file).GetCellIndex());
 
             if (cell == 0)
             {
                 return null;
             }
 
-            return Piece.Decode(_cells[(rank, file).GetCellIndex()]);
+            return Piece.Decode(cell);
         }
         set => _cells[(rank, file).GetCellIndex()] = value.Encode();
     }
@@ -178,27 +178,27 @@ public class Board
     
     public bool IsColour(int cell, Colour colour)
     {
-        return (_cells[cell] & (ushort) colour << 3) > 0;
+        return (_cells.Value(cell) & (ushort) colour << 3) > 0;
     }
     
     public bool IsEmpty(int cell)
     {
-        return _cells[cell] == 0;
+        return _cells.Value(cell) == 0;
     }
 
     public Kind CellKind(int cell)
     {
-        return (Kind) (_cells[cell] & Constants.PieceKindMask);
+        return (Kind) (_cells.Value(cell) & Constants.PieceKindMask);
     }
 
     public int LastMovePly(int cell)
     {
-        return _cells[cell] >> Constants.LastPlyMoveBitOffset;
+        return _cells.Value(cell) >> Constants.LastPlyMoveBitOffset;
     }
 
     public bool LastMoveWas2Ranks(int cell)
     {
-        return (_cells[cell] & Constants.PawnMoved2RanksFlag) > 0;
+        return (_cells.Value(cell) & Constants.PawnMoved2RanksFlag) > 0;
     }
 
     public bool IsEmptyRankPath(int position, int target)
@@ -401,25 +401,25 @@ public class Board
             }
         }
         
-        var outcome = _cells[target] > 0 ? PlyOutcome.Capture : PlyOutcome.Move;
+        var outcome = _cells.Value(target) > 0 ? PlyOutcome.Capture : PlyOutcome.Move;
 
         if (outcome == PlyOutcome.Capture)
         {
             if (playerIsBlack)
             {
-                _state.BlackScore += Piece.Decode(_cells[target]).Value;
+                _state.BlackScore += Piece.Decode(_cells.Value(target)).Value;
             }
             else
             {
-                _state.WhiteScore += Piece.Decode(_cells[target]).Value;
+                _state.WhiteScore += Piece.Decode(_cells.Value(target)).Value;
             }
         }
 
-        _cells[target] = _cells[position];
+        _cells[target] = _cells.Value(position);
 
         _cells[position] = 0;
 
-        _cells[target] = (ushort) ((_cells[target] & Constants.PieceDescriptionMask) | (ply << Constants.LastPlyMoveBitOffset));
+        _cells[target] = (ushort) ((_cells.Value(target) & Constants.PieceDescriptionMask) | (ply << Constants.LastPlyMoveBitOffset));
 
         if (CellKind(target) == Kind.Pawn)
         {
