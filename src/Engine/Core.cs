@@ -13,16 +13,16 @@ public class Core
     private Colour _player;
     
     private long[] _depthCounts;
-    
-    private readonly Dictionary<(long Ply, PlyOutcome Outcome), long> _outcomes = new();
+
+    private int[] _plyBestScores;
+
+    private long[][] _outcomes;
 
     private readonly Dictionary<string, long> _perftCounts = new();
 
-    private readonly Dictionary<int, int> _plyBestScores = new();
-
     public long GetDepthCount(int ply) => _depthCounts[ply];
 
-    public IReadOnlyDictionary<(long Ply, PlyOutcome Outcome), long> Outcomes => _outcomes;
+    public long GetPlyOutcome(int ply, PlyOutcome outcome) => _outcomes[ply][(int) outcome];
         
     public IReadOnlyDictionary<string, long> PerftCounts => _perftCounts;
     
@@ -63,11 +63,11 @@ public class Core
     {
         _depthCounts = new long[depth + 1];
         
-        _outcomes.Clear();
+        _plyBestScores = new int[depth + 1];
+
+        _outcomes = new long[depth + 1][];
         
         _perftCounts.Clear();
-        
-        _plyBestScores.Clear();
         
         for (var i = 1; i <= depth; i++)
         {
@@ -75,10 +75,9 @@ public class Core
 
             _plyBestScores[i] = 0;
 
-            foreach (var outcome in Enum.GetValuesAsUnderlyingType<PlyOutcome>())
-            {
-                _outcomes[(i, (PlyOutcome) outcome)] = 0;
-            }
+            var outcomes = Enum.GetValuesAsUnderlyingType<PlyOutcome>();
+
+            _outcomes[i] = new long[outcomes.Length];
         }
         
         GetMoveInternal(_board, _player, depth, depth);
@@ -153,14 +152,14 @@ public class Core
                 {
                     if (outcome == PlyOutcome.Capture)
                     {
-                        _outcomes[(ply, PlyOutcome.Capture)]++;
+                        _outcomes[ply][(int) PlyOutcome.Capture]++;
                     }
 
                     if (outcome == PlyOutcome.EnPassant)
                     {
-                        _outcomes[(ply, PlyOutcome.Capture)]++;
+                        _outcomes[ply][(int) PlyOutcome.Capture]++;
 
-                        _outcomes[(ply, PlyOutcome.EnPassant)]++;
+                        _outcomes[ply][(int) PlyOutcome.EnPassant]++;
                     }
 
                     outcome = PlyOutcome.Check;
@@ -169,16 +168,16 @@ public class Core
                     {
                         if (! OpponentCanMove(copy, colour.Invert()))
                         {
-                            _outcomes[(ply, PlyOutcome.CheckMate)]++;
+                            _outcomes[ply][(int) PlyOutcome.CheckMate]++;
                         }
                     }
                 }
 
-                _outcomes[(ply, outcome)]++;
+                _outcomes[ply][(int) outcome]++;
 
                 if (outcome == PlyOutcome.EnPassant)
                 {
-                    _outcomes[(ply, PlyOutcome.Capture)]++;
+                    _outcomes[ply][(int) PlyOutcome.Capture]++;
                 }
 
                 if (depth > 1)
@@ -199,7 +198,7 @@ public class Core
 
         if (board.IsKingInCheck(colour, colour == Colour.Black ? board.BlackKingCell : board.WhiteKingCell) && ! moved)
         {
-            _outcomes[(ply - 1, PlyOutcome.CheckMate)]++;
+            _outcomes[ply - 1][(int) PlyOutcome.CheckMate]++;
         }
     }
 

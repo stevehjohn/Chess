@@ -142,70 +142,70 @@ public static class EntryPoint
                 
                 Console.WriteLine();
                 
-                Console.Write($"      Capture:    {core.Outcomes[(j, PlyOutcome.Capture)],13:N0}");
-                Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.Capture)] == core.Outcomes[(j, PlyOutcome.Capture)] ? "✓" : string.Empty)}");
-                if (ExpectedOutcomes[(j, PlyOutcome.Capture)] == core.Outcomes[(j, PlyOutcome.Capture)])
+                Console.Write($"      Capture:    {core.GetPlyOutcome(j, PlyOutcome.Capture),13:N0}");
+                Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.Capture)] == core.GetPlyOutcome(j, PlyOutcome.Capture) ? "✓" : string.Empty)}");
+                if (ExpectedOutcomes[(j, PlyOutcome.Capture)] == core.GetPlyOutcome(j, PlyOutcome.Capture))
                 {
                     Console.WriteLine();
                 }
                 else
                 {
-                    Console.WriteLine($"  Delta: {core.Outcomes[(j, PlyOutcome.Capture)] - ExpectedOutcomes[(j, PlyOutcome.Capture)],13:N0}");
+                    Console.WriteLine($"  Delta: {core.GetPlyOutcome(j, PlyOutcome.Capture) - ExpectedOutcomes[(j, PlyOutcome.Capture)],13:N0}");
                 }
                 
-                Console.Write($"      En Passant: {core.Outcomes[(j, PlyOutcome.EnPassant)],13:N0}");
-                Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.EnPassant)] == core.Outcomes[(j, PlyOutcome.EnPassant)] ? "✓" : string.Empty)}");
-                if (ExpectedOutcomes[(j, PlyOutcome.EnPassant)] == core.Outcomes[(j, PlyOutcome.EnPassant)])
+                Console.Write($"      En Passant: {core.GetPlyOutcome(j, PlyOutcome.EnPassant),13:N0}");
+                Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.EnPassant)] == core.GetPlyOutcome(j, PlyOutcome.EnPassant) ? "✓" : string.Empty)}");
+                if (ExpectedOutcomes[(j, PlyOutcome.EnPassant)] == core.GetPlyOutcome(j, PlyOutcome.EnPassant))
                 {
                     Console.WriteLine();
                 }
                 else
                 {
-                    Console.WriteLine($"  Delta: {core.Outcomes[(j, PlyOutcome.EnPassant)] - ExpectedOutcomes[(j, PlyOutcome.EnPassant)],13:N0}");
+                    Console.WriteLine($"  Delta: {core.GetPlyOutcome(j, PlyOutcome.EnPassant) - ExpectedOutcomes[(j, PlyOutcome.EnPassant)],13:N0}");
                 }
                 
-                Console.Write($"      Castle:     {core.Outcomes[(j, PlyOutcome.Castle)],13:N0}");
-                Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.Castle)] == core.Outcomes[(j, PlyOutcome.Castle)] ? "✓" : string.Empty)}");
-                if (ExpectedOutcomes[(j, PlyOutcome.Castle)] == core.Outcomes[(j, PlyOutcome.Castle)])
+                Console.Write($"      Castle:     {core.GetPlyOutcome(j, PlyOutcome.Castle),13:N0}");
+                Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.Castle)] == core.GetPlyOutcome(j, PlyOutcome.Castle) ? "✓" : string.Empty)}");
+                if (ExpectedOutcomes[(j, PlyOutcome.Castle)] == core.GetPlyOutcome(j, PlyOutcome.Castle))
                 {
                     Console.WriteLine();
                 }
                 else
                 {
-                    Console.WriteLine($"  Delta: {core.Outcomes[(j, PlyOutcome.Castle)] - ExpectedOutcomes[(j, PlyOutcome.Castle)],13:N0}");
+                    Console.WriteLine($"  Delta: {core.GetPlyOutcome(j, PlyOutcome.Castle) - ExpectedOutcomes[(j, PlyOutcome.Castle)],13:N0}");
                 }
                 
-                Console.Write($"      Promotion:  {core.Outcomes[(j, PlyOutcome.Promotion)],13:N0}");
-                Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.Promotion)] == core.Outcomes[(j, PlyOutcome.Promotion)] ? "✓" : string.Empty)}");
-                if (ExpectedOutcomes[(j, PlyOutcome.Promotion)] == core.Outcomes[(j, PlyOutcome.Promotion)])
+                Console.Write($"      Promotion:  {core.GetPlyOutcome(j, PlyOutcome.Promotion),13:N0}");
+                Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.Promotion)] == core.GetPlyOutcome(j, PlyOutcome.Promotion) ? "✓" : string.Empty)}");
+                if (ExpectedOutcomes[(j, PlyOutcome.Promotion)] == core.GetPlyOutcome(j, PlyOutcome.Promotion))
                 {
                     Console.WriteLine();
                 }
                 else
                 {
-                    Console.WriteLine($"  Delta: {core.Outcomes[(j, PlyOutcome.Promotion)] - ExpectedOutcomes[(j, PlyOutcome.Promotion)],13:N0}");
+                    Console.WriteLine($"  Delta: {core.GetPlyOutcome(j, PlyOutcome.Promotion) - ExpectedOutcomes[(j, PlyOutcome.Promotion)],13:N0}");
                 }
                 
-                Console.Write($"      Check:      {core.Outcomes[(j, PlyOutcome.Check)],13:N0}");
-                Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.Check)] == core.Outcomes[(j, PlyOutcome.Check)] ? "✓" : string.Empty)}");
-                if (ExpectedOutcomes[(j, PlyOutcome.Check)] == core.Outcomes[(j, PlyOutcome.Check)])
+                Console.Write($"      Check:      {core.GetPlyOutcome(j, PlyOutcome.Check),13:N0}");
+                Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.Check)] == core.GetPlyOutcome(j, PlyOutcome.Check) ? "✓" : string.Empty)}");
+                if (ExpectedOutcomes[(j, PlyOutcome.Check)] == core.GetPlyOutcome(j, PlyOutcome.Check))
                 {
                     Console.WriteLine();
                 }
                 else
                 {
-                    Console.WriteLine($"  Delta: {core.Outcomes[(j, PlyOutcome.Check)] - ExpectedOutcomes[(j, PlyOutcome.Check)],13:N0}");
+                    Console.WriteLine($"  Delta: {core.GetPlyOutcome(j, PlyOutcome.Check) - ExpectedOutcomes[(j, PlyOutcome.Check)],13:N0}");
                 }
                 
-                Console.Write($"      Check Mate: {core.Outcomes[(j, PlyOutcome.CheckMate)],13:N0}");
-                Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.CheckMate)] == core.Outcomes[(j, PlyOutcome.CheckMate)] ? "✓" : string.Empty)}");
-                if (ExpectedOutcomes[(j, PlyOutcome.CheckMate)] == core.Outcomes[(j, PlyOutcome.CheckMate)])
+                Console.Write($"      Check Mate: {core.GetPlyOutcome(j, PlyOutcome.CheckMate),13:N0}");
+                Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.CheckMate)] == core.GetPlyOutcome(j, PlyOutcome.CheckMate) ? "✓" : string.Empty)}");
+                if (ExpectedOutcomes[(j, PlyOutcome.CheckMate)] == core.GetPlyOutcome(j, PlyOutcome.CheckMate))
                 {
                     Console.WriteLine();
                 }
                 else
                 {
-                    Console.WriteLine($"  Delta: {core.Outcomes[(j, PlyOutcome.CheckMate)] - ExpectedOutcomes[(j, PlyOutcome.CheckMate)],13:N0}");
+                    Console.WriteLine($"  Delta: {core.GetPlyOutcome(j, PlyOutcome.CheckMate) - ExpectedOutcomes[(j, PlyOutcome.CheckMate)],13:N0}");
                 }
 
                 if (perft)
