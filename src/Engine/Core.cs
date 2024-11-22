@@ -25,6 +25,8 @@ public class Core
     public long GetPlyOutcome(int ply, PlyOutcome outcome) => _outcomes[ply][(int) outcome];
         
     public IReadOnlyDictionary<string, long> PerftCounts => _perftCounts;
+
+    public Colour Player => _player;
     
     public void Initialise(Colour colour = Colour.White)
     {

@@ -2,7 +2,9 @@ using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
+using Engine.Extensions;
 using Engine.LiChessClient.Client.Models;
+using Engine.Pieces;
 using static Engine.LiChessClient.Infrastructure.Console;
 
 namespace Engine.LiChessClient.Client;
@@ -203,9 +205,14 @@ public class LiChessClient : IDisposable
             _core.MakeMove(move);
         }
 
-        var engineMove = _core.GetMove(5);
+        if (_core.Player == Colour.White && engineIsWhite)
+        {
+            var engineMove = _core.GetMove(5);
 
-        var response = await Post<NullRequest, BasicResponse>($"bot/game/{id}", null);
+            OutputLine($"  &Green;Engine&White;: {engineMove.ToStandardNotation()}");
+            
+            var response = await Post<NullRequest, BasicResponse>($"bot/game/{id}/move/{engineMove.ToStandardNotation()}", null);
+        }
     }
 
     private async Task<TResponse> Post<TRequest, TResponse>(string path, TRequest content) where TRequest : class
