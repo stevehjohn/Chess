@@ -6,9 +6,9 @@ using static Engine.LiChessClient.Infrastructure.Console;
 
 namespace Engine.LiChessClient.Client;
 
-public class LiChessClient
+public class LiChessClient : IDisposable
 {
-    private const int WaitAttempts = 20;
+    private const int WaitAttempts = 6;
     
     private readonly HttpClient _client;
 
@@ -65,9 +65,9 @@ public class LiChessClient
         {
             OutputLine("&NL;  &Cyan;Challenge &Yellow;CREATED&White;.");
 
-            var accepted = await AwaitAcceptance(response.Id);
+            var challengeState = await AwaitAcceptance(response.Id);
 
-            if (accepted)
+            if (challengeState.Accepted)
             {
                 OutputLine("&NL;  &Cyan;Challenge &Green;ACCEPTED&White;.");
 
@@ -75,7 +75,7 @@ public class LiChessClient
             }
             else
             {
-                OutputLine("&NL;  &Cyan;Challenge &Magenta;DECLINED&White;.");
+                OutputLine($"&NL;  &Cyan;Challenge &Magenta;{challengeState.Reason}&White;.");
             }
         }
         else if (response.Status == "accepted")
@@ -94,22 +94,24 @@ public class LiChessClient
         ForegroundColor = colour;
     }
 
-    private async Task<bool> AwaitAcceptance(string id)
+    private async Task<(bool Accepted, string Reason)> AwaitAcceptance(string id)
     {
         OutputLine($"&NL;  &Cyan;Game ID: &White;{id}");
+        
+        Thread.Sleep(1000);
 
-        for (var attempt = 1; attempt <= 20; attempt++)
+        for (var attempt = 1; attempt <= WaitAttempts; attempt++)
         {
             var response = await Get<ChallengeResponse>($"challenge/{id}/show");
 
             if (response.Status == "accepted")
             {
-                return true;
+                return (true, null);
             }
 
             if (response.Status is "declined" or "offline")
             {
-                return false;
+                return (false, response.Status.ToUpperInvariant());
             }
 
             if (response.Status == "created")
@@ -118,16 +120,16 @@ public class LiChessClient
 
                 var y = CursorLeft;
                 
-                for (var i = 30; i >= 0; i--)
+                for (var i = 10; i >= 0; i--)
                 {
                     CursorLeft = y;
                     
                     switch (i)
                     {
-                        case > 20:
+                        case > 5:
                             Output("&Magenta;");
                             break;
-                        case > 10:
+                        case > 2:
                             Output("&Yellow;");
                             break;
                         default:
@@ -142,11 +144,36 @@ public class LiChessClient
             }
         }
 
-        return false;
+        return (false, "TIMEOUT");
     }
 
     private async Task PlayGame(string id)
     {
+        using var response = await _client.GetAsync($"api/bot/game/stream/{id}", HttpCompletionOption.ResponseHeadersRead);
+
+        response.EnsureSuccessStatusCode();
+
+        await using var stream = await response.Content.ReadAsStreamAsync();
+
+        using var reader = new StreamReader(stream);
+
+        var first = true; 
+
+        while (! reader.EndOfStream)
+        {
+            var line = await reader.ReadLineAsync();
+
+            var game = JsonSerializer.Deserialize<StreamResponse>(line!);
+
+            if (first)
+            {
+                OutputLine($"  &Cyan;White&White;: &Green;{game.White.Name}    &Cyan;Black&White;: {game.Black.Name}");
+
+                first = false;
+            }
+
+            OutputLine($"&Gray;{line}");
+        }
     }
 
     private async Task<TResponse> Post<TRequest, TResponse>(string path, TRequest content)
@@ -155,8 +182,8 @@ public class LiChessClient
         {
             OutputLine($"&NL;&Gray;POST: api/{path}");
         }
-
-        var response = await _client.PostAsync($"api/{path}", JsonContent.Create(content));
+        
+        using var response = await _client.PostAsync($"api/{path}", JsonContent.Create(content));
 
         if (_logCommunications)
         {
@@ -164,7 +191,7 @@ public class LiChessClient
         }
 
         var responseString = await response.Content.ReadAsStringAsync();
-
+        
         var responseObject = JsonSerializer.Deserialize<TResponse>(responseString);
         
         if (_logCommunications)
@@ -184,7 +211,7 @@ public class LiChessClient
             OutputLine($"&Gray;GET: api/{path}");
         }
 
-        var response = await _client.GetAsync($"api/{path}");
+        using var response = await _client.GetAsync($"api/{path}");
 
         if (_logCommunications)
         {
@@ -203,5 +230,10 @@ public class LiChessClient
         }
 
         return responseObject;
+    }
+
+    public void Dispose()
+    {
+        _client?.Dispose();
     }
 }

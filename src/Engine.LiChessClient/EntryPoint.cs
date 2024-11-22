@@ -6,6 +6,6 @@ public static class EntryPoint
     {
         var client = new Client.LiChessClient(true);
         
-        await client.ChallengeLiChess("LeelaChess");
+        await client.ChallengeLiChess("maia1");
     }
 }
