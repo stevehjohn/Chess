@@ -7,23 +7,19 @@ namespace Engine.General;
 
 public class Board
 {
-    private static readonly List<(int RankDelta, int FileDelta)> Orthogonals =
+    private static readonly (int RankDelta, int FileDelta, bool isOrthagonal)[] Directions =
     [
-        (-1, 0),
-        (0, -1),
-        (1, 0),
-        (0, 1)
+        (-1, 0, true),
+        (0, -1, true),
+        (1, 0, true),
+        (0, 1, true),
+        (-1, -1, false),
+        (1, -1, false),
+        (-1, 1, false),
+        (1, 1, false)
     ];
 
-    private static readonly List<(int RankDelta, int FileDelta)> Diagonals =
-    [
-        (-1, -1),
-        (1, -1),
-        (-1, 1),
-        (1, 1)
-    ];
-
-    private static readonly List<(int RankDelta, int FileDelta)> Knights =
+    private static readonly (int RankDelta, int FileDelta)[] Knights =
     [
         (2, -1),
         (2, 1),
@@ -275,7 +271,7 @@ public class Board
 
         (int Rank, int File) checkCell;
 
-        foreach (var direction in Orthogonals)
+        foreach (var direction in Directions)
         {
             checkCell = kingCell;
             
@@ -299,7 +295,17 @@ public class Board
 
                 var kind = CellKind(cell);
 
-                if (kind is Kind.Rook or Kind.Queen)
+                if (kind == Kind.Queen)
+                {
+                    return true;
+                }
+
+                if (kind is Kind.Rook && direction.isOrthagonal)
+                {
+                    return true;
+                }
+
+                if (kind is Kind.Bishop && ! direction.isOrthagonal)
                 {
                     return true;
                 }
@@ -315,48 +321,7 @@ public class Board
                 }
             }
         }
-
-        foreach (var direction in Diagonals)
-        {
-            checkCell = kingCell;
-            
-            for (var i = 0; i < Constants.MaxMoveDistance; i++)
-            {
-                checkCell.Rank += direction.RankDelta;
-
-                checkCell.File += direction.FileDelta;
-
-                cell = checkCell.GetCellIndex();
         
-                if (cell < 0)
-                {
-                    break;
-                }
-        
-                if (IsColour(cell, colour))
-                {
-                    break;
-                }
-        
-                var kind = CellKind(cell);
-        
-                if (kind is Kind.Bishop or Kind.Queen)
-                {
-                    return true;
-                }
-                
-                if (kind is Kind.King && i == 0)
-                {
-                    return true;
-                }
-
-                if (! IsEmpty(cell))
-                {
-                    break;
-                }
-            }
-        }
-
         foreach (var direction in Knights)
         {
             checkCell = kingCell;
