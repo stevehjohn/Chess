@@ -25,12 +25,14 @@ public static class Console
         System.Console.WriteLine();
     }
     
-    public static void Output(string text = null)
+    private static void Output(string text = null)
     {
         if (text == null)
         {
             return;
         }
+
+        text = text.Replace("&NL;", Environment.NewLine);
 
         for (var i = 0; i < text.Length; i++)
         {

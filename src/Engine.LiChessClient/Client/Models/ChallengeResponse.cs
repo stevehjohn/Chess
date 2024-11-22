@@ -1,5 +1,6 @@
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
+using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 
 namespace Engine.LiChessClient.Client.Models;

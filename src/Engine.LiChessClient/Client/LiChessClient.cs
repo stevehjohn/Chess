@@ -34,7 +34,7 @@ public class LiChessClient
 
         _serializerOptions = new JsonSerializerOptions
         {
-            PropertyNameCaseInsensitive = true,
+            PropertyNameCaseInsensitive = false,
             WriteIndented = true
         };
     }
@@ -45,19 +45,17 @@ public class LiChessClient
         
         Clear();
         
-        OutputLine($"\n  &Cyan;Challenging &White;{username}");
+        OutputLine($"&NL  &Cyan;Challenging &White;{username}");
 
         var response = await Post<ChallengeResponse>($"challenge/{username}");
 
         if (response.Status == "created")
         {
-            OutputLine("\n  &Cyan; Challenge &Green;ACCEPTED&White;.");
+            OutputLine("&NL  &Cyan; Challenge &Green;ACCEPTED&White;.");
         }
         else
         {
-            OutputLine("\n  &Cyan; Challenge &Magenta;DECLINED&White;.");
-        
-            OutputLine();
+            OutputLine("&NL  &Cyan; Challenge &Magenta;DECLINED&White;.$NL");
 
             ForegroundColor = colour;
             
@@ -73,7 +71,7 @@ public class LiChessClient
 
     private async Task PlayGame(string id)
     {
-        OutputLine($"  &Cyan;Game ID: &white{id}");
+        OutputLine($"&NL;  &Cyan;Game ID: &white;{id}");
 
         var response = await Get<ChallengeResponse>($"board/game/{id}");
     }
@@ -82,14 +80,14 @@ public class LiChessClient
     {
         if (_logCommunications)
         {
-            OutputLine($"&Gray;POST: {path}");
+            OutputLine($"&NL;&Gray;POST: api/{path}");
         }
 
         var response = await _client.PostAsync($"api/{path}", new StringContent(content ?? string.Empty));
 
         if (_logCommunications)
         {
-            OutputLine($"{response.StatusCode}");
+            OutputLine($"&NL;{response.StatusCode}");
         }
 
         var responseString = await response.Content.ReadAsStringAsync();
@@ -98,7 +96,7 @@ public class LiChessClient
         
         if (_logCommunications)
         {
-            OutputLine($"&Gray;{JsonSerializer.Serialize(JsonSerializer.Deserialize<JsonElement>(responseString), _serializerOptions)}");
+            OutputLine($"&Gray;{JsonSerializer.Serialize(JsonSerializer.Deserialize<JsonElement>(responseString), _serializerOptions)}&NL;");
         }
 
         return responseObject;
@@ -108,7 +106,9 @@ public class LiChessClient
     {
         if (_logCommunications)
         {
-            OutputLine($"&Gray;POST: {path}");
+            OutputLine();
+            
+            OutputLine($"&Gray;GET: api/{path}");
         }
 
         var response = await _client.GetAsync($"api/{path}");
@@ -125,6 +125,8 @@ public class LiChessClient
         if (_logCommunications)
         {
             OutputLine($"&Gray;{JsonSerializer.Serialize(JsonSerializer.Deserialize<JsonElement>(responseString), _serializerOptions)}");
+            
+            OutputLine();
         }
 
         return responseObject;
