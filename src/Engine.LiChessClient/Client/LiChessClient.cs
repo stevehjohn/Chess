@@ -2,7 +2,6 @@ using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
-using Engine.Extensions;
 using Engine.LiChessClient.Client.Models;
 using Engine.Pieces;
 using static Engine.LiChessClient.Infrastructure.Console;
@@ -25,7 +24,7 @@ public class LiChessClient : IDisposable
     {
         _client = new HttpClient();
 
-        var apiKey = File.ReadAllLines("LiChess.key")[0];
+        var apiKey = "lip_F0EevLtSkhLimJbHnUlk"; //File.ReadAllLines("LiChess.key")[0];
 
         _client = new HttpClient
         {
@@ -164,11 +163,11 @@ public class LiChessClient : IDisposable
 
         _core.Initialise();
                 
-        Process.Start(new ProcessStartInfo
-        {
-            FileName = $"httts://lichess.org/{id}",
-            UseShellExecute = true
-        });
+        // Process.Start(new ProcessStartInfo
+        // {
+        //     FileName = $"httts://lichess.org/{id}",
+        //     UseShellExecute = true
+        // });
 
         while (! reader.EndOfStream)
         {
@@ -192,7 +191,7 @@ public class LiChessClient : IDisposable
                 engineIsWhite = game.White.Name == "StevoJ";
             }
 
-            await PlayMove(id, game.GameState, engineIsWhite);
+            await PlayMove(id, game.State, engineIsWhite);
         }
     }
 
@@ -213,13 +212,13 @@ public class LiChessClient : IDisposable
         {
             var engineMove = _core.GetMove(5);
 
-            OutputLine($"  &Green;Engine&White;: {engineMove}");
+            OutputLine($"&NL;  &Green;Engine&White;: {engineMove}");
             
-            var response = await Post<NullRequest, BasicResponse>($"bot/game/{id}/move/{engineMove}", null);
+            await Post<NullRequest, BasicResponse>($"bot/game/{id}/move/{engineMove}", null);
         }
         else
         {
-            OutputLine($"  &Green;Opponent&White;: {lastMove}");
+            OutputLine($"&NL;  &Green;Opponent&White;: {lastMove}");
         }
     }
 

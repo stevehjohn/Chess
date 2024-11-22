@@ -14,6 +14,6 @@ public class StreamResponse
     [JsonPropertyName("black")]
     public Player Black { get; set; }
     
-    [JsonPropertyName("gameState")]
-    public GameState GameState { get; set; }
+    [JsonPropertyName("state")]
+    public GameState State { get; set; }
 }

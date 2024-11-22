@@ -89,8 +89,6 @@ public class Core
         
         GetMoveInternal(_board, Player, depth, depth, string.Empty);
         
-        Console.WriteLine(_bestPath);
-
         return _bestPath[..4];
     }
 
