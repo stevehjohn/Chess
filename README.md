@@ -31,7 +31,7 @@ Number of possible board combinations after each move (without pruning).
 
 - Pawn promotion
 - Stalemate detection
-- Fix crash on checkmate
+- Fix crash on (or near) checkmate
 
 After matching the above table.
 
