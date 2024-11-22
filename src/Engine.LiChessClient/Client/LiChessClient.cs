@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -14,7 +15,7 @@ public class LiChessClient : IDisposable
 
     private readonly JsonSerializerOptions _serializerOptions;
     
-    private readonly UciInterface _interface;
+    private readonly Core _core = new();
 
     private readonly bool _logCommunications;
     
@@ -30,8 +31,6 @@ public class LiChessClient : IDisposable
         };
 
         _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
-
-        _interface = new UciInterface();
 
         _logCommunications = logCommunications;
 
@@ -157,33 +156,66 @@ public class LiChessClient : IDisposable
 
         using var reader = new StreamReader(stream);
 
-        var first = true; 
+        var first = true;
+
+        var engineIsWhite = true;
+
+        _core.Initialise();
+                
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = $"httts://lichess.org/{id}",
+            UseShellExecute = true
+        });
 
         while (! reader.EndOfStream)
         {
             var line = await reader.ReadLineAsync();
 
-            var game = JsonSerializer.Deserialize<StreamResponse>(line!);
+            if (string.IsNullOrWhiteSpace(line))
+            {
+                OutputLine("  &White;...");
+                
+                continue;
+            }
+
+            var game = JsonSerializer.Deserialize<StreamResponse>(line);
 
             if (first)
             {
-                OutputLine($"  &Cyan;White&White;: &Green;{game.White.Name}    &Cyan;Black&White;: {game.Black.Name}");
+                OutputLine($"&NL;  &Cyan;White&White;: &Green;{game.White.Name}    &Cyan;Black&White;: {game.Black.Name}");
 
                 first = false;
+
+                engineIsWhite = game.White.Name == "StevoJ";
             }
 
-            OutputLine($"&Gray;{line}");
+            await PlayMove(id, game.GameState, engineIsWhite);
         }
     }
 
-    private async Task<TResponse> Post<TRequest, TResponse>(string path, TRequest content)
+    private async Task PlayMove(string id, GameState state, bool engineIsWhite)
+    {
+        var moves = (state.Moves ?? string.Empty).Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+        foreach (var move in moves)
+        {
+            _core.MakeMove(move);
+        }
+
+        var engineMove = _core.GetMove(5);
+
+        var response = await Post<NullRequest, BasicResponse>($"bot/game/{id}", null);
+    }
+
+    private async Task<TResponse> Post<TRequest, TResponse>(string path, TRequest content) where TRequest : class
     {
         if (_logCommunications)
         {
             OutputLine($"&NL;&Gray;POST: api/{path}");
         }
         
-        using var response = await _client.PostAsync($"api/{path}", JsonContent.Create(content));
+        using var response = await _client.PostAsync($"api/{path}", content is NullRequest ? new StringContent(string.Empty) : JsonContent.Create(content));
 
         if (_logCommunications)
         {
