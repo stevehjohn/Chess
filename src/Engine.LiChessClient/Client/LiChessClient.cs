@@ -1,7 +1,6 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
-using Engine.General;
 using Engine.LiChessClient.Client.Models;
 using static Engine.LiChessClient.Infrastructure.Console;
 
@@ -9,6 +8,8 @@ namespace Engine.LiChessClient.Client;
 
 public class LiChessClient
 {
+    private const int WaitAttempts = 20;
+    
     private readonly HttpClient _client;
 
     private readonly JsonSerializerOptions _serializerOptions;
@@ -64,7 +65,18 @@ public class LiChessClient
         {
             OutputLine("&NL;  &Cyan;Challenge &Yellow;CREATED&White;.");
 
-            await AwaitAcceptance(response.Id);
+            var accepted = await AwaitAcceptance(response.Id);
+
+            if (accepted)
+            {
+                OutputLine("&NL;  &Cyan;Challenge &Green;ACCEPTED&White;.");
+
+                await PlayGame(response.Id);
+            }
+            else
+            {
+                OutputLine("&NL;  &Cyan;Challenge &Magenta;DECLINED&White;.");
+            }
         }
         else if (response.Status == "accepted")
         {
@@ -74,11 +86,7 @@ public class LiChessClient
         }
         else
         {
-            OutputLine("&NL;  &Cyan;Challenge &Magenta;DECLINED&White;.$NL;");
-
-            ForegroundColor = colour;
-            
-            return;
+            OutputLine("&NL;  &Cyan;Challenge &Magenta;DECLINED&White;.");
         }
         
         OutputLine();
@@ -86,26 +94,55 @@ public class LiChessClient
         ForegroundColor = colour;
     }
 
-    private async Task AwaitAcceptance(string id)
+    private async Task<bool> AwaitAcceptance(string id)
     {
         OutputLine($"&NL;  &Cyan;Game ID: &White;{id}");
 
-        while (true)
+        for (var attempt = 1; attempt <= 20; attempt++)
         {
             var response = await Get<ChallengeResponse>($"challenge/{id}/show");
 
+            if (response.Status == "accepted")
+            {
+                return true;
+            }
+
+            if (response.Status is "declined" or "offline")
+            {
+                return false;
+            }
+
             if (response.Status == "created")
             {
-                Output("  &Yellow;Waiting&White;.");
+                Output($"  &Cyan;Attempt &White;{attempt}&Cyan; of &White;{WaitAttempts}&Cyan; Waiting ");
 
-                for (var i = 0; i < 10; i++)
+                var y = CursorLeft;
+                
+                for (var i = 30; i >= 0; i--)
                 {
-                    Thread.Sleep(60000);
+                    CursorLeft = y;
                     
-                    Output(".");
+                    switch (i)
+                    {
+                        case > 20:
+                            Output("&Magenta;");
+                            break;
+                        case > 10:
+                            Output("&Yellow;");
+                            break;
+                        default:
+                            Output("&Green;");
+                            break;
+                    }
+
+                    Output($"{i}  ");
+
+                    Thread.Sleep(1000);
                 }
             }
         }
+
+        return false;
     }
 
     private async Task PlayGame(string id)

@@ -11,6 +11,12 @@ public static class Console
         set => System.Console.ForegroundColor = value;
     }
 
+    public static int CursorLeft
+    {
+        get => System.Console.CursorLeft;
+        set => System.Console.CursorLeft = value;
+    }
+
     public static void OutputLine(string text = null)
     {
         if (text == null)
