@@ -180,8 +180,6 @@ public class LiChessClient : IDisposable
                 continue;
             }
             
-            OutputLine($"&Yellow;{line}");
-
             GameState state;
             
             if (first)
