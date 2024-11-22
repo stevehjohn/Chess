@@ -6,10 +6,7 @@ public static class UShortExtensions
     {
         fixed (ushort* cell = array)
         {
-            unsafe
-            {
-                return cell[index];
-            }
+            return cell[index];
         }
     }
 }
