@@ -179,7 +179,12 @@ public class LiChessClient : IDisposable
             if (string.IsNullOrWhiteSpace(line))
             {
                 OutputLine("  &White;...");
-                
+
+                if (state != null)
+                {
+                    await PlayMove(id, state, engineIsWhite);
+                }
+
                 continue;
             }
 
@@ -187,12 +192,12 @@ public class LiChessClient : IDisposable
             
             if (first)
             {
+                first = false;
+
                 var game = JsonSerializer.Deserialize<StreamResponse>(line);
 
                 OutputLine($"&NL;  &Cyan;White&White;: &Green;{game.White.Name}    &Cyan;Black&White;: {game.Black.Name}");
                 
-                first = false;
-
                 engineIsWhite = game.White.Name == "StevoJ";
 
                 opponentName = engineIsWhite ? game.Black.Name : game.White.Name;
