@@ -232,7 +232,7 @@ public class LiChessClient : IDisposable
         {
             OutputLine("&NL;  &Cyan;Thinking&White;...");
             
-            var engineMove = _core.GetMove(5);
+            var engineMove = _core.GetMove(6);
 
             OutputLine($"&NL;  &Green;Engine&White;: {engineMove}");
             
