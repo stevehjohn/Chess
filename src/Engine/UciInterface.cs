@@ -35,7 +35,7 @@ public class UciInterface
         {
             var move = _core.GetMove(6);
 
-            return $"bestmove {move.ToStandardNotation()}";
+            return $"bestmove {move}";
         }
 
         throw new EngineException($"Unknown UCI command {command}.");

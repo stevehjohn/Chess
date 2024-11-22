@@ -200,18 +200,26 @@ public class LiChessClient : IDisposable
     {
         var moves = (state.Moves ?? string.Empty).Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
+        var lastMove = string.Empty;
+        
         foreach (var move in moves)
         {
             _core.MakeMove(move);
+
+            lastMove = move;
         }
 
         if (_core.Player == Colour.White && engineIsWhite)
         {
             var engineMove = _core.GetMove(5);
 
-            OutputLine($"  &Green;Engine&White;: {engineMove.ToStandardNotation()}");
+            OutputLine($"  &Green;Engine&White;: {engineMove}");
             
-            var response = await Post<NullRequest, BasicResponse>($"bot/game/{id}/move/{engineMove.ToStandardNotation()}", null);
+            var response = await Post<NullRequest, BasicResponse>($"bot/game/{id}/move/{engineMove}", null);
+        }
+        else
+        {
+            OutputLine($"  &Green;Opponent&White;: {lastMove}");
         }
     }
 

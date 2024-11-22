@@ -10,8 +10,6 @@ public class Core
     
     private int _ply;
 
-    private Colour _player;
-    
     private long[] _depthCounts;
 
     private int[] _plyBestScores;
@@ -20,21 +18,23 @@ public class Core
 
     private readonly Dictionary<string, long> _perftCounts = new();
 
+    private string _bestPath;
+
     public long GetDepthCount(int ply) => _depthCounts[ply];
 
     public long GetPlyOutcome(int ply, PlyOutcome outcome) => _outcomes[ply][(int) outcome];
         
     public IReadOnlyDictionary<string, long> PerftCounts => _perftCounts;
 
-    public Colour Player => _player;
-    
+    public Colour Player { get; private set; }
+
     public void Initialise(Colour colour = Colour.White)
     {
         _board = new Board();
         
         _ply = 1;
 
-        _player = colour;
+        Player = colour;
         
         _board.InitialisePieces();
     }
@@ -47,7 +47,7 @@ public class Core
         
         var parts = fen.Split(' ');
 
-        _player = parts[1] == "w" ? Colour.White : Colour.Black;
+        Player = parts[1] == "w" ? Colour.White : Colour.Black;
         
         _board.InitialisePieces(parts[0]);
     }
@@ -61,12 +61,12 @@ public class Core
     {
         _board.MakeMove(position, target, _ply);
         
-        _player = _player.Invert();
+        Player = Player.Invert();
 
         _ply++;
     }
     
-    public int GetMove(int depth)
+    public string GetMove(int depth)
     {
         _depthCounts = new long[depth + 1];
         
@@ -87,12 +87,14 @@ public class Core
             _outcomes[i] = new long[outcomes.Length];
         }
         
-        GetMoveInternal(_board, _player, depth, depth);
+        GetMoveInternal(_board, Player, depth, depth, string.Empty);
+        
+        Console.WriteLine(_bestPath);
 
-        return 0;
+        return _bestPath[..4];
     }
 
-    private void GetMoveInternal(Board board, Colour colour, int maxDepth, int depth, string perftNode = null)
+    private void GetMoveInternal(Board board, Colour colour, int maxDepth, int depth, string path, string perftNode = null)
     {
         var moved = false;
        
@@ -140,10 +142,15 @@ public class Core
                 // TODO: When not doing a full explore, stop if score is worse?
                 
                 var score = colour == Colour.Black ? copy.BlackScore : copy.WhiteScore;
-
-                if (score > _plyBestScores[ply])
+                
+                if (score >= _plyBestScores[ply])
                 {
                     _plyBestScores[ply] = score;
+
+                    if (depth == 1)
+                    {
+                        _bestPath = $"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}".Trim();
+                    }
                 }
                 
                 if (perftNode == null)
@@ -191,7 +198,7 @@ public class Core
 
                 if (depth > 1)
                 {
-                    GetMoveInternal(copy, colour.Invert(), maxDepth, depth - 1, perftNode);
+                    GetMoveInternal(copy, colour.Invert(), maxDepth, depth - 1, $"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}", perftNode);
 
                     _perftCounts[perftNode]--;
                 }
