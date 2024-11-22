@@ -2,7 +2,10 @@
 
 public static class EntryPoint
 {
-    public static void Main()
+    public static async Task Main()
     {
+        var client = new Client.LiChessClient();
+        
+        await client.ChallengeLiChess("LeelaChess");
     }
 }

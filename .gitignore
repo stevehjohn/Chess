@@ -296,5 +296,6 @@ lambdas/.serverless/
 
 .mgstats
 
-Zen.app/
 *.zip
+
+*.key
