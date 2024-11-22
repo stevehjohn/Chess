@@ -1,3 +1,4 @@
+using System.Buffers;
 using System.Text;
 using Engine.Extensions;
 using Engine.Infrastructure;
@@ -50,7 +51,7 @@ public class Board
 
     public unsafe Board(Board board)
     {
-        _cells = new ushort[Constants.BoardCells];
+        _cells = ArrayPool<ushort>.Shared.Rent(Constants.BoardCells);
 
         fixed (ushort* destination = _cells)
         {
@@ -374,7 +375,12 @@ public class Board
         
         return false;
     }
-    
+
+    public void Free()
+    {
+        ArrayPool<ushort>.Shared.Return(_cells);
+    }
+
     private PlyOutcome MovePiece(int position, int target, int ply)
     {
         var kind = CellKind(position);

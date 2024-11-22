@@ -121,6 +121,8 @@ public class Core
                 if (copy.IsKingInCheck(colour, colour == Colour.Black ? copy.BlackKingCell : copy.WhiteKingCell))
                 {
                     _depthCounts[ply]--;
+                    
+                    copy.Free();
                 
                     continue;
                 }
@@ -190,6 +192,8 @@ public class Core
                 {
                     perftNode = null;
                 }
+                
+                copy.Free();
             }
         }
 
