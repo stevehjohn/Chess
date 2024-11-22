@@ -102,7 +102,7 @@ public class Core
                 continue;
             }
 
-            var rank = cell / 8;
+            var rank = cell >> 3;
 
             var file = cell % 8;
             
@@ -138,7 +138,7 @@ public class Core
                 
                 if (perftNode == null)
                 {
-                    perftNode = $"{(rank, file).ToStandardNotation()}{(move / 8, move % 8).ToStandardNotation()}";
+                    perftNode = $"{(rank, file).ToStandardNotation()}{(move >> 3, move % 8).ToStandardNotation()}";
 
                     _perftCounts.TryAdd(perftNode, 1);
                 }
@@ -203,7 +203,7 @@ public class Core
     {
         for (var cell = 0; cell < Constants.BoardCells; cell++)
         {
-            var rank = cell / 8;
+            var rank = cell >> 3;
 
             var file = cell % 8;
             

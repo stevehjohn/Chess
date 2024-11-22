@@ -265,7 +265,7 @@ public class Board
 
     public bool IsKingInCheck(Colour colour, int kingCellIndex)
     {
-        var kingCell = (Rank: kingCellIndex / 8, File: kingCellIndex % 8);
+        var kingCell = (Rank: kingCellIndex >> 3, File: kingCellIndex % 8);
 
         int cell;
 
