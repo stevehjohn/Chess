@@ -104,7 +104,7 @@ public class Core
 
             var rank = cell >> 3;
 
-            var file = cell % 8;
+            var file = cell & 7;
             
             var piece = board[rank, file];
                 
@@ -138,7 +138,7 @@ public class Core
                 
                 if (perftNode == null)
                 {
-                    perftNode = $"{(rank, file).ToStandardNotation()}{(move >> 3, move % 8).ToStandardNotation()}";
+                    perftNode = $"{(rank, file).ToStandardNotation()}{(move >> 3, move & 7).ToStandardNotation()}";
 
                     _perftCounts.TryAdd(perftNode, 1);
                 }
@@ -205,7 +205,7 @@ public class Core
         {
             var rank = cell >> 3;
 
-            var file = cell % 8;
+            var file = cell & 7;
             
             if (board.IsEmpty(cell))
             {
