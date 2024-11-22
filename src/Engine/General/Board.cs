@@ -8,7 +8,7 @@ namespace Engine.General;
 
 public class Board
 {
-    private static readonly (int RankDelta, int FileDelta, bool isOrthagonal)[] Directions =
+    private static readonly (int RankDelta, int FileDelta, bool IsOrthagonal)[] Directions =
     [
         (-1, 0, true),
         (0, -1, true),
@@ -302,22 +302,16 @@ public class Board
 
                 var kind = CellKind(cell);
 
-                if (kind is Kind.Rook && direction.isOrthagonal)
+                var isAttacking = kind switch
                 {
-                    return true;
-                }
+                    Kind.Queen => true,
+                    Kind.Rook => direction.IsOrthagonal,
+                    Kind.Bishop => ! direction.IsOrthagonal,
+                    Kind.King => i == 1,
+                    _ => false
+                };
 
-                if (kind is Kind.Bishop && ! direction.isOrthagonal)
-                {
-                    return true;
-                }
-
-                if (kind == Kind.Queen)
-                {
-                    return true;
-                }
-
-                if (kind is Kind.King && i == 0)
+                if (isAttacking)
                 {
                     return true;
                 }
