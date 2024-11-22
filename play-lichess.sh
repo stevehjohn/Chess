@@ -1,3 +1,3 @@
 cd src
-dotnet run --project Engine.ConsoleTests -c Release $*
+dotnet run --project Engine.LiChessClient -c Release $*
 cd -

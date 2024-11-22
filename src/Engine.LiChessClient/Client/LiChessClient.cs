@@ -5,11 +5,13 @@ namespace Engine.LiChessClient.Client;
 
 public class LiChessClient
 {
-    private HttpClient _client;
+    private readonly HttpClient _client;
 
-    private UciInterface _interface;
+    private readonly UciInterface _interface;
+
+    private readonly bool _logCommunications;
     
-    public LiChessClient()
+    public LiChessClient(bool logCommunications = false)
     {
         _client = new HttpClient();
 
@@ -23,6 +25,8 @@ public class LiChessClient
         _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
 
         _interface = new UciInterface();
+
+        _logCommunications = logCommunications;
     }
 
     public async Task ChallengeLiChess(string username)
@@ -38,17 +42,23 @@ public class LiChessClient
 
     private async Task<string> Post(string path, string content = null)
     {
-        OutputLine();
-        
-        OutputLine($"  &Gray;POST: {path}");
-        
+        if (_logCommunications)
+        {
+            OutputLine();
+
+            OutputLine($"  &Gray;POST: {path}");
+        }
+
         var response = await _client.PostAsync($"api/{path}", new StringContent(content ?? string.Empty));
 
         var responseString = await response.Content.ReadAsStringAsync();
-        
-        OutputLine($"  &Gray;{responseString}");
-        
-        OutputLine();
+
+        if (_logCommunications)
+        {
+            OutputLine($"  &Gray;{responseString}");
+
+            OutputLine();
+        }
 
         return responseString;
     }
