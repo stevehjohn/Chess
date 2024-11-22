@@ -179,6 +179,8 @@ public class LiChessClient : IDisposable
 
                 continue;
             }
+            
+            OutputLine($"&Yellow;{line}");
 
             GameState state;
             
@@ -188,7 +190,7 @@ public class LiChessClient : IDisposable
 
                 var game = JsonSerializer.Deserialize<StreamResponse>(line);
 
-                OutputLine($"&NL;  &Cyan;White&White;: &Green;{game.White.Name}    &Cyan;Black&White;: {game.Black.Name}");
+                OutputLine($"&NL;  &Cyan;White&White;: &Green;{game.White.Name}    &Cyan;Black&White;: &Green;{game.Black.Name}");
                 
                 engineIsWhite = game.White.Name == "StevoJ";
 
@@ -226,6 +228,11 @@ public class LiChessClient : IDisposable
         if (moves.Length > 0)
         {
             lastMove = moves[^1];
+        }
+
+        if (moves.Length <= _core.MoveCount)
+        {
+            return;
         }
 
         if (_core.Player == Colour.White && engineIsWhite)
