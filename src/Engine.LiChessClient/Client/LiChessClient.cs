@@ -1,6 +1,7 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
+using Engine.General;
 using Engine.LiChessClient.Client.Models;
 using static Engine.LiChessClient.Infrastructure.Console;
 
@@ -52,8 +53,8 @@ public class LiChessClient
         {
             Clock = new Clock
             {
-                Increment = 5,
-                Linit = 1800
+                Increment = 10,
+                Linit = 900
             },
             KeepAliveStream = false,
             Variant = "standard"
@@ -61,7 +62,15 @@ public class LiChessClient
 
         if (response.Status == "created")
         {
+            OutputLine("&NL;  &Cyan;Challenge &Yellow;CREATED&White;.");
+
+            await AwaitAcceptance(response.Id);
+        }
+        else if (response.Status == "accepted")
+        {
             OutputLine("&NL;  &Cyan;Challenge &Green;ACCEPTED&White;.");
+
+            await PlayGame(response.Id);
         }
         else
         {
@@ -71,19 +80,36 @@ public class LiChessClient
             
             return;
         }
-
-        await PlayGame(response.Id);
         
         OutputLine();
 
         ForegroundColor = colour;
     }
 
-    private async Task PlayGame(string id)
+    private async Task AwaitAcceptance(string id)
     {
         OutputLine($"&NL;  &Cyan;Game ID: &White;{id}");
 
-        var response = await Get<StreamResponse>($"bot/game/stream/{id}");
+        while (true)
+        {
+            var response = await Get<ChallengeResponse>($"challenge/{id}/show");
+
+            if (response.Status == "created")
+            {
+                Output("  &Yellow;Waiting&White;.");
+
+                for (var i = 0; i < 10; i++)
+                {
+                    Thread.Sleep(60000);
+                    
+                    Output(".");
+                }
+            }
+        }
+    }
+
+    private async Task PlayGame(string id)
+    {
     }
 
     private async Task<TResponse> Post<TRequest, TResponse>(string path, TRequest content)

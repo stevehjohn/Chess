@@ -25,7 +25,7 @@ public static class Console
         System.Console.WriteLine();
     }
     
-    private static void Output(string text = null)
+    public static void Output(string text = null)
     {
         if (text == null)
         {
