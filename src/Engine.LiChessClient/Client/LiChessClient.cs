@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -169,6 +168,10 @@ public class LiChessClient : IDisposable
         //     UseShellExecute = true
         // });
 
+        var opponentName = string.Empty;
+
+        GameState state = null;
+        
         while (! reader.EndOfStream)
         {
             var line = await reader.ReadLineAsync();
@@ -180,18 +183,42 @@ public class LiChessClient : IDisposable
                 continue;
             }
 
-            var game = JsonSerializer.Deserialize<StreamResponse>(line);
-
+            OutputLine(line);
+            
             if (first)
             {
-                OutputLine($"&NL;  &Cyan;White&White;: &Green;{game.White.Name}    &Cyan;Black&White;: {game.Black.Name}");
+                var game = JsonSerializer.Deserialize<StreamResponse>(line);
 
+                OutputLine($"&NL;  &Cyan;White&White;: &Green;{game.White.Name}    &Cyan;Black&White;: {game.Black.Name}");
+                
                 first = false;
 
                 engineIsWhite = game.White.Name == "StevoJ";
+
+                opponentName = engineIsWhite ? game.Black.Name : game.White.Name;
+
+                state = game.State;
+            }
+            else
+            {
+                //try
+                {
+                    state = JsonSerializer.Deserialize<GameState>(line);
+                }
+                // catch
+                // {
+                //     var chat = JsonSerializer.Deserialize<ChatLine>(line);
+                //
+                //     OutputLine($"&NL;  &Magenta;{opponentName}&White;: {chat.Text}");
+                // }
             }
 
-            await PlayMove(id, game.State, engineIsWhite);
+            if (state == null)
+            {
+                continue;
+            }
+
+            await PlayMove(id, state, engineIsWhite);
         }
     }
 
@@ -200,24 +227,33 @@ public class LiChessClient : IDisposable
         var moves = (state.Moves ?? string.Empty).Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
         var lastMove = string.Empty;
-        
-        foreach (var move in moves)
-        {
-            _core.MakeMove(move);
 
-            lastMove = move;
+        if (moves.Length > 0)
+        {
+            lastMove = moves[^1];
         }
 
         if (_core.Player == Colour.White && engineIsWhite)
         {
+            OutputLine("&NL;  &Cyan;Thinking&White;...");
+            
             var engineMove = _core.GetMove(5);
 
             OutputLine($"&NL;  &Green;Engine&White;: {engineMove}");
             
             await Post<NullRequest, BasicResponse>($"bot/game/{id}/move/{engineMove}", null);
+            
+            _core.MakeMove(engineMove);
         }
         else
         {
+            if (moves.Length <= _core.MoveCount)
+            {
+                return;
+            }
+
+            _core.MakeMove(lastMove);
+            
             OutputLine($"&NL;  &Green;Opponent&White;: {lastMove}");
         }
     }

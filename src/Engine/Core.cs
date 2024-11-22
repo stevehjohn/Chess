@@ -20,6 +20,8 @@ public class Core
 
     private string _bestPath;
 
+    public int MoveCount => _ply - 1;
+
     public long GetDepthCount(int ply) => _depthCounts[ply];
 
     public long GetPlyOutcome(int ply, PlyOutcome outcome) => _outcomes[ply][(int) outcome];
