@@ -228,11 +228,6 @@ public class LiChessClient : IDisposable
             lastMove = moves[^1];
         }
 
-        if (moves.Length <= _core.MoveCount)
-        {
-            return;
-        }
-
         if (_core.Player == Colour.White && engineIsWhite)
         {
             OutputLine("&NL;  &Cyan;Thinking&White;...");
@@ -247,6 +242,11 @@ public class LiChessClient : IDisposable
         }
         else
         {
+            if (moves.Length <= _core.MoveCount)
+            {
+                return;
+            }
+
             _core.MakeMove(lastMove);
             
             OutputLine($"&NL;  &Green;Opponent&White;: {lastMove}");
