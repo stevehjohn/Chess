@@ -48,11 +48,17 @@ public class Board
         _state = new BoardState();
     }
 
-    public Board(Board board)
+    public unsafe Board(Board board)
     {
         _cells = new ushort[Constants.BoardCells];
-        
-        Buffer.BlockCopy(board._cells, 0, _cells, 0, Constants.BoardCells * sizeof(ushort));
+
+        fixed (ushort* destination = _cells)
+        {
+            fixed (ushort* source = board._cells)
+            {
+                Buffer.MemoryCopy(source, destination, Constants.BoardCells * sizeof(ushort), Constants.BoardCells * sizeof(ushort));
+            }
+        }
 
         _state = new BoardState(board._state);
     }
