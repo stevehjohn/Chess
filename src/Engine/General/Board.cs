@@ -1,4 +1,5 @@
 using System.Buffers;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Engine.Extensions;
 using Engine.Infrastructure;
@@ -176,16 +177,19 @@ public class Board
         }
     }
     
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool IsColour(int cell, Colour colour)
     {
         return (_cells.Value(cell) & (ushort) colour << 3) > 0;
     }
     
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool IsEmpty(int cell)
     {
         return _cells.Value(cell) == 0;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Kind CellKind(int cell)
     {
         return (Kind) (_cells.Value(cell) & Constants.PieceKindMask);
