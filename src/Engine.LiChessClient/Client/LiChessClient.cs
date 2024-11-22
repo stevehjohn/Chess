@@ -11,6 +11,8 @@ namespace Engine.LiChessClient.Client;
 public class LiChessClient : IDisposable
 {
     private const int WaitAttempts = 6;
+
+    private const int Depth = 6;
     
     private readonly HttpClient _client;
 
@@ -232,7 +234,7 @@ public class LiChessClient : IDisposable
         {
             OutputLine("&NL;  &Cyan;Thinking&White;...");
             
-            var engineMove = _core.GetMove(6);
+            var engineMove = _core.GetMove(Depth);
 
             OutputLine($"&NL;  &Green;Engine&White;: {engineMove}");
             
@@ -253,7 +255,7 @@ public class LiChessClient : IDisposable
 
             OutputLine("&NL;  &Cyan;Thinking&White;...");
             
-            var engineMove = _core.GetMove(6);
+            var engineMove = _core.GetMove(Depth);
 
             OutputLine($"&NL;  &Green;Engine&White;: {engineMove}");
             

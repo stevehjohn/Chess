@@ -138,9 +138,7 @@ public class Core
                 }
                 
                 moved = true;
-                
-                // TODO: When not doing a full explore, stop if score is worse?
-                
+
                 var score = colour == Colour.Black ? copy.BlackScore : copy.WhiteScore;
                 
                 if (score >= _plyBestScores[ply])
