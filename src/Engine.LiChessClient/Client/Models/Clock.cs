@@ -6,11 +6,11 @@ using JetBrains.Annotations;
 namespace Engine.LiChessClient.Client.Models;
 
 [UsedImplicitly]
-public class ChallengeResponse
+public class Clock
 {
-    [JsonPropertyName("id")]
-    public string Id { get; set; }
+    [JsonPropertyName("limit")]
+    public int Linit { get; set; }
     
-    [JsonPropertyName("status")]
-    public string Status { get; set; }
+    [JsonPropertyName("increment")]
+    public int Increment { get; set; }
 }

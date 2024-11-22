@@ -1,4 +1,5 @@
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text.Json;
 using Engine.LiChessClient.Client.Models;
 using static Engine.LiChessClient.Infrastructure.Console;
@@ -45,17 +46,26 @@ public class LiChessClient
         
         Clear();
         
-        OutputLine($"&NL  &Cyan;Challenging &White;{username}");
+        OutputLine($"&NL;  &Cyan;Challenging &White;{username}");
 
-        var response = await Post<ChallengeResponse>($"challenge/{username}");
+        var response = await Post<ChallengeRequest, ChallengeResponse>($"challenge/{username}", new ChallengeRequest
+        {
+            Clock = new Clock
+            {
+                Increment = 5,
+                Linit = 1800
+            },
+            KeepAliveStream = false,
+            Variant = "standard"
+        });
 
         if (response.Status == "created")
         {
-            OutputLine("&NL  &Cyan; Challenge &Green;ACCEPTED&White;.");
+            OutputLine("&NL;  &Cyan;Challenge &Green;ACCEPTED&White;.");
         }
         else
         {
-            OutputLine("&NL  &Cyan; Challenge &Magenta;DECLINED&White;.$NL");
+            OutputLine("&NL;  &Cyan;Challenge &Magenta;DECLINED&White;.$NL;");
 
             ForegroundColor = colour;
             
@@ -71,19 +81,19 @@ public class LiChessClient
 
     private async Task PlayGame(string id)
     {
-        OutputLine($"&NL;  &Cyan;Game ID: &white;{id}");
+        OutputLine($"&NL;  &Cyan;Game ID: &White;{id}");
 
-        var response = await Get<ChallengeResponse>($"board/game/{id}");
+        var response = await Get<StreamResponse>($"bot/game/stream/{id}");
     }
 
-    private async Task<TResponse> Post<TResponse>(string path, string content = null)
+    private async Task<TResponse> Post<TRequest, TResponse>(string path, TRequest content)
     {
         if (_logCommunications)
         {
             OutputLine($"&NL;&Gray;POST: api/{path}");
         }
 
-        var response = await _client.PostAsync($"api/{path}", new StringContent(content ?? string.Empty));
+        var response = await _client.PostAsync($"api/{path}", JsonContent.Create(content));
 
         if (_logCommunications)
         {
@@ -96,7 +106,7 @@ public class LiChessClient
         
         if (_logCommunications)
         {
-            OutputLine($"&Gray;{JsonSerializer.Serialize(JsonSerializer.Deserialize<JsonElement>(responseString), _serializerOptions)}&NL;");
+            OutputLine($"&Gray;{JsonSerializer.Serialize(JsonSerializer.Deserialize<JsonElement>(responseString), _serializerOptions)}");
         }
 
         return responseObject;
@@ -115,9 +125,9 @@ public class LiChessClient
 
         if (_logCommunications)
         {
-            OutputLine($"{response.StatusCode}");
+            OutputLine($"&NL;{response.StatusCode}");
         }
-
+        
         var responseString = await response.Content.ReadAsStringAsync();
 
         var responseObject = JsonSerializer.Deserialize<TResponse>(responseString);
