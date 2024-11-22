@@ -295,17 +295,17 @@ public class Board
 
                 var kind = CellKind(cell);
 
-                if (kind == Kind.Queen)
-                {
-                    return true;
-                }
-
                 if (kind is Kind.Rook && direction.isOrthagonal)
                 {
                     return true;
                 }
 
                 if (kind is Kind.Bishop && ! direction.isOrthagonal)
+                {
+                    return true;
+                }
+
+                if (kind == Kind.Queen)
                 {
                     return true;
                 }
