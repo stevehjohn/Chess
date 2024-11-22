@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -115,7 +116,7 @@ public class LiChessClient : IDisposable
 
             if (response.Status == "created")
             {
-                Output($"  &Cyan;Attempt &White;{attempt}&Cyan; of &White;{WaitAttempts}&Cyan; Waiting ");
+                Output($"&NL;  &Cyan;Attempt &White;{attempt}&Cyan; of &White;{WaitAttempts}&Cyan; Waiting ");
 
                 var y = CursorLeft;
                 
@@ -141,6 +142,8 @@ public class LiChessClient : IDisposable
                     Thread.Sleep(1000);
                 }
             }
+
+            CursorLeft = 0;
         }
 
         return (false, "TIMEOUT");
@@ -161,17 +164,11 @@ public class LiChessClient : IDisposable
         var engineIsWhite = true;
 
         _core.Initialise();
-                
-        // Process.Start(new ProcessStartInfo
-        // {
-        //     FileName = $"httts://lichess.org/{id}",
-        //     UseShellExecute = true
-        // });
+
+        Process.Start("open", $"https://lichess.org/{id}");
 
         var opponentName = string.Empty;
 
-        GameState state = null;
-        
         while (! reader.EndOfStream)
         {
             var line = await reader.ReadLineAsync();
@@ -180,15 +177,10 @@ public class LiChessClient : IDisposable
             {
                 OutputLine("  &White;...");
 
-                if (state != null)
-                {
-                    await PlayMove(id, state, engineIsWhite);
-                }
-
                 continue;
             }
 
-            OutputLine(line);
+            GameState state;
             
             if (first)
             {
@@ -206,16 +198,14 @@ public class LiChessClient : IDisposable
             }
             else
             {
-                //try
+                state = JsonSerializer.Deserialize<GameState>(line);
+
+                if (! string.IsNullOrWhiteSpace(state.Text))
                 {
-                    state = JsonSerializer.Deserialize<GameState>(line);
+                    OutputLine($"&NL;  &Magenta;{opponentName}&White;: &Yellow;{state.Text}");
+                    
+                    continue;
                 }
-                // catch
-                // {
-                //     var chat = JsonSerializer.Deserialize<ChatLine>(line);
-                //
-                //     OutputLine($"&NL;  &Magenta;{opponentName}&White;: {chat.Text}");
-                // }
             }
 
             if (state == null)
@@ -252,14 +242,19 @@ public class LiChessClient : IDisposable
         }
         else
         {
-            if (moves.Length <= _core.MoveCount)
-            {
-                return;
-            }
-
             _core.MakeMove(lastMove);
             
             OutputLine($"&NL;  &Green;Opponent&White;: {lastMove}");
+
+            OutputLine("&NL;  &Cyan;Thinking&White;...");
+            
+            var engineMove = _core.GetMove(5);
+
+            OutputLine($"&NL;  &Green;Engine&White;: {engineMove}");
+            
+            await Post<NullRequest, BasicResponse>($"bot/game/{id}/move/{engineMove}", null);
+            
+            _core.MakeMove(engineMove);
         }
     }
 
@@ -279,6 +274,12 @@ public class LiChessClient : IDisposable
 
         var responseString = await response.Content.ReadAsStringAsync();
         
+        if (! response.IsSuccessStatusCode)
+        {
+            OutputLine($"&NL;&Magenta;{response.StatusCode}");
+            OutputLine($"&Gray;{JsonSerializer.Serialize(JsonSerializer.Deserialize<JsonElement>(responseString), _serializerOptions)}");
+        }
+
         var responseObject = JsonSerializer.Deserialize<TResponse>(responseString);
         
         if (_logCommunications)

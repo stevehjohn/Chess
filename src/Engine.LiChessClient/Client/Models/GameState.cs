@@ -10,4 +10,7 @@ public class GameState
 {
     [JsonPropertyName("moves")]
     public string Moves { get; set; }
+    
+    [JsonPropertyName("text")]
+    public string Text { get; set; }
 }

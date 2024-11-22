@@ -1,4 +1,3 @@
-using Engine.Extensions;
 using Engine.Infrastructure;
 
 namespace Engine;
