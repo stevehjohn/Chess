@@ -12,7 +12,7 @@ public class LiChessClient : IDisposable
 {
     private const int WaitAttempts = 6;
 
-    private const int Depth = 6;
+    private const int Depth = 5;
     
     private readonly HttpClient _client;
 
@@ -26,7 +26,7 @@ public class LiChessClient : IDisposable
     {
         _client = new HttpClient();
 
-        var apiKey = "lip_F0EevLtSkhLimJbHnUlk"; //File.ReadAllLines("LiChess.key")[0];
+        var apiKey = File.ReadAllLines("LiChess.key")[0];
 
         _client = new HttpClient
         {
