@@ -50,6 +50,6 @@ public static class EntryPoint
         
         Console.WriteLine();
         
-        Console.WriteLine(core.DepthCounts[depth]);
+        Console.WriteLine(core.GetDepthCount(depth));
     }
 }

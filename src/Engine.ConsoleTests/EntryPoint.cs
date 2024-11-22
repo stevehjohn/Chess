@@ -125,7 +125,7 @@ public static class EntryPoint
 
             for (var j = 1; j <= i; j++)
             {
-                var count = core.DepthCounts[j];
+                var count = core.GetDepthCount(j);
 
                 var expected = ExpectedCombinations[j - 1];
                 

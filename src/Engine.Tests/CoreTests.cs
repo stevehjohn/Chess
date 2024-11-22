@@ -40,7 +40,7 @@ public class CoreTests
 
             for (var j = 1; j <= i; j++)
             {                
-                var count = _core.DepthCounts[j];
+                var count = _core.GetDepthCount(j);
 
                 var expected = ExpectedCombinations[j - 1];
                 

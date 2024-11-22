@@ -12,15 +12,15 @@ public class Core
 
     private Colour _player;
     
-    private readonly Dictionary<int, long> _depthCounts = new();
+    private long[] _depthCounts;
     
     private readonly Dictionary<(long Ply, PlyOutcome Outcome), long> _outcomes = new();
 
     private readonly Dictionary<string, long> _perftCounts = new();
 
     private readonly Dictionary<int, int> _plyBestScores = new();
-    
-    public IReadOnlyDictionary<int, long> DepthCounts => _depthCounts;
+
+    public long GetDepthCount(int ply) => _depthCounts[ply];
 
     public IReadOnlyDictionary<(long Ply, PlyOutcome Outcome), long> Outcomes => _outcomes;
         
@@ -61,7 +61,7 @@ public class Core
     
     public void GetMove(int depth)
     {
-        _depthCounts.Clear();
+        _depthCounts = new long[depth + 1];
         
         _outcomes.Clear();
         
