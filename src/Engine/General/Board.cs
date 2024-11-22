@@ -8,28 +8,28 @@ namespace Engine.General;
 
 public class Board
 {
-    private static readonly (int RankDelta, int FileDelta, bool IsOrthagonal)[] Directions =
+    private static readonly Direction[] Directions =
     [
-        (-1, 0, true),
-        (0, -1, true),
-        (1, 0, true),
-        (0, 1, true),
-        (-1, -1, false),
-        (1, -1, false),
-        (-1, 1, false),
-        (1, 1, false)
+        new (-1, 0, true),
+        new (0, -1, true),
+        new (1, 0, true),
+        new (0, 1, true),
+        new (-1, -1, false),
+        new (1, -1, false),
+        new (-1, 1, false),
+        new (1, 1, false)
     ];
 
-    private static readonly (int RankDelta, int FileDelta)[] Knights =
+    private static readonly Direction[] Knights =
     [
-        (2, -1),
-        (2, 1),
-        (-2, -1),
-        (-2, 1),
-        (1, -2),
-        (-1, -2),
-        (1, 2),
-        (-1, 2)
+        new (2, -1, false),
+        new (2, 1, false),
+        new (-2, -1, false),
+        new (-2, 1, false),
+        new (1, -2, false),
+        new (-1, -2, false),
+        new (1, 2, false),
+        new (-1, 2, false)
     ];
 
     private ushort[] _cells = new ushort[Constants.BoardCells];
