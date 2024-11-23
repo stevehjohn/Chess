@@ -25,7 +25,7 @@ public static class EntryPoint
             }
             catch (Exception exception)
             {
-                Console.WriteLine(exception.Message);
+                File.AppendAllLines("ocp-core-engine-long.txt", [ exception.Message ]);
             }
         }
     }
