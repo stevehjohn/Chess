@@ -3,13 +3,15 @@ using static Engine.LiChessClient.Infrastructure.Console;
 
 public static class EntryPoint
 {
+    private const int Games = 10;
+    
     public static async Task Main()
     {
         var results = new List<int>();
         
         Clear();
 
-        for (var i = 0; i < 10; i++)
+        for (var i = 0; i <= Games; i++)
         {
             if (results.Count > 0)
             {
@@ -42,8 +44,7 @@ public static class EntryPoint
 
             var client = new Client.LiChessClient();
             
-            // results.Add(await client.ChallengeLiChess("maia1"));
-            results.Add(await client.ChallengeLiChess("WorstFish"));
+            results.Add(await client.ChallengeLiChess("maia1"));
         }
     }
 }
