@@ -108,7 +108,7 @@ public sealed class Core : IDisposable
         return GetMoveInternal(depth);
     }
     
-    public void GetMove(int depth, Action<string> callback)
+    public void GetMove(int depth, Action<string> callback, int moveTime = 0)
     {
         _cancellationTokenSource = new CancellationTokenSource();
 
@@ -116,7 +116,7 @@ public sealed class Core : IDisposable
 
         _getMoveTask = Task.Run(() =>
         {
-            var result = GetMoveInternal(depth, callback);
+            var result = GetMoveInternal(depth, callback, moveTime);
 
             _cancellationTokenSource = null;
 
@@ -161,7 +161,7 @@ public sealed class Core : IDisposable
         return result;
     }
     
-    private string GetMoveInternal(int depth, Action<string> callback = null)
+    private string GetMoveInternal(int depth, Action<string> callback = null, int moveTime = 0)
     {
         _depthCounts = new long[depth + 1];
         
@@ -191,7 +191,7 @@ public sealed class Core : IDisposable
 
         string result = null;
 
-        if (GetMoveInternal(_board, Player, depth, depth, string.Empty))
+        if (GetMoveInternal(_board, Player, depth, depth, string.Empty, DateTime.UtcNow, moveTime))
         {
             lock (_bestPaths)
             {
@@ -209,8 +209,16 @@ public sealed class Core : IDisposable
         return result;
     }
 
-    private bool GetMoveInternal(Board board, Colour colour, int maxDepth, int depth, string path, string perftNode = null)
+    private bool GetMoveInternal(Board board, Colour colour, int maxDepth, int depth, string path, DateTime startTime, int moveTime, string perftNode = null)
     {
+        if (moveTime > 0)
+        {
+            if ((DateTime.UtcNow - startTime).TotalMilliseconds > moveTime)
+            {
+                return true;
+            }
+        }
+
         if (_cancellationToken.IsCancellationRequested)
         {
             return true;
@@ -335,7 +343,7 @@ public sealed class Core : IDisposable
 
                 if (depth > 1)
                 {
-                    GetMoveInternal(copy, colour.Invert(), maxDepth, depth - 1, $"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}", perftNode);
+                    GetMoveInternal(copy, colour.Invert(), maxDepth, depth - 1, $"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}", startTime, moveTime, perftNode);
 
                     _perftCounts[perftNode]--;
                 }

@@ -125,6 +125,8 @@ public sealed class UniversalChessInterface : IDisposable
     {
         var depth = DefaultDepth;
 
+        var moveTime = 0;
+        
         if (commands != null)
         {
             for (var i = 0; i < commands.Length; i += 2)
@@ -139,6 +141,14 @@ public sealed class UniversalChessInterface : IDisposable
 
                         break;
                     
+                    case "movetime":
+                        if (! int.TryParse(commands[i + 1], out moveTime))
+                        {
+                            throw new EngineException($"Cannot parse go movetime parameter '{commands[i + 1]}'.");
+                        }
+
+                        break;
+                    
                     case "wtime":
                     case "btime":
                         break;
@@ -149,7 +159,7 @@ public sealed class UniversalChessInterface : IDisposable
             }
         }
 
-        _core.GetMove(depth, move => _responseCallback($"bestmove {move}"));
+        _core.GetMove(depth, move => _responseCallback($"bestmove {move}"), moveTime);
     }
 
     private void Stop()
