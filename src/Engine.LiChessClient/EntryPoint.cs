@@ -3,7 +3,7 @@ using static Engine.LiChessClient.Infrastructure.Console;
 
 public static class EntryPoint
 {
-    private const int Games = 10;
+    private const int Games = 1;
     
     public static async Task Main()
     {
@@ -11,7 +11,7 @@ public static class EntryPoint
         
         Clear();
 
-        for (var i = 0; i <= Games; i++)
+        for (var i = 0; i < Games; i++)
         {
             if (results.Count > 0)
             {
