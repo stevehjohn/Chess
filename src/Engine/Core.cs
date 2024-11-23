@@ -152,12 +152,12 @@ public class Core
                 
                 if (score >= _plyBestScores[ply])
                 {
-                    _plyBestScores[ply] = score;
-
                     if (depth == 1)
                     {
                         if (score > _plyBestScores[ply])
                         {
+                            _plyBestScores[ply] = score;
+
                             _bestPaths.Clear();
                         }
 
