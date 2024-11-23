@@ -42,6 +42,8 @@ Number of possible board combinations after each move (without pruning).
 - Move ordering (prefer captures, ideally ordered by lowest value catches highest value first)
 - LiChessClient thinks a stalemate is a win for the opponent
 - LiChessClient thinks opponent wins when it did
+- LiChessClient thinks opponent wins when opponent did (at least that's correct)
+- Engine generates moves like "e1f-" sometimes?
 
 ## Useful links
 
