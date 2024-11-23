@@ -33,7 +33,6 @@ Number of possible board combinations after each move (without pruning).
 
 ## TODOs
 
-- LiChessClient thinks a stalemate is a win for the opponent
 - Pawn promotion
 - Stalemate detection
 - Fix crash on (or near) checkmate
@@ -41,8 +40,10 @@ Number of possible board combinations after each move (without pruning).
 - Ranking move quality
 - Pruning
 - Move ordering (prefer captures, ideally ordered by lowest value catches highest value first)
+- LiChessClient thinks a stalemate is a win for the opponent
+- LiChessClient thinks opponent wins when it did
 
-# Useful links
+## Useful links
 
 - https://www.chessprogramming.org/Perft_Results
 - https://database.lichess.org/
