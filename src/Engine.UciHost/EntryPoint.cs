@@ -19,7 +19,14 @@ public static class EntryPoint
                 continue;
             }
 
-            uci.IssueCommand(command);
+            try
+            {
+                uci.IssueCommand(command);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
         }
     }
 

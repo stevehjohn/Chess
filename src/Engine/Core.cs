@@ -116,11 +116,14 @@ public sealed class Core : IDisposable
 
         _getMoveTask = Task.Run(() =>
         {
+            var result = GetMoveInternal(depth, callback);
+
             _cancellationTokenSource = null;
 
             _getMoveTask = null;
+
+            return result;
             
-            return GetMoveInternal(depth, callback);
         }, _cancellationToken);
     }
 
@@ -133,13 +136,19 @@ public sealed class Core : IDisposable
 
         _cancellationTokenSource.Cancel();
 
+        var result = "0000";
+        
         lock (_bestPaths)
         {
             if (_bestPaths.Count > 0)
             {
                 var path = Random.Shared.Next(_bestPaths.Count);
 
-                return _bestPaths[path][..4];
+                result = _bestPaths[path][..4];
+            }
+            else if (_lastLegalMove > -1)
+            {
+                result = _lastLegalMove.ToStandardNotation();
             }
         }
 
@@ -149,7 +158,7 @@ public sealed class Core : IDisposable
 
         _getMoveTask = null;
 
-        return _lastLegalMove.ToStandardNotation();
+        return result;
     }
     
     private string GetMoveInternal(int depth, Action<string> callback = null)
@@ -161,6 +170,8 @@ public sealed class Core : IDisposable
         _outcomes = new long[depth + 1][];
         
         _perftCounts.Clear();
+
+        _lastLegalMove = -1;
 
         lock (_bestPaths)
         {
