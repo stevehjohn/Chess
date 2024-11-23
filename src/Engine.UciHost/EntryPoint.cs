@@ -18,6 +18,8 @@ public static class EntryPoint
                 
                 continue;
             }
+            
+            File.AppendAllLines("ocp-core-engine-log.txt", [ command ]);
 
             try
             {
@@ -25,13 +27,15 @@ public static class EntryPoint
             }
             catch (Exception exception)
             {
-                File.AppendAllLines("ocp-core-engine-long.txt", [ exception.Message ]);
+                File.AppendAllLines("ocp-core-engine-errors.txt", [ exception.Message ]);
             }
         }
     }
 
     private static void ResponseCallback(string response)
     {
+        File.AppendAllLines("ocp-core-engine-log.txt", [ response ]);
+
         Console.WriteLine(response);
     }
 }
