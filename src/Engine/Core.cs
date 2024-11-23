@@ -18,7 +18,7 @@ public class Core
 
     private readonly Dictionary<string, long> _perftCounts = new();
 
-    private readonly List<string> _bestPaths = new();
+    private readonly List<string> _bestPaths = [];
 
     public int MoveCount => _ply - 1;
 
@@ -184,16 +184,19 @@ public class Core
 
                 if (copy.IsKingInCheck(colour.Invert(), colour == Colour.White ? copy.BlackKingCell : copy.WhiteKingCell))
                 {
-                    if (outcome == PlyOutcome.Capture)
+                    switch (outcome)
                     {
-                        _outcomes[ply][(int) PlyOutcome.Capture]++;
-                    }
+                        case PlyOutcome.Capture:
+                            _outcomes[ply][(int) PlyOutcome.Capture]++;
+                            
+                            break;
+                        
+                        case PlyOutcome.EnPassant:
+                            _outcomes[ply][(int) PlyOutcome.Capture]++;
 
-                    if (outcome == PlyOutcome.EnPassant)
-                    {
-                        _outcomes[ply][(int) PlyOutcome.Capture]++;
-
-                        _outcomes[ply][(int) PlyOutcome.EnPassant]++;
+                            _outcomes[ply][(int) PlyOutcome.EnPassant]++;
+                            
+                            break;
                     }
 
                     outcome = PlyOutcome.Check;

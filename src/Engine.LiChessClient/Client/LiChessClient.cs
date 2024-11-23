@@ -64,30 +64,31 @@ public class LiChessClient : IDisposable
             Variant = "standard"
         });
 
-        if (response.Status == "created")
+        switch (response.Status)
         {
-            OutputLine("&NL;  &Cyan;Challenge &Yellow;CREATED&White;.");
+            case "created":
+                OutputLine("&NL;  &Cyan;Challenge &Yellow;CREATED&White;.");
 
-            var challengeState = await AwaitAcceptance(response.Id);
+                var challengeState = await AwaitAcceptance(response.Id);
 
-            if (challengeState.Accepted)
-            {
+                if (challengeState.Accepted)
+                {
+                    OutputLine("&NL;  &Cyan;Challenge &Green;ACCEPTED&White;.");
+
+                    return await PlayGame(response.Id);
+                }
+
+                OutputLine($"&NL;  &Cyan;Challenge &Magenta;{challengeState.Reason}&White;.");
+                break;
+
+            case "accepted":
                 OutputLine("&NL;  &Cyan;Challenge &Green;ACCEPTED&White;.");
 
                 return await PlayGame(response.Id);
-            }
-
-            OutputLine($"&NL;  &Cyan;Challenge &Magenta;{challengeState.Reason}&White;.");
-        }
-        else if (response.Status == "accepted")
-        {
-            OutputLine("&NL;  &Cyan;Challenge &Green;ACCEPTED&White;.");
-
-            return await PlayGame(response.Id);
-        }
-        else
-        {
-            OutputLine("&NL;  &Cyan;Challenge &Magenta;DECLINED&White;.");
+            
+            default:
+                OutputLine("&NL;  &Cyan;Challenge &Magenta;DECLINED&White;.");
+                break;
         }
         
         OutputLine();
@@ -107,43 +108,42 @@ public class LiChessClient : IDisposable
         {
             var response = await Get<ChallengeResponse>($"challenge/{id}/show");
 
-            if (response.Status == "accepted")
+            switch (response.Status)
             {
-                return (true, null);
-            }
-
-            if (response.Status is "declined" or "offline")
-            {
-                return (false, response.Status.ToUpperInvariant());
-            }
-
-            if (response.Status == "created")
-            {
-                Output($"&NL;  &Cyan;Attempt &White;{attempt}&Cyan; of &White;{WaitAttempts}&Cyan; Waiting ");
-
-                var y = CursorLeft;
+                case "accepted":
+                    return (true, null);
                 
-                for (var i = 10; i >= 0; i--)
-                {
-                    CursorLeft = y;
-                    
-                    switch (i)
+                case "declined" or "offline":
+                    return (false, response.Status.ToUpperInvariant());
+                
+                case "created":
+                    Output($"&NL;  &Cyan;Attempt &White;{attempt}&Cyan; of &White;{WaitAttempts}&Cyan; Waiting ");
+
+                    var y = CursorLeft;
+                
+                    for (var i = 10; i >= 0; i--)
                     {
-                        case > 5:
-                            Output("&Magenta;");
-                            break;
-                        case > 2:
-                            Output("&Yellow;");
-                            break;
-                        default:
-                            Output("&Green;");
-                            break;
+                        CursorLeft = y;
+                    
+                        switch (i)
+                        {
+                            case > 5:
+                                Output("&Magenta;");
+                                break;
+                            case > 2:
+                                Output("&Yellow;");
+                                break;
+                            default:
+                                Output("&Green;");
+                                break;
+                        }
+
+                        Output($"{i}  ");
+
+                        Thread.Sleep(1000);
                     }
 
-                    Output($"{i}  ");
-
-                    Thread.Sleep(1000);
-                }
+                    break;
             }
 
             CursorLeft = 0;
