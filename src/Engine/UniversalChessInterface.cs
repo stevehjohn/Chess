@@ -49,7 +49,7 @@ public sealed class UniversalChessInterface : IDisposable
                 break;
             
             case "go":
-                Go();
+                Go(parts.Length > 1 ? parts[1..] : null);
 
                 break;
             
@@ -87,9 +87,9 @@ public sealed class UniversalChessInterface : IDisposable
         Reply("readyok");
     }
 
-    private void Position(string[] parts)
+    private void Position(string[] commands)
     {
-        if (parts[0] == "startpos")
+        if (commands[0] == "startpos")
         {
             _core.Initialise();
         }
@@ -98,32 +98,54 @@ public sealed class UniversalChessInterface : IDisposable
             throw new EngineException("Only 'startpos' position is currently supported.");
         }
 
-        if (parts.Length == 1)
+        if (commands.Length == 1)
         {
             return;
         }
 
-        if (parts[1] != "moves")
+        if (commands[1] != "moves")
         {
             throw new EngineException("Expected 'moves' or no further instructions.");
         }
 
-        for (var i = 2; i < parts.Length; i++)
+        for (var i = 2; i < commands.Length; i++)
         {
             try
             {
-                _core.MakeMove(parts[i]);
+                _core.MakeMove(commands[i]);
             }
             catch (Exception exception)
             {
-                throw new EngineException($"An error occurred trying to nake move {parts[i]}. {exception}");
+                throw new EngineException($"An error occurred trying to nake move {commands[i]}. {exception}");
             }
         }
     }
 
-    private void Go()
+    private void Go(string[] commands)
     {
-        _core.GetMove(DefaultDepth, move => _responseCallback($"bestmove {move}"));
+        var depth = DefaultDepth;
+
+        if (commands != null)
+        {
+            for (var i = 0; i < commands.Length; i++)
+            {
+                switch (commands[i])
+                {
+                    case "depth":
+                        if (! int.TryParse(commands[i + 1], out depth))
+                        {
+                            throw new EngineException($"Cannot parse go depth parameter '{commands[i + 1]}'.");
+                        }
+
+                        break;
+                    
+                    default:
+                        throw new EngineException($"Unsupported go parameter '{commands[i]}'.");
+                }
+            }
+        }
+
+        _core.GetMove(depth, move => _responseCallback($"bestmove {move}"));
     }
 
     private void Stop()

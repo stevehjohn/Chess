@@ -5,7 +5,7 @@ public static class EntryPoint
 {
     private const string OpponentBot = "WorstFish";
     
-    private const int Games = 3;
+    private const int Games = 5;
     
     public static async Task Main()
     {
