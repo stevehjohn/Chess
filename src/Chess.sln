@@ -17,6 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{2D6A
 		..\console-test.sh = ..\console-test.sh
 		..\perftree.sh = ..\perftree.sh
 		..\play-lichess.sh = ..\play-lichess.sh
+		..\uci.sh = ..\uci.sh
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine.ConsoleTests", "Engine.ConsoleTests\Engine.ConsoleTests.csproj", "{EE9A2348-8C3A-493F-AC28-403AB5A15F98}"
@@ -24,6 +25,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine.PerfTreeClient", "Engine.PerfTreeClient\Engine.PerfTreeClient.csproj", "{B0D3CA7C-2409-4D7C-B8BB-7848708237CD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine.LiChessClient", "Engine.LiChessClient\Engine.LiChessClient.csproj", "{814DEC59-EE2A-44C6-8707-5907B007C406}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine.UciHost", "Engine.UciHost\Engine.UciHost.csproj", "{176CB279-5253-49EE-88A8-2060176D2D7E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,5 +54,9 @@ Global
 		{814DEC59-EE2A-44C6-8707-5907B007C406}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{814DEC59-EE2A-44C6-8707-5907B007C406}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{814DEC59-EE2A-44C6-8707-5907B007C406}.Release|Any CPU.Build.0 = Release|Any CPU
+		{176CB279-5253-49EE-88A8-2060176D2D7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{176CB279-5253-49EE-88A8-2060176D2D7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{176CB279-5253-49EE-88A8-2060176D2D7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{176CB279-5253-49EE-88A8-2060176D2D7E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

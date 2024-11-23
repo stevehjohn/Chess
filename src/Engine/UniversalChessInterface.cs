@@ -137,6 +137,8 @@ public sealed class UniversalChessInterface : IDisposable
                             throw new EngineException($"Cannot parse go depth parameter '{commands[i + 1]}'.");
                         }
 
+                        i++;
+
                         break;
                     
                     default:
