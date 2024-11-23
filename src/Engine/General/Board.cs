@@ -317,7 +317,7 @@ public class Board
                     Kind.Queen => true,
                     Kind.Rook => direction.IsOrthogonal,
                     Kind.Bishop => ! direction.IsOrthogonal,
-                    Kind.King => i == 1,
+                    Kind.King => i == 0,
                     _ => false
                 };
 
