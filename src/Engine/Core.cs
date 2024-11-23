@@ -152,8 +152,6 @@ public sealed class Core : IDisposable
         return _lastLegalMove.ToStandardNotation();
     }
     
-    
-
     private string GetMoveInternal(int depth, Action<string> callback = null)
     {
         _depthCounts = new long[depth + 1];
@@ -195,10 +193,7 @@ public sealed class Core : IDisposable
             }
         }
 
-        if (callback != null)
-        {
-            callback(result);
-        }
+        callback?.Invoke(result);
 
         return result;
     }

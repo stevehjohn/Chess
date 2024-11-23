@@ -54,14 +54,9 @@ public static class EntryPoint
                 
                 results.Add(result);
 
-                if (result == 1)
-                {
-                    OutputLine("&NL;  &Green;OcpCore Engine&White; Wins!");
-                }
-                else
-                {
-                    OutputLine($"&NL;  &Magenta;{OpponentBot}&White; Wins.");
-                }
+                OutputLine(result == 1 
+                    ? "&NL;  &Green;OcpCore Engine&White; Wins!" 
+                    : $"&NL;  &Magenta;{OpponentBot}&White; Wins.");
             }
             catch (Exception exception)
             {
