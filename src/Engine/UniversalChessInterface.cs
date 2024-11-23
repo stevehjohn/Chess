@@ -8,15 +8,16 @@ public class UniversalChessInterface
     
     private readonly Core _core = new();
 
-    private readonly List<string> _response = [];
+    private readonly Action<string> _responseCallback;
     
-    public List<string> Respond(string command)
+    public UniversalChessInterface(Action<string> responseCallback)
     {
-        _response.Clear();
-
+        _responseCallback = responseCallback;
+    }
+    
+    public void IssueCommand(string command)
+    {
         ParseCommand(command);
-        
-        return _response;
     }
 
     private void ParseCommand(string command)
@@ -117,7 +118,7 @@ public class UniversalChessInterface
 
     private void Go()
     {
-        _core.GetMove(DefaultDepth);
+        _core.GetMove(DefaultDepth, move => _responseCallback($"bestmove {move}"));
     }
 
     private void Stop()
@@ -127,6 +128,6 @@ public class UniversalChessInterface
 
     private void Reply(string response)
     {
-        _response.Add(response);
+        _responseCallback(response);
     }
 }
