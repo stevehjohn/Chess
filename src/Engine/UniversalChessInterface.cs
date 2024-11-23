@@ -116,7 +116,7 @@ public sealed class UniversalChessInterface : IDisposable
             }
             catch (Exception exception)
             {
-                throw new EngineException($"An error occurred trying to nake move {commands[i]}. {exception}");
+                throw new EngineException($"An error occurred trying to make move {commands[i]}. {exception}");
             }
         }
     }
@@ -127,7 +127,7 @@ public sealed class UniversalChessInterface : IDisposable
 
         if (commands != null)
         {
-            for (var i = 0; i < commands.Length; i++)
+            for (var i = 0; i < commands.Length; i += 2)
             {
                 switch (commands[i])
                 {
@@ -137,10 +137,12 @@ public sealed class UniversalChessInterface : IDisposable
                             throw new EngineException($"Cannot parse go depth parameter '{commands[i + 1]}'.");
                         }
 
-                        i++;
-
                         break;
                     
+                    case "wtime":
+                    case "btime":
+                        break;
+
                     default:
                         throw new EngineException($"Unsupported go parameter '{commands[i]}'.");
                 }
