@@ -44,11 +44,9 @@ public class LiChessClient : IDisposable
         };
     }
 
-    public async Task<bool> ChallengeLiChess(string username)
+    public async Task<int> ChallengeLiChess(string username)
     {
         var colour = ForegroundColor;
-        
-        Clear();
         
         OutputLine($"&NL;  &Cyan;Challenging &White;{username}");
 
@@ -93,7 +91,7 @@ public class LiChessClient : IDisposable
 
         ForegroundColor = colour;
 
-        return false;
+        return 0;
     }
 
     private async Task<(bool Accepted, string Reason)> AwaitAcceptance(string id)
@@ -151,7 +149,7 @@ public class LiChessClient : IDisposable
         return (false, "TIMEOUT");
     }
 
-    private async Task<bool> PlayGame(string id)
+    private async Task<int> PlayGame(string id)
     {
         using var response = await _client.GetAsync($"api/bot/game/stream/{id}", HttpCompletionOption.ResponseHeadersRead);
 
@@ -217,16 +215,16 @@ public class LiChessClient : IDisposable
 
             var result = await PlayMove(id, state, engineIsWhite);
 
-            if (! result)
+            if (result != 0)
             {
-                return false;
+                return result;
             }
         }
 
-        return true;
+        return 0;
     }
 
-    private async Task<bool> PlayMove(string id, GameState state, bool engineIsWhite)
+    private async Task<int> PlayMove(string id, GameState state, bool engineIsWhite)
     {
         var moves = (state.Moves ?? string.Empty).Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
@@ -245,7 +243,7 @@ public class LiChessClient : IDisposable
 
             if (engineMove == null)
             {
-                return false;
+                return -1;
             }
 
             OutputLine($"&NL;  &Green;Engine&White;: {engineMove}");
@@ -258,7 +256,7 @@ public class LiChessClient : IDisposable
         {
             if (moves.Length <= _core.MoveCount)
             {
-                return true;
+                return 0;
             }
 
             _core.MakeMove(lastMove);
@@ -271,7 +269,7 @@ public class LiChessClient : IDisposable
 
             if (engineMove == null)
             {
-                return false;
+                return -1;
             }
 
             OutputLine($"&NL;  &Green;Engine&White;: {engineMove}");
@@ -281,7 +279,7 @@ public class LiChessClient : IDisposable
             _core.MakeMove(engineMove);
         }
 
-        return true;
+        return 0;
     }
 
     private async Task<TResponse> Post<TRequest, TResponse>(string path, TRequest content) where TRequest : class
