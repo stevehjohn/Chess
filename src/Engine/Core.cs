@@ -18,7 +18,7 @@ public class Core
 
     private readonly Dictionary<string, long> _perftCounts = new();
 
-    private string _bestPath;
+    private readonly List<string> _bestPaths = new();
 
     public int MoveCount => _ply - 1;
 
@@ -78,6 +78,8 @@ public class Core
         
         _perftCounts.Clear();
         
+        _bestPaths.Clear();
+        
         for (var i = 1; i <= depth; i++)
         {
             _depthCounts[i] = 0;
@@ -91,7 +93,9 @@ public class Core
 
         if (GetMoveInternal(_board, Player, depth, depth, string.Empty))
         {
-            return _bestPath[..4];
+            var path = Random.Shared.Next(_bestPaths.Count);
+            
+            return _bestPaths[path][..4];
         }
 
         return null;
@@ -150,7 +154,12 @@ public class Core
 
                     if (depth == 1)
                     {
-                        _bestPath = $"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}".Trim();
+                        if (score > _plyBestScores[ply])
+                        {
+                            _bestPaths.Clear();
+                        }
+
+                        _bestPaths.Add($"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}".Trim());
                     }
                 }
                 
