@@ -6,7 +6,7 @@ namespace Engine;
 
 public sealed class Core : IDisposable
 {
-    public const string EngineName = "OcpCore";
+    public const string EngineName = "OcpCoreEngine";
 
     public const string Author = "Stevo John";
     
