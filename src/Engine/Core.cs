@@ -4,7 +4,7 @@ using Engine.Pieces;
 
 namespace Engine;
 
-public class Core
+public sealed class Core : IDisposable
 {
     public const string EngineName = "OcpCore";
 
@@ -19,11 +19,17 @@ public class Core
     private int[] _plyBestScores;
 
     private long[][] _outcomes;
+    
+    private CancellationTokenSource _cancellationTokenSource;
+
+    private CancellationToken _cancellationToken;
+
+    private Task _getMoveTask;
 
     private readonly Dictionary<string, long> _perftCounts = new();
 
     private readonly List<string> _bestPaths = [];
-
+    
     public int MoveCount => _ply - 1;
 
     public long GetDepthCount(int ply) => _depthCounts[ply];
@@ -77,8 +83,42 @@ public class Core
 
         return outcome;
     }
-    
+
     public string GetMove(int depth)
+    {
+        _cancellationTokenSource = null;
+
+        _getMoveTask = null;
+        
+        return GetMoveInternal(depth);
+    }
+    
+    public Task GetMove(int depth, Action<string> callback)
+    {
+        _cancellationTokenSource = new CancellationTokenSource();
+
+        _cancellationToken = _cancellationTokenSource.Token;
+
+        _getMoveTask = Task.Run(() => GetMoveInternal(depth, callback), _cancellationToken);
+
+        return _getMoveTask;
+    }
+
+    public string Interrupt()
+    {
+        _cancellationTokenSource.Cancel();
+        
+        if (_bestPaths.Count > 0)
+        {
+            var path = Random.Shared.Next(_bestPaths.Count);
+            
+            return _bestPaths[path][..4];
+        }
+
+        return null;
+    }
+
+    private string GetMoveInternal(int depth, Action<string> callback = null)
     {
         _depthCounts = new long[depth + 1];
         
@@ -101,14 +141,24 @@ public class Core
             _outcomes[i] = new long[outcomes.Length];
         }
 
+        string result = null;
+
         if (GetMoveInternal(_board, Player, depth, depth, string.Empty))
         {
-            var path = Random.Shared.Next(_bestPaths.Count);
+            if (_bestPaths.Count > 0)
+            {
+                var path = Random.Shared.Next(_bestPaths.Count);
             
-            return _bestPaths[path][..4];
+                result = _bestPaths[path][..4];
+            }
         }
 
-        return null;
+        if (callback != null)
+        {
+            callback(result);
+        }
+
+        return result;
     }
 
     private bool GetMoveInternal(Board board, Colour colour, int maxDepth, int depth, string path, string perftNode = null)
@@ -289,6 +339,13 @@ public class Core
         }
 
         return false;
+    }
+
+    public void Dispose()
+    {
+        _cancellationTokenSource?.Dispose();
+        
+        _getMoveTask?.Dispose();
     }
 
     public override string ToString()

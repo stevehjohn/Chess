@@ -35,6 +35,11 @@ public class UniversalChessInterface
 
                 break;
             
+            case "isready":
+                IsReady();
+
+                break;
+            
             default:
                 throw new EngineException($"Unknown UCI command '{command}'.");
         }
@@ -52,7 +57,10 @@ public class UniversalChessInterface
     private void UciNewGame()
     {
         _core.Initialise();
-        
+    }
+
+    private void IsReady()
+    {
         Reply("readyok");
     }
 
