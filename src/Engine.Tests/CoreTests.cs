@@ -55,4 +55,28 @@ public class CoreTests
             }
         }
     }
+
+    [Fact]
+    public void PicksRandomMove()
+    {
+        var collisions = 0;
+        
+        for (var i = 0; i < 10; i++)
+        {
+            _core.Initialise();
+
+            var firstMove = _core.GetMove(3);
+
+            _core.Initialise();
+
+            var secondMove = _core.GetMove(3);
+
+            if (firstMove == secondMove)
+            {
+                collisions++;
+            }
+        }
+        
+        Assert.NotEqual(10, collisions);
+    }
 }

@@ -260,7 +260,11 @@ public class LiChessClient : IDisposable
                 throw new ClientException("Error communicating with LiChess API.");
             }
 
-            if (_core.MakeMove(engineMove) == PlyOutcome.CheckMate)
+            var outcome = _core.MakeMove(engineMove);
+            
+            _core.OutputBoard();
+            
+            if (outcome == PlyOutcome.CheckMate)
             {
                 OutputLine("&NL;  &Green;Checkmate :)&White;...");
 
@@ -298,7 +302,11 @@ public class LiChessClient : IDisposable
                 throw new ClientException("Error communicating with LiChess API.");
             }
 
-            if (_core.MakeMove(engineMove) == PlyOutcome.CheckMate)
+            var outcome = _core.MakeMove(engineMove);
+            
+            _core.OutputBoard();
+            
+            if (outcome == PlyOutcome.CheckMate)
             {
                 OutputLine("&NL;  &Green;Checkmate :)&White;...");
 
@@ -307,11 +315,6 @@ public class LiChessClient : IDisposable
         }
 
         return 0;
-    }
-
-    private void PrintBoard()
-    {
-        _core.OutputBoard();
     }
 
     private async Task<TResponse> Post<TRequest, TResponse>(string path, TRequest content) where TRequest : class
