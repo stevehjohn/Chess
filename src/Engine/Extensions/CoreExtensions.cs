@@ -4,6 +4,10 @@ public static class CoreExtensions
 {
     public static void OutputBoard(this Core core)
     {
+        var foreground = Console.ForegroundColor;
+
+        var background = Console.BackgroundColor;
+        
         var state = core.ToString();
         
         Console.Write("  ");
@@ -19,8 +23,25 @@ public static class CoreExtensions
                 i++;
             }
 
+            if (char.IsUpper(state[i]))
+            {
+                Console.ForegroundColor = background;
+
+                Console.BackgroundColor = foreground;
+            }
+            else
+            {
+                Console.ForegroundColor = foreground;
+
+                Console.BackgroundColor = background;
+            }
+
             Console.Write(state[i]);
         }
+
+        Console.ForegroundColor = foreground;
+
+        Console.BackgroundColor = background;
         
         Console.WriteLine();
     }
