@@ -2,17 +2,25 @@ namespace Engine.Extensions;
 
 public static class CoreExtensions
 {
-    public static void OutputBoard(this Core core)
+    public static void OutputBoard(this Core core, bool invert = false)
     {
         var foreground = Console.ForegroundColor;
 
         var background = Console.BackgroundColor;
         
         var state = core.ToString();
-        
+
+        Console.ForegroundColor = ConsoleColor.White;
+
+        Console.BackgroundColor = ConsoleColor.Black;
+
         Console.Write("  ");
 
-        for (var i = 0; i < state.Length; i++)
+        var i = invert ? state.Length - 1 : 0;
+
+        var delta = invert ? -1 : 1;
+
+        while (true)
         {
             if (state[i] == '|')
             {
@@ -20,23 +28,34 @@ public static class CoreExtensions
                 
                 Console.Write("  ");
 
-                i++;
+                i += delta;
             }
 
             if (char.IsUpper(state[i]))
             {
-                Console.ForegroundColor = background;
+                Console.ForegroundColor = ConsoleColor.Black;
 
-                Console.BackgroundColor = foreground;
+                Console.BackgroundColor = ConsoleColor.White;
             }
             else
             {
-                Console.ForegroundColor = foreground;
+                Console.ForegroundColor = ConsoleColor.White;
 
-                Console.BackgroundColor = background;
+                Console.BackgroundColor = ConsoleColor.Black;
             }
 
             Console.Write(state[i]);
+
+            Console.ForegroundColor = ConsoleColor.White;
+
+            Console.BackgroundColor = ConsoleColor.Black;
+
+            i += delta;
+
+            if (i < 0 || i >= state.Length)
+            {
+                break;
+            }
         }
 
         Console.ForegroundColor = foreground;

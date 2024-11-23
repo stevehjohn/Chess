@@ -33,13 +33,11 @@ Number of possible board combinations after each move (without pruning).
 
 ## TODOs
 
+- LiChessClient thinks a stalemate is a win for the opponent
 - Pawn promotion
 - Stalemate detection
 - Fix crash on (or near) checkmate
 - Threefold repetition
-
-After matching the above table.
-
 - Ranking move quality
 - Pruning
 - Move ordering (prefer captures, ideally ordered by lowest value catches highest value first)

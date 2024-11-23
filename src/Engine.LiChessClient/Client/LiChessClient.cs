@@ -304,7 +304,7 @@ public sealed class LiChessClient : IDisposable
             
             OutputLine();
             
-            _core.OutputBoard();
+            _core.OutputBoard(! engineIsWhite);
             
             if (outcome == PlyOutcome.CheckMate)
             {
