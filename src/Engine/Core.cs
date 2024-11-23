@@ -25,6 +25,10 @@ public class Core
     public long GetDepthCount(int ply) => _depthCounts[ply];
 
     public long GetPlyOutcome(int ply, PlyOutcome outcome) => _outcomes[ply][(int) outcome];
+
+    public int GetBestScore(int ply) => _plyBestScores[ply];
+
+    public int GetBestMoveCount() => _bestPaths.Count;
         
     public IReadOnlyDictionary<string, long> PerftCounts => _perftCounts;
 
@@ -148,7 +152,9 @@ public class Core
                 
                 moved = true;
 
-                var score = colour == Colour.Black ? copy.BlackScore : copy.WhiteScore;
+                var score = colour == Colour.Black 
+                    ? copy.BlackScore - copy.WhiteScore
+                    : copy.WhiteScore - copy.BlackScore;
                 
                 if (score >= _plyBestScores[ply])
                 {
