@@ -88,13 +88,16 @@ public class Core
 
             _outcomes[i] = new long[outcomes.Length];
         }
-        
-        GetMoveInternal(_board, Player, depth, depth, string.Empty);
-        
-        return _bestPath[..4];
+
+        if (GetMoveInternal(_board, Player, depth, depth, string.Empty))
+        {
+            return _bestPath[..4];
+        }
+
+        return null;
     }
 
-    private void GetMoveInternal(Board board, Colour colour, int maxDepth, int depth, string path, string perftNode = null)
+    private bool GetMoveInternal(Board board, Colour colour, int maxDepth, int depth, string path, string perftNode = null)
     {
         var moved = false;
        
@@ -214,11 +217,13 @@ public class Core
         {
             if (ply == 1)
             {
-                // Checkmate
+                return false;
             }
 
             _outcomes[ply - 1][(int) PlyOutcome.CheckMate]++;
         }
+
+        return true;
     }
 
     private static bool OpponentCanMove(Board board, Colour colour)

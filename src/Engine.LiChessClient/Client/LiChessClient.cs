@@ -44,7 +44,7 @@ public class LiChessClient : IDisposable
         };
     }
 
-    public async Task ChallengeLiChess(string username)
+    public async Task<bool> ChallengeLiChess(string username)
     {
         var colour = ForegroundColor;
         
@@ -73,18 +73,16 @@ public class LiChessClient : IDisposable
             {
                 OutputLine("&NL;  &Cyan;Challenge &Green;ACCEPTED&White;.");
 
-                await PlayGame(response.Id);
+                return await PlayGame(response.Id);
             }
-            else
-            {
-                OutputLine($"&NL;  &Cyan;Challenge &Magenta;{challengeState.Reason}&White;.");
-            }
+
+            OutputLine($"&NL;  &Cyan;Challenge &Magenta;{challengeState.Reason}&White;.");
         }
         else if (response.Status == "accepted")
         {
             OutputLine("&NL;  &Cyan;Challenge &Green;ACCEPTED&White;.");
 
-            await PlayGame(response.Id);
+            return await PlayGame(response.Id);
         }
         else
         {
@@ -94,6 +92,8 @@ public class LiChessClient : IDisposable
         OutputLine();
 
         ForegroundColor = colour;
+
+        return false;
     }
 
     private async Task<(bool Accepted, string Reason)> AwaitAcceptance(string id)
@@ -151,7 +151,7 @@ public class LiChessClient : IDisposable
         return (false, "TIMEOUT");
     }
 
-    private async Task PlayGame(string id)
+    private async Task<bool> PlayGame(string id)
     {
         using var response = await _client.GetAsync($"api/bot/game/stream/{id}", HttpCompletionOption.ResponseHeadersRead);
 
@@ -215,11 +215,18 @@ public class LiChessClient : IDisposable
                 continue;
             }
 
-            await PlayMove(id, state, engineIsWhite);
+            var result = await PlayMove(id, state, engineIsWhite);
+
+            if (! result)
+            {
+                return false;
+            }
         }
+
+        return true;
     }
 
-    private async Task PlayMove(string id, GameState state, bool engineIsWhite)
+    private async Task<bool> PlayMove(string id, GameState state, bool engineIsWhite)
     {
         var moves = (state.Moves ?? string.Empty).Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
@@ -236,6 +243,11 @@ public class LiChessClient : IDisposable
             
             var engineMove = _core.GetMove(Depth);
 
+            if (engineMove == null)
+            {
+                return false;
+            }
+
             OutputLine($"&NL;  &Green;Engine&White;: {engineMove}");
             
             await Post<NullRequest, BasicResponse>($"bot/game/{id}/move/{engineMove}", null);
@@ -246,7 +258,7 @@ public class LiChessClient : IDisposable
         {
             if (moves.Length <= _core.MoveCount)
             {
-                return;
+                return true;
             }
 
             _core.MakeMove(lastMove);
@@ -257,12 +269,19 @@ public class LiChessClient : IDisposable
             
             var engineMove = _core.GetMove(Depth);
 
+            if (engineMove == null)
+            {
+                return false;
+            }
+
             OutputLine($"&NL;  &Green;Engine&White;: {engineMove}");
             
             await Post<NullRequest, BasicResponse>($"bot/game/{id}/move/{engineMove}", null);
             
             _core.MakeMove(engineMove);
         }
+
+        return true;
     }
 
     private async Task<TResponse> Post<TRequest, TResponse>(string path, TRequest content) where TRequest : class
