@@ -3,12 +3,14 @@ using static Engine.LiChessClient.Infrastructure.Console;
 
 public static class EntryPoint
 {
-    private const string OpponentBot = "maia1";
+    private const string OpponentBot = "WorstFish";
     
-    private const int Games = 1;
+    private const int Games = 3;
     
     public static async Task Main()
     {
+        var colour = ForegroundColor;
+        
         var results = new List<int>();
         
         Clear();
@@ -48,13 +50,29 @@ public static class EntryPoint
 
             try
             {
-                results.Add(await client.ChallengeLiChess(OpponentBot));
+                var result = await client.ChallengeLiChess(OpponentBot);
+                
+                results.Add(result);
+
+                if (result == 1)
+                {
+                    OutputLine("&NL;  &Green;OcpCore Engine&White; Wins!");
+                }
+                else
+                {
+                    OutputLine($"&NL;  &Magenta;{OpponentBot}&White; Wins.");
+                }
             }
-            catch
+            catch (Exception exception)
             {
-                    
-                Output($"    &Magenta;Error playing game &White;{i + 1}&Magenta; against&White; {OpponentBot}");
+                OutputLine($"    &Magenta;Error playing game &White;{i + 1}&Magenta; against&White; {OpponentBot}");
+                
+                OutputLine($"&NL;    &Gray;{exception.Message}");
             }
         }
+
+        ForegroundColor = colour;
+        
+        OutputLine();
     }
 }

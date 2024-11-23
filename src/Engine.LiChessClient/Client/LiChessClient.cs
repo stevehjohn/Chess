@@ -49,8 +49,6 @@ public sealed class LiChessClient : IDisposable
 
     public async Task<int> ChallengeLiChess(string username)
     {
-        var colour = ForegroundColor;
-        
         OutputLine($"&NL;  &Cyan;Challenging &White;{username}");
 
         var response = await Post<ChallengeRequest, ChallengeResponse>($"challenge/{username}", new ChallengeRequest
@@ -92,8 +90,6 @@ public sealed class LiChessClient : IDisposable
         }
         
         OutputLine();
-
-        ForegroundColor = colour;
 
         return 0;
     }
@@ -262,6 +258,8 @@ public sealed class LiChessClient : IDisposable
 
             var outcome = _core.MakeMove(engineMove);
             
+            OutputLine();
+            
             _core.OutputBoard();
             
             if (outcome == PlyOutcome.CheckMate)
@@ -303,6 +301,8 @@ public sealed class LiChessClient : IDisposable
             }
 
             var outcome = _core.MakeMove(engineMove);
+            
+            OutputLine();
             
             _core.OutputBoard();
             

@@ -21,5 +21,7 @@ public static class CoreExtensions
 
             Console.Write(state[i]);
         }
+        
+        Console.WriteLine();
     }
 }
