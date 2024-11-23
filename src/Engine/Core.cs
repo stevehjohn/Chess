@@ -29,6 +29,8 @@ public sealed class Core : IDisposable
     private readonly Dictionary<string, long> _perftCounts = new();
 
     private readonly List<string> _bestPaths = [];
+
+    private int _lastLegalMove;
     
     public int MoveCount => _ply - 1;
 
@@ -128,7 +130,7 @@ public sealed class Core : IDisposable
             }
         }
 
-        return null;
+        return _lastLegalMove.ToStandardNotation();
     }
 
     private string GetMoveInternal(int depth, Action<string> callback = null)
@@ -229,6 +231,11 @@ public sealed class Core : IDisposable
                 }
                 
                 moved = true;
+
+                if (depth == maxDepth)
+                {
+                    _lastLegalMove = move;
+                }
 
                 var score = colour == Colour.Black 
                     ? copy.BlackScore - copy.WhiteScore

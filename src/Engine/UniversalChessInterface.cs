@@ -4,6 +4,8 @@ namespace Engine;
 
 public class UniversalChessInterface
 {
+    private const int DefaultDepth = 6;
+    
     private readonly Core _core = new();
 
     private readonly List<string> _response = [];
@@ -48,6 +50,11 @@ public class UniversalChessInterface
             case "go":
                 Go();
 
+                break;
+            
+            case "stop":
+                Stop();
+                
                 break;
             
             default:
@@ -110,6 +117,12 @@ public class UniversalChessInterface
 
     private void Go()
     {
+        _core.GetMove(DefaultDepth);
+    }
+
+    private void Stop()
+    {
+        Reply($"bestmove {_core.Interrupt()}");
     }
 
     private void Reply(string response)
