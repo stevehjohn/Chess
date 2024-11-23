@@ -1,5 +1,6 @@
 using Engine.Extensions;
 using Engine.General;
+using Engine.Infrastructure;
 using Engine.Pieces;
 
 namespace Engine;
@@ -39,6 +40,8 @@ public sealed class Core : IDisposable
     public long GetPlyOutcome(int ply, PlyOutcome outcome) => _outcomes[ply][(int) outcome];
 
     public int GetBestScore(int ply) => _plyBestScores[ply];
+
+    public bool IsBusy => _cancellationTokenSource != null;
 
     public long GetBestMoveCount()
     {
@@ -105,19 +108,29 @@ public sealed class Core : IDisposable
         return GetMoveInternal(depth);
     }
     
-    public Task GetMove(int depth, Action<string> callback)
+    public void GetMove(int depth, Action<string> callback)
     {
         _cancellationTokenSource = new CancellationTokenSource();
 
         _cancellationToken = _cancellationTokenSource.Token;
 
-        _getMoveTask = Task.Run(() => GetMoveInternal(depth, callback), _cancellationToken);
+        _getMoveTask = Task.Run(() =>
+        {
+            _cancellationTokenSource = null;
 
-        return _getMoveTask;
+            _getMoveTask = null;
+            
+            return GetMoveInternal(depth, callback);
+        }, _cancellationToken);
     }
 
     public string Interrupt()
     {
+        if (_cancellationTokenSource == null)
+        {
+            throw new EngineException("No processing to interrupt.");
+        }
+
         _cancellationTokenSource.Cancel();
 
         lock (_bestPaths)
@@ -130,8 +143,16 @@ public sealed class Core : IDisposable
             }
         }
 
+        _cancellationTokenSource.Dispose();
+        
+        _cancellationTokenSource = null;
+
+        _getMoveTask = null;
+
         return _lastLegalMove.ToStandardNotation();
     }
+    
+    
 
     private string GetMoveInternal(int depth, Action<string> callback = null)
     {

@@ -2,7 +2,7 @@ using Engine.Infrastructure;
 
 namespace Engine;
 
-public class UniversalChessInterface
+public sealed class UniversalChessInterface : IDisposable
 {
     private const int DefaultDepth = 6;
     
@@ -56,6 +56,11 @@ public class UniversalChessInterface
             case "stop":
                 Stop();
                 
+                break;
+            
+            case "quit":
+                Quit();
+
                 break;
             
             default:
@@ -126,8 +131,28 @@ public class UniversalChessInterface
         Reply($"bestmove {_core.Interrupt()}");
     }
 
+    private void Quit()
+    {
+        if (_core.IsBusy)
+        {
+            try
+            {
+                _core.Interrupt();
+            }
+            catch
+            {
+                //
+            }
+        }
+    }
+
     private void Reply(string response)
     {
         _responseCallback(response);
+    }
+
+    public void Dispose()
+    {
+        _core?.Dispose();
     }
 }
