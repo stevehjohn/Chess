@@ -212,6 +212,11 @@ public class Core
 
         if (board.IsKingInCheck(colour, colour == Colour.Black ? board.BlackKingCell : board.WhiteKingCell) && ! moved)
         {
+            if (ply == 1)
+            {
+                // Checkmate
+            }
+
             _outcomes[ply - 1][(int) PlyOutcome.CheckMate]++;
         }
     }
