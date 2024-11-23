@@ -6,6 +6,10 @@ namespace Engine;
 
 public class Core
 {
+    public const string EngineName = "OcpCore";
+
+    public const string Author = "Stevo John";
+    
     private Board _board;
     
     private int _ply;

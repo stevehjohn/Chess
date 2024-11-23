@@ -7,6 +7,10 @@ Second attempt at creating a chess engine.
 - Copying boards is faster than move/undo. It can also be parallelised.
 - Careful parallelising; combined with pruning it could miss good paths.
 
+## Reminders to Self
+
+- Make anything other than a minor change in a branch. Check against perft before merging.
+
 ## Expected Results
 
 Number of possible board combinations after each move (without pruning).
