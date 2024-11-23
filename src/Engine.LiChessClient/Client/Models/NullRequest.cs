@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+// ReSharper disable RedundantTypeDeclarationBody
 
 namespace Engine.LiChessClient.Client.Models;
 

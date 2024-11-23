@@ -3,6 +3,8 @@ using static Engine.LiChessClient.Infrastructure.Console;
 
 public static class EntryPoint
 {
+    private const string OpponentBot = "maia1";
+    
     private const int Games = 1;
     
     public static async Task Main()
@@ -43,8 +45,16 @@ public static class EntryPoint
             }
 
             var client = new Client.LiChessClient();
-            
-            results.Add(await client.ChallengeLiChess("maia1"));
+
+            try
+            {
+                results.Add(await client.ChallengeLiChess(OpponentBot));
+            }
+            catch
+            {
+                    
+                Output($"    &Magenta;Error playing game &White;{i + 1}&Magenta; against&White; {OpponentBot}");
+            }
         }
     }
 }

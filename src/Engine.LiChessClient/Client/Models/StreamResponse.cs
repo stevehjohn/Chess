@@ -9,11 +9,11 @@ namespace Engine.LiChessClient.Client.Models;
 public class StreamResponse
 {
     [JsonPropertyName("white")]
-    public Player White { get; set; }
+    public Player White { get; init; }
     
     [JsonPropertyName("black")]
-    public Player Black { get; set; }
+    public Player Black { get; init; }
     
     [JsonPropertyName("state")]
-    public GameState State { get; set; }
+    public GameState State { get; init; }
 }

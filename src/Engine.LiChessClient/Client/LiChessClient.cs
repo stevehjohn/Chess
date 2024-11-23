@@ -4,6 +4,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using Engine.General;
 using Engine.LiChessClient.Client.Models;
+using Engine.LiChessClient.Infrastructure;
 using Engine.Pieces;
 using static Engine.LiChessClient.Infrastructure.Console;
 
@@ -251,7 +252,12 @@ public class LiChessClient : IDisposable
 
             OutputLine($"&NL;  &Green;Engine&White;: {engineMove}");
             
-            await Post<NullRequest, BasicResponse>($"bot/game/{id}/move/{engineMove}", null);
+            var result = await Post<NullRequest, BasicResponse>($"bot/game/{id}/move/{engineMove}", null);
+
+            if (! result.Ok)
+            {
+                throw new ClientException("Error communicating with LiChess API.");
+            }
 
             if (_core.MakeMove(engineMove) == PlyOutcome.CheckMate)
             {
@@ -284,8 +290,12 @@ public class LiChessClient : IDisposable
 
             OutputLine($"&NL;  &Green;Engine&White;: {engineMove}");
             
-            await Post<NullRequest, BasicResponse>($"bot/game/{id}/move/{engineMove}", null);
+            var result = await Post<NullRequest, BasicResponse>($"bot/game/{id}/move/{engineMove}", null);
             
+            if (! result.Ok)
+            {
+                throw new ClientException("Error communicating with LiChess API.");
+            }
 
             if (_core.MakeMove(engineMove) == PlyOutcome.CheckMate)
             {

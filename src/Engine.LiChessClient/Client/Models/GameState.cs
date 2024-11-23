@@ -9,11 +9,11 @@ namespace Engine.LiChessClient.Client.Models;
 public class GameState
 {
     [JsonPropertyName("moves")]
-    public string Moves { get; set; }
+    public string Moves { get; init; }
     
     [JsonPropertyName("text")]
-    public string Text { get; set; }
+    public string Text { get; init; }
     
     [JsonPropertyName("winner")]
-    public string Winner { get; set; }
+    public string Winner { get; init; }
 }
