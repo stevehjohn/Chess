@@ -13,4 +13,7 @@ public class GameState
     
     [JsonPropertyName("text")]
     public string Text { get; set; }
+    
+    [JsonPropertyName("winner")]
+    public string Winner { get; set; }
 }

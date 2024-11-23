@@ -243,6 +243,8 @@ public class LiChessClient : IDisposable
 
             if (engineMove == null)
             {
+                OutputLine("&NL;  &Magenta;Got nothing :(&White;...");
+            
                 return -1;
             }
 
@@ -269,6 +271,8 @@ public class LiChessClient : IDisposable
 
             if (engineMove == null)
             {
+                OutputLine("&NL;  &Magenta;Got nothing :(&White;...");
+            
                 return -1;
             }
 

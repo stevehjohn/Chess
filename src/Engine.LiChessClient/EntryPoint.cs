@@ -7,10 +7,10 @@ public static class EntryPoint
     {
         var results = new List<int>();
         
+        Clear();
+
         for (var i = 0; i < 10; i++)
         {
-            Clear();
-
             if (results.Count > 0)
             {
                 OutputLine("&NL;  &Cyan;Results so far:&White;");
