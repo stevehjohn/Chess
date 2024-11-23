@@ -151,6 +151,8 @@ public sealed class UniversalChessInterface : IDisposable
                     
                     case "wtime":
                     case "btime":
+                    case "winc":
+                    case "binc":
                         break;
 
                     default:
