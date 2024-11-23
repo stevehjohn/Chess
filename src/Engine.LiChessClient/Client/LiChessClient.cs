@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
+using Engine.General;
 using Engine.LiChessClient.Client.Models;
 using Engine.Pieces;
 using static Engine.LiChessClient.Infrastructure.Console;
@@ -252,7 +253,12 @@ public class LiChessClient : IDisposable
             
             await Post<NullRequest, BasicResponse>($"bot/game/{id}/move/{engineMove}", null);
 
-            _core.MakeMove(engineMove);
+            if (_core.MakeMove(engineMove) == PlyOutcome.CheckMate)
+            {
+                OutputLine("&NL;  &Green;Checkmate :)&White;...");
+
+                return 1;
+            }
         }
         else
         {
@@ -280,7 +286,13 @@ public class LiChessClient : IDisposable
             
             await Post<NullRequest, BasicResponse>($"bot/game/{id}/move/{engineMove}", null);
             
-            _core.MakeMove(engineMove);
+
+            if (_core.MakeMove(engineMove) == PlyOutcome.CheckMate)
+            {
+                OutputLine("&NL;  &Green;Checkmate :)&White;...");
+
+                return 1;
+            }
         }
 
         return 0;

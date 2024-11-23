@@ -54,18 +54,20 @@ public class Core
         _board.InitialisePieces(parts[0]);
     }
 
-    public void MakeMove(string move)
+    public PlyOutcome MakeMove(string move)
     {
-        MakeMove(move[..2].CellFromStandardNotation(), move[2..].CellFromStandardNotation());
+        return MakeMove(move[..2].CellFromStandardNotation(), move[2..].CellFromStandardNotation());
     }
 
-    public void MakeMove(int position, int target)
+    public PlyOutcome MakeMove(int position, int target)
     {
-        _board.MakeMove(position, target, _ply);
+        var outcome = _board.MakeMove(position, target, _ply);
         
         Player = Player.Invert();
 
         _ply++;
+
+        return outcome;
     }
     
     public string GetMove(int depth)
