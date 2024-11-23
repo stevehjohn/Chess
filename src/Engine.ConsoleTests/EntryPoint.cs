@@ -99,7 +99,7 @@ public static class EntryPoint
 
         if (arguments.Length > 1)
         {
-            if (arguments[1].ToLowerInvariant() == "perft")
+            if (arguments[1].Equals("perft", StringComparison.InvariantCultureIgnoreCase))
             {
                 perft = true;
             }

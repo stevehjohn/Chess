@@ -184,6 +184,7 @@ public class Core
 
                 if (copy.IsKingInCheck(colour.Invert(), colour == Colour.White ? copy.BlackKingCell : copy.WhiteKingCell))
                 {
+                    // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
                     switch (outcome)
                     {
                         case PlyOutcome.Capture:
