@@ -42,7 +42,8 @@ public static class EntryPoint
 
             var client = new Client.LiChessClient();
             
-            results.Add(await client.ChallengeLiChess("maia1"));
+            // results.Add(await client.ChallengeLiChess("maia1"));
+            results.Add(await client.ChallengeLiChess("WorstFish"));
         }
     }
 }
