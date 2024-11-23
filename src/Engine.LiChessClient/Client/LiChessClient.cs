@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
+using Engine.Extensions;
 using Engine.General;
 using Engine.LiChessClient.Client.Models;
 using Engine.LiChessClient.Infrastructure;
@@ -306,6 +307,11 @@ public class LiChessClient : IDisposable
         }
 
         return 0;
+    }
+
+    private void PrintBoard()
+    {
+        _core.OutputBoard();
     }
 
     private async Task<TResponse> Post<TRequest, TResponse>(string path, TRequest content) where TRequest : class
