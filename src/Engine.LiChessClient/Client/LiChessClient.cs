@@ -11,7 +11,7 @@ using static Engine.LiChessClient.Infrastructure.Console;
 
 namespace Engine.LiChessClient.Client;
 
-public class LiChessClient : IDisposable
+public sealed class LiChessClient : IDisposable
 {
     private const int WaitAttempts = 6;
 
@@ -381,6 +381,6 @@ public class LiChessClient : IDisposable
 
     public void Dispose()
     {
-        _client?.Dispose();
+        _client.Dispose();
     }
 }

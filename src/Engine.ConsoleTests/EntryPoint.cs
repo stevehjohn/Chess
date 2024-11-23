@@ -94,7 +94,10 @@ public static class EntryPoint
         
         if (arguments.Length > 0)
         {
-            int.TryParse(arguments[0], out depth);
+            if (! int.TryParse(arguments[0], out depth))
+            {
+                depth = 6;
+            }
         }
 
         if (arguments.Length > 1)
