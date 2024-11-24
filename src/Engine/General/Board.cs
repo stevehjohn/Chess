@@ -129,9 +129,13 @@ public class Board
 
                 var rank = ranks[rankIndex];
 
-                while (file < rank.Length)
+                var i = 0;
+                
+                while (file < Constants.Files)
                 {
-                    var character = rank[file];
+                    var character = rank[i];
+
+                    i++;
                     
                     if (char.IsNumber(character))
                     {
@@ -440,7 +444,7 @@ public class Board
 
             if (target >> 3 is 0 or Constants.Ranks - 1)
             {
-                _cells[target] &= ushort.MaxValue ^ Constants.PieceDescriptionMask;
+                _cells[target] &= ushort.MaxValue ^ Constants.PieceKindMask;
 
                 // TODO: Could promote to other piece
                 _cells[target] |= (ushort) Kind.Queen;
