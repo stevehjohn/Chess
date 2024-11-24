@@ -35,8 +35,8 @@ Number of possible board combinations after each move (without pruning).
 
 ### WIP / Priority
 
-- Engine modes - explore all (for testing), or prune.
-- Engine generates moves like "e1f-" sometimes?
+- Engine modes - explore all (for testing), or prune
+- Engine generates moves like "e1f-" sometimes - special move codes
 
 ### The Rest
 
