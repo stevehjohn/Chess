@@ -2,7 +2,7 @@ namespace Engine.General;
 
 public enum MoveOutcome
 {
-    Move,
-    EngineInCheckmate,
-    OpponentInCheckmate
+    EngineInCheckmate = 0,
+    Move = 1,
+    OpponentInCheckmate = 2
 }

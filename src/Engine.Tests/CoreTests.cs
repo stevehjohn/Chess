@@ -1,3 +1,4 @@
+using Engine.General;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -68,6 +69,8 @@ public class CoreTests
         var moves = expectedMoves.Split('|');
         
         Assert.Contains(move.Move, moves);
+        
+        Assert.Equal(MoveOutcome.OpponentInCheckmate, move.Outcome);
     }
 
     [Fact]

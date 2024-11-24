@@ -243,6 +243,8 @@ public sealed class Core : IDisposable
         {
             return MoveOutcome.Move;
         }
+
+        var moveOutcome = MoveOutcome.Move;
         
         var moved = false;
        
@@ -335,6 +337,15 @@ public sealed class Core : IDisposable
                         _outcomes[ply][(int) PlyOutcome.CheckMate]++;
 
                         _bestPaths[ply].Add((PlyOutcome.CheckMate, $"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}".Trim()));
+
+                        if (colour == Player)
+                        {
+                            moveOutcome = MoveOutcome.OpponentInCheckmate;
+                        }
+                        else
+                        {
+                            moveOutcome = MoveOutcome.EngineInCheckmate;
+                        }
                     }
                 }
                 
@@ -392,7 +403,7 @@ public sealed class Core : IDisposable
             }
         }
 
-        return MoveOutcome.Move;
+        return moveOutcome;
     }
 
     private static int TranslateSpecialMoveCode(int cell, int moveCode)
