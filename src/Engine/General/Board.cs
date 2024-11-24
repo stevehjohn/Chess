@@ -223,7 +223,7 @@ public class Board
         return true;
     }
 
-    public PlyOutcome MakeMove(int position, int target, int ply)
+    public (PlyOutcome Outcome, bool Promoted) MakeMove(int position, int target, int ply)
     {
         switch (target)
         {
@@ -232,42 +232,42 @@ public class Board
             
                 MovePiece(position + 3, position + 1, ply);
             
-                return PlyOutcome.Castle;
+                return (PlyOutcome.Castle, false);
             
             case SpecialMoveCodes.CastleQueenSide:
                 MovePiece(position, position - 2, ply);
             
                 MovePiece(position - 4, position - 1, ply);
             
-                return PlyOutcome.Castle;
+                return (PlyOutcome.Castle, false);
             
             case SpecialMoveCodes.EnPassantUpLeft:
                 MovePiece(position, position - 9, ply);
 
                 _cells[position - 1] = 0;
 
-                return PlyOutcome.EnPassant;
+                return (PlyOutcome.EnPassant, false);
             
             case SpecialMoveCodes.EnPassantUpRight:
                 MovePiece(position, position - 7, ply);
 
                 _cells[position + 1] = 0;
 
-                return PlyOutcome.EnPassant;
+                return (PlyOutcome.EnPassant, false);
             
             case SpecialMoveCodes.EnPassantDownLeft:
                 MovePiece(position, position + 7, ply);
 
                 _cells[position - 1] = 0;
 
-                return PlyOutcome.EnPassant;
+                return (PlyOutcome.EnPassant, false);
             
             case SpecialMoveCodes.EnPassantDownRight:
                 MovePiece(position, position + 9, ply);
 
                 _cells[position + 1] = 0;
 
-                return PlyOutcome.EnPassant;
+                return (PlyOutcome.EnPassant, false);
             
             default:
                 return MovePiece(position, target, ply);
@@ -387,7 +387,7 @@ public class Board
         ArrayPool<ushort>.Shared.Return(_cells);
     }
 
-    private PlyOutcome MovePiece(int position, int target, int ply)
+    private (PlyOutcome Outcome, bool Promoted) MovePiece(int position, int target, int ply)
     {
         var kind = CellKind(position);
         
@@ -425,6 +425,8 @@ public class Board
 
         _cells[target] = (ushort) ((_cells.Value(target) & Constants.PieceDescriptionMask) | (ply << Constants.LastPlyMoveBitOffset));
 
+        var promoted = false;
+        
         if (CellKind(target) == Kind.Pawn)
         {
             if (Math.Abs(position - target) > 9)
@@ -435,9 +437,19 @@ public class Board
             {
                 _cells[target] &= ushort.MaxValue ^ Constants.PawnMoved2RanksFlag;
             }
+
+            if (target >> 3 is 0 or Constants.Ranks - 1)
+            {
+                _cells[target] &= ushort.MaxValue ^ Constants.PieceDescriptionMask;
+
+                // TODO: Could promote to other piece
+                _cells[target] |= (ushort) Kind.Queen;
+
+                promoted = true;
+            }
         }
 
-        return outcome;
+        return (outcome, promoted);
     }
     
     public override string ToString()

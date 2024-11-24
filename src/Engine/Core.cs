@@ -96,7 +96,7 @@ public sealed class Core : IDisposable
 
         _ply++;
 
-        return outcome;
+        return outcome.Outcome;
     }
 
     public string GetMove(int depth)
@@ -256,7 +256,7 @@ public sealed class Core : IDisposable
 
                 var copy = new Board(board);
                 
-                var outcome = copy.MakeMove(cell, move, ply);
+                var (outcome, promoted) = copy.MakeMove(cell, move, ply);
 
                 if (copy.IsKingInCheck(colour, colour == Colour.Black ? copy.BlackKingCell : copy.WhiteKingCell))
                 {
@@ -341,6 +341,11 @@ public sealed class Core : IDisposable
                 if (outcome == PlyOutcome.EnPassant)
                 {
                     _outcomes[ply][(int) PlyOutcome.Capture]++;
+                }
+
+                if (promoted)
+                {
+                    _outcomes[ply][(int) PlyOutcome.Promotion]++;
                 }
 
                 if (depth > 1)
