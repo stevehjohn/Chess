@@ -21,7 +21,7 @@ public sealed class LiChessClient : IDisposable
 
     private readonly JsonSerializerOptions _serializerOptions;
     
-    private readonly Core _core = new(EngineMode.Efficient);
+    private readonly Core _core = new();
 
     private readonly bool _logCommunications;
     

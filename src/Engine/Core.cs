@@ -29,8 +29,6 @@ public sealed class Core : IDisposable
 
     private Task _getMoveTask;
     
-    private readonly EngineMode _engineMode;
-    
     private readonly Dictionary<string, long> _perftCounts = new();
 
     private int _lastLegalMove;
@@ -48,11 +46,6 @@ public sealed class Core : IDisposable
     public IReadOnlyDictionary<string, long> PerftCounts => _perftCounts;
 
     public Colour Player { get; private set; }
-
-    public Core(EngineMode engineMode = EngineMode.Thorough)
-    {
-        _engineMode = engineMode;
-    }
     
     public void Initialise(Colour colour = Colour.White)
     {
@@ -338,17 +331,9 @@ public sealed class Core : IDisposable
 
                     outcome = PlyOutcome.Check;
 
-                    if (depth == 1)
+                    if (! OpponentCanMove(copy, colour.Invert()))
                     {
-                        if (! OpponentCanMove(copy, colour.Invert()))
-                        {
-                            _outcomes[ply][(int) PlyOutcome.CheckMate]++;
-
-                            if (_engineMode == EngineMode.Efficient && colour == Player)
-                            {
-                                return MoveOutcome.OpponentInCheckmate;
-                            }
-                        }
+                        _outcomes[ply][(int) PlyOutcome.CheckMate]++;
                     }
                 }
 
