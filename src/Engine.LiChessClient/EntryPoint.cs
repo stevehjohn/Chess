@@ -58,6 +58,8 @@ public static class EntryPoint
                 if (result == 0)
                 {
                     OutputLine("  &Gray;Error, Declined or stalemate");
+                    
+                    continue;
                 }
 
                 OutputLine(result == 1 
