@@ -21,7 +21,7 @@ public sealed class Core : IDisposable
 
     private long[][] _outcomes;
     
-    private List<string>[] _bestPaths = [];
+    private List<(PlyOutcome Outcome, string Path)>[] _bestPaths = [];
 
     private CancellationTokenSource _cancellationTokenSource;
 
@@ -141,7 +141,7 @@ public sealed class Core : IDisposable
 
         _outcomes = new long[depth + 1][];
 
-        _bestPaths = new List<string>[depth + 1];
+        _bestPaths = new List<(PlyOutcome Outcome, string Path)>[depth + 1];
         
         _perftCounts.Clear();
 
@@ -213,7 +213,7 @@ public sealed class Core : IDisposable
         {
             var path = Random.Shared.Next(_bestPaths[bestPly].Count);
 
-            return _bestPaths[bestPly][path][..4];
+            return _bestPaths[bestPly][path].Path[..4];
         }
 
         return _lastLegalMove.ToStandardNotation();
@@ -281,22 +281,6 @@ public sealed class Core : IDisposable
                 {
                     _lastLegalMove = move;
                 }
-
-                var score = colour == Colour.Black 
-                    ? copy.BlackScore - copy.WhiteScore
-                    : copy.WhiteScore - copy.BlackScore;
-                
-                if (score >= _plyBestScores[ply])
-                {
-                    if (score > _plyBestScores[ply])
-                    {
-                        _plyBestScores[ply] = score;
-
-                        _bestPaths[ply].Clear();
-                    }
-
-                    _bestPaths[ply].Add($"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}".Trim());
-                }
                 
                 if (perftNode == null)
                 {
@@ -333,6 +317,22 @@ public sealed class Core : IDisposable
                     {
                         _outcomes[ply][(int) PlyOutcome.CheckMate]++;
                     }
+                }
+                
+                var score = colour == Colour.Black 
+                    ? copy.BlackScore - copy.WhiteScore
+                    : copy.WhiteScore - copy.BlackScore;
+                
+                if (score >= _plyBestScores[ply])
+                {
+                    if (score > _plyBestScores[ply])
+                    {
+                        _plyBestScores[ply] = score;
+
+                        _bestPaths[ply].Clear();
+                    }
+
+                    _bestPaths[ply].Add((outcome, $"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}".Trim()));
                 }
 
                 _outcomes[ply][(int) outcome]++;
