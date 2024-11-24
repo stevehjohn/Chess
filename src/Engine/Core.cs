@@ -116,25 +116,6 @@ public sealed class Core : IDisposable
 
         return _getMoveTask;
     }
-
-    public long GetBestMoveCount()
-    {
-        var bestScore = 0;
-
-        var bestPly = 1;
-            
-        for (var i = 1; i < _plyBestScores.Length; i++)
-        {
-            if (_plyBestScores[i] > bestScore)
-            {
-                bestScore = _plyBestScores[i];
-
-                bestPly = i;
-            }
-        }
-
-        return _bestPaths[bestPly].Count;
-    }
     
     public string Interrupt()
     {
@@ -193,6 +174,25 @@ public sealed class Core : IDisposable
         return result;
     }
 
+    public long GetBestMoveCount()
+    {
+        var bestScore = 0;
+
+        var bestPly = 1;
+            
+        for (var i = 1; i < _plyBestScores.Length; i++)
+        {
+            if (_plyBestScores[i] > bestScore)
+            {
+                bestScore = _plyBestScores[i];
+
+                bestPly = i;
+            }
+        }
+
+        return _bestPaths[bestPly].Count;
+    }
+    
     private string GetBestMove()
     {
         var bestScore = 0;
@@ -292,10 +292,10 @@ public sealed class Core : IDisposable
                     {
                         _plyBestScores[ply] = score;
 
-                        _bestPaths[depth].Clear();
+                        _bestPaths[ply].Clear();
                     }
 
-                    _bestPaths[depth].Add($"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}".Trim());
+                    _bestPaths[ply].Add($"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}".Trim());
                 }
                 
                 if (perftNode == null)
