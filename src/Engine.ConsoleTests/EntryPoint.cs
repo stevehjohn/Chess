@@ -147,8 +147,16 @@ public static class EntryPoint
                     var depthCount = core.GetDepthCount(maxDepth);
                     
                     var percent = (float) depthCount / ExpectedCombinations[maxDepth - 1] * 100;
+
+                    var averagePerSecond = stopwatch.Elapsed.TotalSeconds / depthCount;
+
+                    var remaining = ExpectedCombinations[maxDepth - 1] - depthCount;
+
+                    var timeRemaining = TimeSpan.FromSeconds(remaining * averagePerSecond);
+
+                    var etr = $"{(timeRemaining.Days > 0 ? $"{timeRemaining.Days:N0}d" : string.Empty)}{timeRemaining.Hours,2:00}:{timeRemaining.Minutes,2:00}.{timeRemaining.Seconds % 60,2:00}";
                     
-                    Console.Write($"  {DateTime.Now:HH:mm:ss} {percent:N2}% {depthCount:N0} / {ExpectedCombinations[maxDepth - 1]:N0}");
+                    Console.Write($"  {DateTime.Now:HH:mm:ss} {percent:N2}% {depthCount:N0} / {ExpectedCombinations[maxDepth - 1]:N0} ETR: {etr}");
 
                     Console.CursorLeft = y;
                 }
