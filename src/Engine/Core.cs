@@ -282,22 +282,24 @@ public sealed class Core : IDisposable
                 
                     continue;
                 }
+                
+                var newCell = move > 99 ? TranslateSpecialMoveCode(cell, move) : move;
 
-                if (move > 99)
+                if (newCell> 99)
                 {
-                    move = TranslateSpecialMoveCode(cell, move);
+                    newCell= TranslateSpecialMoveCode(cell, move);
                 }
 
                 moved = true;
 
                 if (depth == maxDepth)
                 {
-                    _lastLegalMove = move;
+                    _lastLegalMove= move;
                 }
                 
                 if (perftNode == null)
                 {
-                    perftNode = $"{(rank, file).ToStandardNotation()}{(move >> 3, move & 7).ToStandardNotation()}";
+                    perftNode = $"{(rank, file).ToStandardNotation()}{(newCell>> 3, newCell& 7).ToStandardNotation()}";
 
                     _perftCounts.TryAdd(perftNode, 1);
                 }
