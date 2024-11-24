@@ -21,7 +21,7 @@ public sealed class LiChessClient : IDisposable
 
     private readonly JsonSerializerOptions _serializerOptions;
     
-    private readonly Core _core = new();
+    private readonly Core _core = new(EngineMode.Efficient);
 
     private readonly bool _logCommunications;
     
@@ -257,7 +257,7 @@ public sealed class LiChessClient : IDisposable
 
             OutputLine($"&NL;  &Green;Engine&White;: {engineMove}");
             
-            var result = await Post<NullRequest, BasicResponse>($"bot/game/{id}/move/{engineMove}", null);
+            var result = await Post<NullRequest, BasicResponse>($"bot/game/{id}/move/{engineMove.Move}", null);
 
             if (! result.Ok)
             {
@@ -309,7 +309,7 @@ public sealed class LiChessClient : IDisposable
 
             OutputLine($"&NL;  &Green;Engine&White;: {engineMove}");
             
-            var result = await Post<NullRequest, BasicResponse>($"bot/game/{id}/move/{engineMove}", null);
+            var result = await Post<NullRequest, BasicResponse>($"bot/game/{id}/move/{engineMove.Move}", null);
             
             if (! result.Ok)
             {
