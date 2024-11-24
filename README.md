@@ -33,7 +33,13 @@ Number of possible board combinations after each move (without pruning).
 
 ## TODOs
 
+### WIP / Priority
+
 - Engine modes - explore all (for testing), or prune.
+- Engine generates moves like "e1f-" sometimes?
+
+### The Rest
+
 - Stalemate detection
 - Fix crash on (or near) checkmate
 - Threefold repetition
@@ -43,9 +49,8 @@ Number of possible board combinations after each move (without pruning).
 - LiChessClient thinks a stalemate is a win for the opponent
 - LiChessClient thinks opponent wins when it did
 - LiChessClient thinks opponent wins when opponent did (at least that's correct)
-- Engine generates moves like "e1f-" sometimes?
 
-## Useful links
+## Useful L~~~~inks
 
 - https://www.chessprogramming.org/Perft_Results
 - https://database.lichess.org/
