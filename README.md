@@ -33,6 +33,7 @@ Number of possible board combinations after each move (without pruning).
 
 ## TODOs
 
+- Engine modes - explore all (for testing), or prune.
 - Stalemate detection
 - Fix crash on (or near) checkmate
 - Threefold repetition
