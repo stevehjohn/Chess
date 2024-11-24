@@ -282,7 +282,12 @@ public sealed class Core : IDisposable
                 
                     continue;
                 }
-                
+
+                if (move > 99)
+                {
+                    move = TranslateSpecialMoveCode(cell, move);
+                }
+
                 moved = true;
 
                 if (depth == maxDepth)
@@ -384,6 +389,20 @@ public sealed class Core : IDisposable
         }
 
         return MoveOutcome.Move;
+    }
+
+    private static int TranslateSpecialMoveCode(int cell, int moveCode)
+    {
+        return moveCode switch
+        {
+            SpecialMoveCodes.CastleKingSide => cell + 2,
+            SpecialMoveCodes.CastleQueenSide => cell - 2,
+            SpecialMoveCodes.EnPassantUpLeft => cell - 9,
+            SpecialMoveCodes.EnPassantUpRight => cell - 7,
+            SpecialMoveCodes.EnPassantDownLeft => cell + 7,
+            SpecialMoveCodes.EnPassantDownRight => cell + 9,
+            _ => throw new EngineException($"Unknown special move code {moveCode}.")
+        };
     }
 
     private static bool OpponentCanMove(Board board, Colour colour)
