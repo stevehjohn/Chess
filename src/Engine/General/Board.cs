@@ -111,6 +111,8 @@ public class Board
 
         _state.BlackKingCell = (Constants.BlackHomeRank, Constants.KingFile).GetCellIndex();
         _state.WhiteKingCell = (Constants.WhiteHomeRank, Constants.KingFile).GetCellIndex();
+        
+        InitialiseScores();
     }
     
     public void InitialisePieces(string fen)
@@ -174,6 +176,8 @@ public class Board
                     file++;
                 }
             }
+            
+            InitialiseScores();
         }
         catch (Exception exception)
         {
@@ -391,6 +395,26 @@ public class Board
         ArrayPool<ushort>.Shared.Return(_cells);
     }
 
+    private void InitialiseScores()
+    {
+        for (var cell = 0; cell < Constants.BoardCells; cell++)
+        {
+            if (_cells[cell] > 0)
+            {
+                var piece = Piece.Decode(_cells[cell]);
+
+                if (piece.Colour == Colour.Black)
+                {
+                    _state.BlackScore += piece.Value;
+                }
+                else
+                {
+                    _state.WhiteScore += piece.Value;
+                }
+            }
+        }
+    }
+
     private (PlyOutcome Outcome, bool Promoted) MovePiece(int position, int target, int ply)
     {
         var kind = CellKind(position);
@@ -415,11 +439,11 @@ public class Board
         {
             if (playerIsBlack)
             {
-                _state.BlackScore += Piece.Decode(_cells.Value(target)).Value;
+                _state.WhiteScore -= Piece.Decode(_cells.Value(target)).Value;
             }
             else
             {
-                _state.WhiteScore += Piece.Decode(_cells.Value(target)).Value;
+                _state.BlackScore -= Piece.Decode(_cells.Value(target)).Value;
             }
         }
 
@@ -448,6 +472,15 @@ public class Board
 
                 // TODO: Could promote to other piece
                 _cells[target] |= (ushort) Kind.Queen;
+
+                if (playerIsBlack)
+                {
+                    _state.BlackScore += new Queen(Colour.Black).Value;
+                }
+                else
+                {
+                    _state.WhiteScore += new Queen(Colour.White).Value;
+                }
 
                 promoted = true;
             }
