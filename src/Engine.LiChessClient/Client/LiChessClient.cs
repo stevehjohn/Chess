@@ -59,7 +59,7 @@ public sealed class LiChessClient : IDisposable
                 Linit = 900
             },
             KeepAliveStream = false,
-            Rated = true,
+            Rated = false,
             Variant = "standard"
         });
 
