@@ -13,6 +13,9 @@ public class ChallengeRequest
     
     [JsonPropertyName("keepAliveStream")]
     public bool KeepAliveStream { get; set; }
+    
+    [JsonPropertyName("rated")]
+    public bool Rated { get; set; }
 
     [JsonPropertyName("variant")]
     public string Variant { get; set; }
