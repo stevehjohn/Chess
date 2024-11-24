@@ -338,13 +338,11 @@ public sealed class Core : IDisposable
 
                         _bestPaths[ply].Add((PlyOutcome.CheckMate, $"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}".Trim()));
 
-                        if (colour == Player)
+                        if (depth == maxDepth)
                         {
-                            moveOutcome = MoveOutcome.OpponentInCheckmate;
-                        }
-                        else
-                        {
-                            moveOutcome = MoveOutcome.EngineInCheckmate;
+                            moveOutcome = colour == Player 
+                                ? MoveOutcome.OpponentInCheckmate 
+                                : MoveOutcome.EngineInCheckmate;
                         }
                     }
                 }

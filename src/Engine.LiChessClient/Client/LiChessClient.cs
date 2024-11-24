@@ -251,6 +251,8 @@ public sealed class LiChessClient : IDisposable
             
                     return -1;
                 case MoveOutcome.OpponentInCheckmate:
+                    _core.MakeMove(engineMove.Move);
+                    
                     OutputLine("&NL;  &Green;Checkmate :)&White;...");
 
                     return 1;
@@ -296,6 +298,8 @@ public sealed class LiChessClient : IDisposable
             
                     return -1;
                 case MoveOutcome.OpponentInCheckmate:
+                    _core.MakeMove(engineMove.Move);
+                    
                     OutputLine("&NL;  &Green;Checkmate :)&White;...");
 
                     return 1;
