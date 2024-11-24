@@ -286,13 +286,16 @@ public sealed class Core : IDisposable
                         {
                             if (score > _plyBestScores[ply])
                             {
-                                _plyBestScores[ply] = score;
-
                                 _bestPaths.Clear();
                             }
 
                             _bestPaths.Add($"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}".Trim());
                         }
+                    }
+                    
+                    if (score > _plyBestScores[ply])
+                    {
+                        _plyBestScores[ply] = score;
                     }
                 }
                 
