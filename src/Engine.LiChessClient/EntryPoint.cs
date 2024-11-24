@@ -55,6 +55,11 @@ public static class EntryPoint
                 
                 results.Add(result);
 
+                if (result == 0)
+                {
+                    OutputLine("  &Gray;Error, Declined or stalemate");
+                }
+
                 OutputLine(result == 1 
                     ? "&NL;  &Green;OcpCore Engine&White; Wins!" 
                     : $"&NL;  &Magenta;{OpponentBot}&White; Wins.");
