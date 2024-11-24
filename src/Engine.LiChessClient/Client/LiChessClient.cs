@@ -250,8 +250,9 @@ public sealed class LiChessClient : IDisposable
                     OutputLine("&NL;  &Magenta;Got nothing :(&White;...");
             
                     return -1;
+                
                 case MoveOutcome.OpponentInCheckmate:
-                    _core.MakeMove(engineMove.Move);
+                    await Post<NullRequest, BasicResponse>($"bot/game/{id}/move/{engineMove.Move}", null);
                     
                     OutputLine("&NL;  &Green;Checkmate :)&White;...");
 
@@ -298,7 +299,7 @@ public sealed class LiChessClient : IDisposable
             
                     return -1;
                 case MoveOutcome.OpponentInCheckmate:
-                    _core.MakeMove(engineMove.Move);
+                    await Post<NullRequest, BasicResponse>($"bot/game/{id}/move/{engineMove.Move}", null);
                     
                     OutputLine("&NL;  &Green;Checkmate :)&White;...");
 
