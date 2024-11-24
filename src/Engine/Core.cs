@@ -344,7 +344,7 @@ public sealed class Core : IDisposable
                         {
                             _outcomes[ply][(int) PlyOutcome.CheckMate]++;
 
-                            if (_engineMode == EngineMode.Efficient)
+                            if (_engineMode == EngineMode.Efficient && colour == Player)
                             {
                                 return MoveOutcome.OpponentInCheckmate;
                             }
@@ -382,12 +382,12 @@ public sealed class Core : IDisposable
 
         if (board.IsKingInCheck(colour, colour == Colour.Black ? board.BlackKingCell : board.WhiteKingCell) && ! moved)
         {
+            _outcomes[ply - 1][(int) PlyOutcome.CheckMate]++;
+
             if (ply == 1)
             {
-                return MoveOutcome.EngineInCheckmate;
+                return colour == Player ? MoveOutcome.EngineInCheckmate : MoveOutcome.OpponentInCheckmate;
             }
-
-            _outcomes[ply - 1][(int) PlyOutcome.CheckMate]++;
         }
 
         return MoveOutcome.Move;
