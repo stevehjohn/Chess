@@ -264,18 +264,11 @@ public sealed class LiChessClient : IDisposable
                 throw new ClientException("Error communicating with LiChess API.");
             }
 
-            var outcome = _core.MakeMove(engineMove.Move);
+            _core.MakeMove(engineMove.Move);
             
             OutputLine();
             
             _core.OutputBoard();
-            
-            if (outcome == PlyOutcome.CheckMate)
-            {
-                OutputLine("&NL;  &Green;Checkmate :)&White;...");
-
-                return 1;
-            }
         }
         else
         {
