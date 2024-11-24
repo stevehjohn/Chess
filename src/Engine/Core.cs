@@ -368,7 +368,12 @@ public sealed class Core : IDisposable
 
                 if (depth > 1)
                 {
-                    GetMoveInternal(copy, colour.Invert(), maxDepth, depth - 1, $"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}", startTime, moveTime, perftNode);
+                    var result = GetMoveInternal(copy, colour.Invert(), maxDepth, depth - 1, $"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}", startTime, moveTime, perftNode);
+
+                    if (result == MoveOutcome.OpponentInCheckmate)
+                    {
+                        return result;
+                    }
 
                     _perftCounts[perftNode]--;
                 }
