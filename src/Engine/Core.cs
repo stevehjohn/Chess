@@ -201,12 +201,14 @@ public sealed class Core : IDisposable
             
         for (var i = 1; i < _plyBestScores.Length; i++)
         {
-            if (_plyBestScores[i] > bestScore)
+            if (_plyBestScores[i] < bestScore)
             {
-                bestScore = _plyBestScores[i];
-
-                bestPly = i;
+                break;
             }
+
+            bestScore = _plyBestScores[i];
+
+            bestPly = i;
         }
 
         if (_bestPaths[bestPly].Count > 0)
