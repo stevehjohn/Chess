@@ -45,11 +45,7 @@ public sealed class Core : IDisposable
 
     public long GetBestMoveCount()
     {
-        long count;
-        
-        count = _bestPaths.Count;
-
-        return count;
+        return _bestPaths.Count;
     }
 
     public IReadOnlyDictionary<string, long> PerftCounts => _perftCounts;
