@@ -21,6 +21,8 @@ public sealed class Core : IDisposable
 
     private long[][] _outcomes;
     
+    private List<string>[] _bestPaths = [];
+
     private CancellationTokenSource _cancellationTokenSource;
 
     private CancellationToken _cancellationToken;
@@ -28,8 +30,6 @@ public sealed class Core : IDisposable
     private Task _getMoveTask;
 
     private readonly Dictionary<string, long> _perftCounts = new();
-
-    private readonly List<string> _bestPaths = [];
 
     private int _lastLegalMove;
     
@@ -43,9 +43,9 @@ public sealed class Core : IDisposable
 
     public bool IsBusy => _cancellationTokenSource != null;
 
-    public long GetBestMoveCount()
+    public long GetBestMoveCount(int ply)
     {
-        return _bestPaths.Count;
+        return _bestPaths[ply].Count;
     }
 
     public IReadOnlyDictionary<string, long> PerftCounts => _perftCounts;
@@ -133,11 +133,11 @@ public sealed class Core : IDisposable
 
         var result = "0000";
         
-        if (_bestPaths.Count > 0)
+        if (_bestPaths[^1].Count > 0)
         {
-            var path = Random.Shared.Next(_bestPaths.Count);
+            var path = Random.Shared.Next(_bestPaths[^1].Count);
 
-            result = _bestPaths[path][..4];
+            result = _bestPaths[^1][path][..4];
         }
         else if (_lastLegalMove > -1)
         {
@@ -160,18 +160,20 @@ public sealed class Core : IDisposable
         _plyBestScores = new int[depth + 1];
 
         _outcomes = new long[depth + 1][];
+
+        _bestPaths = new List<string>[depth + 1];
         
         _perftCounts.Clear();
 
         _lastLegalMove = -1;
-
-        _bestPaths.Clear();
 
         for (var i = 1; i <= depth; i++)
         {
             _depthCounts[i] = 0;
 
             _plyBestScores[i] = 0;
+
+            _bestPaths[i].Clear();
 
             var outcomes = Enum.GetValuesAsUnderlyingType<PlyOutcome>();
 
@@ -182,11 +184,11 @@ public sealed class Core : IDisposable
 
         if (GetMoveInternal(_board, Player, depth, depth, string.Empty, DateTime.UtcNow, moveTime))
         {
-            if (_bestPaths.Count > 0)
+            if (_bestPaths[depth].Count > 0)
             {
-                var path = Random.Shared.Next(_bestPaths.Count);
+                var path = Random.Shared.Next(_bestPaths[depth].Count);
 
-                result = _bestPaths[path][..4];
+                result = _bestPaths[depth][path][..4];
             }
         }
 
@@ -268,10 +270,10 @@ public sealed class Core : IDisposable
                     {
                         if (score > _plyBestScores[ply])
                         {
-                            _bestPaths.Clear();
+                            _bestPaths[depth].Clear();
                         }
 
-                        _bestPaths.Add($"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}".Trim());
+                        _bestPaths[depth].Add($"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}".Trim());
                     }
                     
                     if (score > _plyBestScores[ply])
