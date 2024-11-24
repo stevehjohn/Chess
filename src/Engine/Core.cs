@@ -324,6 +324,8 @@ public sealed class Core : IDisposable
                     if (! OpponentCanMove(copy, colour.Invert()))
                     {
                         _outcomes[ply][(int) PlyOutcome.CheckMate]++;
+
+                        _bestPaths[ply].Add((PlyOutcome.CheckMate, $"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}".Trim()));
                     }
                 }
                 

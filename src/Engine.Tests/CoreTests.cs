@@ -57,14 +57,16 @@ public class CoreTests
     }
 
     [Theory]
-    [InlineData("4BR2/3N4/2R2Q2/Q7/Q7/2K1k3/PP6/8 w", "f6e6")]
-    public void TakesCheckmateMoveIfAvailable(string fen, string expectedMove)
+    [InlineData("4BR2/3N4/2R2Q2/Q7/Q7/2K1k3/PP6/8 w", "a5e5|c6e6|f6e5|f6e6|f6e7|f6f2|f6f3")]
+    public void TakesCheckmateMoveIfAvailable(string fen, string expectedMoves)
     {
         _core.Initialise(fen);
 
         var move = _core.GetMove(5);
+
+        var moves = expectedMoves.Split('|');
         
-        Assert.Equal(expectedMove, move.Move);
+        Assert.Contains(move.Move, moves);
     }
 
     [Fact]
