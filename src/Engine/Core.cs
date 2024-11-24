@@ -108,7 +108,7 @@ public sealed class Core : IDisposable
         return GetMoveInternal(depth);
     }
     
-    public void GetMove(int depth, Action<string> callback, int moveTime = 0)
+    public Task GetMove(int depth, Action<string> callback, int moveTime = 0)
     {
         _cancellationTokenSource = new CancellationTokenSource();
 
@@ -125,6 +125,8 @@ public sealed class Core : IDisposable
             return result;
             
         }, _cancellationToken);
+
+        return _getMoveTask;
     }
 
     public string Interrupt()

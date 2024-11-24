@@ -122,12 +122,23 @@ public static class EntryPoint
             
             var stopwatch = Stopwatch.StartNew();
 
+            var exception = false;
+            
             // ReSharper disable once AccessToModifiedClosure
-            core.GetMove(maxDepth, _ => PlyComplete(core, maxDepth, stopwatch, perft));
+            core.GetMove(maxDepth, _ => PlyComplete(core, maxDepth, stopwatch, perft))
+                .ContinueWith(task =>
+                {
+                    if (task.Exception != null)
+                    {
+                        exception = true;
+                        
+                        Console.WriteLine(task.Exception);
+                    }
+                });
 
             var y = Console.CursorLeft;
             
-            while (core.IsBusy)
+            while (core.IsBusy && ! exception)
             {
                 Thread.Sleep(1000);
 
@@ -139,6 +150,11 @@ public static class EntryPoint
 
                     Console.CursorLeft = y;
                 }
+            }
+
+            if (exception)
+            {
+                break;
             }
         }
     }
