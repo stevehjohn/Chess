@@ -144,9 +144,11 @@ public static class EntryPoint
 
                 if (core.IsBusy)
                 {
-                    var percent = (float) maxDepth / ExpectedCombinations[maxDepth - 1] * 100;
+                    var depthCount = core.GetDepthCount(maxDepth);
                     
-                    Console.Write($"  {DateTime.Now:HH:mm:ss} {percent:N2}% {core.GetDepthCount(maxDepth):N0} / {ExpectedCombinations[maxDepth - 1]:N0}");
+                    var percent = (float) depthCount / ExpectedCombinations[maxDepth - 1] * 100;
+                    
+                    Console.Write($"  {DateTime.Now:HH:mm:ss} {percent:N2}% {depthCount:N0} / {ExpectedCombinations[maxDepth - 1]:N0}");
 
                     Console.CursorLeft = y;
                 }
