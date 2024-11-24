@@ -211,9 +211,17 @@ public sealed class Core : IDisposable
 
         if (_bestPaths[bestPly].Count > 0)
         {
-            var path = Random.Shared.Next(_bestPaths[bestPly].Count);
+            for (var i = (int) PlyOutcome.CheckMate; i >= 0; i--)
+            {
+                var paths = _bestPaths[bestPly].Where(p => p.Outcome == (PlyOutcome) i).ToList();
+                
+                if (paths.Count > 0)
+                {
+                    var path = Random.Shared.Next(paths.Count);
 
-            return _bestPaths[bestPly][path].Path[..4];
+                    return paths[path].Path[..4];
+                }
+            }
         }
 
         return _lastLegalMove.ToStandardNotation();
