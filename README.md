@@ -33,7 +33,7 @@ Number of possible board combinations after each move (without pruning).
 
 ## TODOs
 
-- Pawn promotion
+- Pawn promotion (WIP)
 - Stalemate detection
 - Fix crash on (or near) checkmate
 - Threefold repetition
