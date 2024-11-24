@@ -29,7 +29,7 @@ public sealed class LiChessClient : IDisposable
     {
         _client = new HttpClient();
 
-        var apiKey = File.ReadAllLines("LiChess.key")[0];
+        var apiKey = "lip_s4SGCjjNIPsPKW8kXXR7"; //File.ReadAllLines("LiChess.key")[0];
 
         _client = new HttpClient
         {

@@ -244,8 +244,6 @@ public sealed class Core : IDisposable
             return MoveOutcome.Move;
         }
 
-        var moveOutcome = MoveOutcome.Move;
-        
         var moved = false;
        
         var ply = maxDepth - depth + 1;
@@ -337,13 +335,6 @@ public sealed class Core : IDisposable
                         _outcomes[ply][(int) PlyOutcome.CheckMate]++;
 
                         _bestPaths[ply].Add((PlyOutcome.CheckMate, $"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}".Trim()));
-
-                        if (depth == maxDepth)
-                        {
-                            moveOutcome = colour == Player 
-                                ? MoveOutcome.OpponentInCheckmate 
-                                : MoveOutcome.EngineInCheckmate;
-                        }
                     }
                 }
                 
@@ -401,7 +392,7 @@ public sealed class Core : IDisposable
             }
         }
 
-        return moveOutcome;
+        return MoveOutcome.Move;
     }
 
     private static int TranslateSpecialMoveCode(int cell, int moveCode)
