@@ -242,11 +242,17 @@ public sealed class LiChessClient : IDisposable
 
             OutputBestScores();
             
-            if (engineMove == null)
+            // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
+            switch (engineMove.Outcome)
             {
-                OutputLine("&NL;  &Magenta;Got nothing :(&White;...");
+                case MoveOutcome.EngineInCheckmate:
+                    OutputLine("&NL;  &Magenta;Got nothing :(&White;...");
             
-                return -1;
+                    return -1;
+                case MoveOutcome.OpponentInCheckmate:
+                    OutputLine("&NL;  &Green;Checkmate :)&White;...");
+
+                    return 1;
             }
 
             OutputLine($"&NL;  &Green;Engine&White;: {engineMove}");
@@ -258,7 +264,7 @@ public sealed class LiChessClient : IDisposable
                 throw new ClientException("Error communicating with LiChess API.");
             }
 
-            var outcome = _core.MakeMove(engineMove);
+            var outcome = _core.MakeMove(engineMove.Move);
             
             OutputLine();
             
@@ -288,11 +294,17 @@ public sealed class LiChessClient : IDisposable
             
             OutputBestScores();
 
-            if (engineMove == null)
+            // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
+            switch (engineMove.Outcome)
             {
-                OutputLine("&NL;  &Magenta;Got nothing :(&White;...");
+                case MoveOutcome.EngineInCheckmate:
+                    OutputLine("&NL;  &Magenta;Got nothing :(&White;...");
             
-                return -1;
+                    return -1;
+                case MoveOutcome.OpponentInCheckmate:
+                    OutputLine("&NL;  &Green;Checkmate :)&White;...");
+
+                    return 1;
             }
 
             OutputLine($"&NL;  &Green;Engine&White;: {engineMove}");
@@ -304,18 +316,11 @@ public sealed class LiChessClient : IDisposable
                 throw new ClientException("Error communicating with LiChess API.");
             }
 
-            var outcome = _core.MakeMove(engineMove);
+            _core.MakeMove(engineMove.Move);
 
             OutputLine();
             
             _core.OutputBoard(! engineIsWhite);
-            
-            if (outcome == PlyOutcome.CheckMate)
-            {
-                OutputLine("&NL;  &Green;Checkmate :)&White;...");
-
-                return 1;
-            }
         }
 
         return 0;

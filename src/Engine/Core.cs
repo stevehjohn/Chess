@@ -28,12 +28,12 @@ public sealed class Core : IDisposable
     private CancellationToken _cancellationToken;
 
     private Task _getMoveTask;
-
+    
+    private readonly EngineMode _engineMode;
+    
     private readonly Dictionary<string, long> _perftCounts = new();
 
     private int _lastLegalMove;
-
-    private EngineMode _engineMode;
     
     public int MoveCount => _ply - 1;
 
@@ -94,7 +94,7 @@ public sealed class Core : IDisposable
         return outcome.Outcome;
     }
 
-    public string GetMove(int depth)
+    public (MoveOutcome Outcome, string Move) GetMove(int depth)
     {
         _cancellationTokenSource = null;
 
@@ -142,7 +142,7 @@ public sealed class Core : IDisposable
         return GetBestMove();
     }
     
-    private string GetMoveInternal(int depth, Action<string> callback = null, int moveTime = 0)
+    private (MoveOutcome Outcome, string Move) GetMoveInternal(int depth, Action<string> callback = null, int moveTime = 0)
     {
         _depthCounts = new long[depth + 1];
         
@@ -169,16 +169,18 @@ public sealed class Core : IDisposable
             _outcomes[i] = new long[outcomes.Length];
         }
 
-        string result = null;
+        string move = null;
 
-        if (GetMoveInternal(_board, Player, depth, depth, string.Empty, DateTime.UtcNow, moveTime))
+        var outcome = GetMoveInternal(_board, Player, depth, depth, string.Empty, DateTime.UtcNow, moveTime); 
+
+        if (outcome is MoveOutcome.Move or MoveOutcome.OpponentInCheckmate)
         {
-            result = GetBestMove();
+            move = GetBestMove();
         }
 
-        callback?.Invoke(result);
+        callback?.Invoke(move);
 
-        return result;
+        return (outcome, move);
     }
 
     public long GetBestMoveCount()
@@ -226,19 +228,19 @@ public sealed class Core : IDisposable
         return _lastLegalMove.ToStandardNotation();
     }
 
-    private bool GetMoveInternal(Board board, Colour colour, int maxDepth, int depth, string path, DateTime startTime, int moveTime, string perftNode = null)
+    private MoveOutcome GetMoveInternal(Board board, Colour colour, int maxDepth, int depth, string path, DateTime startTime, int moveTime, string perftNode = null)
     {
         if (moveTime > 0)
         {
             if ((DateTime.UtcNow - startTime).TotalMilliseconds > moveTime)
             {
-                return true;
+                return MoveOutcome.Move;
             }
         }
 
         if (_cancellationToken.IsCancellationRequested)
         {
-            return true;
+            return MoveOutcome.Move;
         }
         
         var moved = false;
@@ -344,7 +346,7 @@ public sealed class Core : IDisposable
 
                             if (_engineMode == EngineMode.Efficient)
                             {
-                                return false;
+                                return MoveOutcome.OpponentInCheckmate;
                             }
                         }
                     }
@@ -382,13 +384,13 @@ public sealed class Core : IDisposable
         {
             if (ply == 1)
             {
-                return false;
+                return MoveOutcome.EngineInCheckmate;
             }
 
             _outcomes[ply - 1][(int) PlyOutcome.CheckMate]++;
         }
 
-        return true;
+        return MoveOutcome.Move;
     }
 
     private static bool OpponentCanMove(Board board, Colour colour)
