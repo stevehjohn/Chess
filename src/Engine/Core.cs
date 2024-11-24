@@ -32,6 +32,8 @@ public sealed class Core : IDisposable
     private readonly Dictionary<string, long> _perftCounts = new();
 
     private int _lastLegalMove;
+
+    private EngineMode _engineMode;
     
     public int MoveCount => _ply - 1;
 
@@ -47,6 +49,11 @@ public sealed class Core : IDisposable
 
     public Colour Player { get; private set; }
 
+    public Core(EngineMode engineMode = EngineMode.Thorough)
+    {
+        _engineMode = engineMode;
+    }
+    
     public void Initialise(Colour colour = Colour.White)
     {
         _board = new Board();
@@ -334,6 +341,11 @@ public sealed class Core : IDisposable
                         if (! OpponentCanMove(copy, colour.Invert()))
                         {
                             _outcomes[ply][(int) PlyOutcome.CheckMate]++;
+
+                            if (_engineMode == EngineMode.Efficient)
+                            {
+                                return false;
+                            }
                         }
                     }
                 }
