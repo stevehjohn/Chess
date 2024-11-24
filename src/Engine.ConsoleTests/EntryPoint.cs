@@ -88,7 +88,7 @@ public static class EntryPoint
     
     public static void Main(string[] arguments)
     {
-        var depth = 6;
+        var depth = 5;
 
         var perft = false;
         
