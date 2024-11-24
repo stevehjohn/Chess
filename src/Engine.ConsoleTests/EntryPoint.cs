@@ -110,128 +110,148 @@ public static class EntryPoint
 
         Console.WriteLine();
 
-        for (var i = 1; i <= depth; i++)
+        for (var maxDepth = 1; maxDepth <= depth; maxDepth++)
         {
             var core = new Core();
 
             core.Initialise();
 
-            Console.WriteLine($"  {DateTime.Now:HH:mm:ss} Starting depth {i}");
+            Console.WriteLine($"  {DateTime.Now:HH:mm:ss} Starting depth {maxDepth}");
             
             Console.WriteLine();
             
             var stopwatch = Stopwatch.StartNew();
 
-            core.GetMove(i);
+            // ReSharper disable once AccessToModifiedClosure
+            core.GetMove(maxDepth, _ => PlyComplete(core, maxDepth, stopwatch, perft));
 
-            stopwatch.Stop();
-
-            for (var j = 1; j <= i; j++)
+            var y = Console.CursorLeft;
+            
+            while (core.IsBusy)
             {
-                var count = core.GetDepthCount(j);
+                Thread.Sleep(1000);
 
-                var expected = ExpectedCombinations[j - 1];
-                
-                var pass = count == expected;
-                
-                Console.Write($"  {(pass ? "✓ PASS" : "  FAIL")}  Depth: {j,2}  Combinations: {count,15:N0}  Expected: {expected,15:N0}");
-                
-                if (! pass)
+                if (core.IsBusy)
                 {
-                    var delta = count - expected;
+                    var percent = ((float) maxDepth / ExpectedCombinations[maxDepth - 1]) * 100;
                     
-                    Console.Write($"  Delta: {(delta > 0 ? ">" : "<")}{delta,13:N0}");
-                }
-                
-                Console.WriteLine();
-                
-                Console.Write($"      Capture:    {core.GetPlyOutcome(j, PlyOutcome.Capture),13:N0}");
-                Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.Capture)] == core.GetPlyOutcome(j, PlyOutcome.Capture) ? "✓" : string.Empty)}");
-                if (ExpectedOutcomes[(j, PlyOutcome.Capture)] == core.GetPlyOutcome(j, PlyOutcome.Capture))
-                {
-                    Console.WriteLine();
-                }
-                else
-                {
-                    Console.WriteLine($"  Delta: {core.GetPlyOutcome(j, PlyOutcome.Capture) - ExpectedOutcomes[(j, PlyOutcome.Capture)],13:N0}");
-                }
-                
-                Console.Write($"      En Passant: {core.GetPlyOutcome(j, PlyOutcome.EnPassant),13:N0}");
-                Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.EnPassant)] == core.GetPlyOutcome(j, PlyOutcome.EnPassant) ? "✓" : string.Empty)}");
-                if (ExpectedOutcomes[(j, PlyOutcome.EnPassant)] == core.GetPlyOutcome(j, PlyOutcome.EnPassant))
-                {
-                    Console.WriteLine();
-                }
-                else
-                {
-                    Console.WriteLine($"  Delta: {core.GetPlyOutcome(j, PlyOutcome.EnPassant) - ExpectedOutcomes[(j, PlyOutcome.EnPassant)],13:N0}");
-                }
-                
-                Console.Write($"      Castle:     {core.GetPlyOutcome(j, PlyOutcome.Castle),13:N0}");
-                Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.Castle)] == core.GetPlyOutcome(j, PlyOutcome.Castle) ? "✓" : string.Empty)}");
-                if (ExpectedOutcomes[(j, PlyOutcome.Castle)] == core.GetPlyOutcome(j, PlyOutcome.Castle))
-                {
-                    Console.WriteLine();
-                }
-                else
-                {
-                    Console.WriteLine($"  Delta: {core.GetPlyOutcome(j, PlyOutcome.Castle) - ExpectedOutcomes[(j, PlyOutcome.Castle)],13:N0}");
-                }
-                
-                Console.Write($"      Promotion:  {core.GetPlyOutcome(j, PlyOutcome.Promotion),13:N0}");
-                Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.Promotion)] == core.GetPlyOutcome(j, PlyOutcome.Promotion) ? "✓" : string.Empty)}");
-                if (ExpectedOutcomes[(j, PlyOutcome.Promotion)] == core.GetPlyOutcome(j, PlyOutcome.Promotion))
-                {
-                    Console.WriteLine();
-                }
-                else
-                {
-                    Console.WriteLine($"  Delta: {core.GetPlyOutcome(j, PlyOutcome.Promotion) - ExpectedOutcomes[(j, PlyOutcome.Promotion)],13:N0}");
-                }
-                
-                Console.Write($"      Check:      {core.GetPlyOutcome(j, PlyOutcome.Check),13:N0}");
-                Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.Check)] == core.GetPlyOutcome(j, PlyOutcome.Check) ? "✓" : string.Empty)}");
-                if (ExpectedOutcomes[(j, PlyOutcome.Check)] == core.GetPlyOutcome(j, PlyOutcome.Check))
-                {
-                    Console.WriteLine();
-                }
-                else
-                {
-                    Console.WriteLine($"  Delta: {core.GetPlyOutcome(j, PlyOutcome.Check) - ExpectedOutcomes[(j, PlyOutcome.Check)],13:N0}");
-                }
-                
-                Console.Write($"      Check Mate: {core.GetPlyOutcome(j, PlyOutcome.CheckMate),13:N0}");
-                Console.Write($" {(ExpectedOutcomes[(j, PlyOutcome.CheckMate)] == core.GetPlyOutcome(j, PlyOutcome.CheckMate) ? "✓" : string.Empty)}");
-                if (ExpectedOutcomes[(j, PlyOutcome.CheckMate)] == core.GetPlyOutcome(j, PlyOutcome.CheckMate))
-                {
-                    Console.WriteLine();
-                }
-                else
-                {
-                    Console.WriteLine($"  Delta: {core.GetPlyOutcome(j, PlyOutcome.CheckMate) - ExpectedOutcomes[(j, PlyOutcome.CheckMate)],13:N0}");
-                }
-                
-                Console.WriteLine($"  Best Score: {core.GetBestScore(j)}    BestMoveCount: {core.GetBestMoveCount()}");
+                    Console.Write($"  {DateTime.Now:HH:mm:ss} {percent:N2}% {core.GetDepthCount(maxDepth):N0} / {ExpectedCombinations[maxDepth - 1]:N0}");
 
-                if (perft)
-                {
-                    if (j == i)
-                    {
-                        Console.WriteLine();
-
-                        foreach (var node in core.PerftCounts.OrderBy(n => n.Key))
-                        {
-                            Console.WriteLine($"  {node.Key}: {node.Value:N0}");
-                        }
-                    }
+                    Console.CursorLeft = y;
                 }
+            }
+        }
+    }
+
+    private static void PlyComplete(Core core, int maxDepth, Stopwatch stopwatch, bool perft)
+    {
+        stopwatch.Stop();
+
+        for (var depth = 1; depth <= maxDepth; depth++)
+        {
+            var count = core.GetDepthCount(depth);
+
+            var expected = ExpectedCombinations[depth - 1];
+
+            var pass = count == expected;
+
+            Console.Write($"  {(pass ? "✓ PASS" : "  FAIL")}  Depth: {depth,2}  Combinations: {count,15:N0}  Expected: {expected,15:N0}");
+
+            if (! pass)
+            {
+                var delta = count - expected;
+
+                Console.Write($"  Delta: {(delta > 0 ? ">" : "<")}{delta,13:N0}");
             }
 
             Console.WriteLine();
 
-            Console.WriteLine($"  {i} depth{(i > 1 ? "s" : string.Empty)} explored in {(stopwatch.Elapsed.Hours > 0 ? $"{stopwatch.Elapsed.Hours}h " : string.Empty)}{stopwatch.Elapsed.Minutes}m {stopwatch.Elapsed.Seconds:N0}s {stopwatch.Elapsed.Milliseconds}ms");
+            Console.Write($"      Capture:    {core.GetPlyOutcome(depth, PlyOutcome.Capture),13:N0}");
+            Console.Write($" {(ExpectedOutcomes[(depth, PlyOutcome.Capture)] == core.GetPlyOutcome(depth, PlyOutcome.Capture) ? "✓" : string.Empty)}");
+            if (ExpectedOutcomes[(depth, PlyOutcome.Capture)] == core.GetPlyOutcome(depth, PlyOutcome.Capture))
+            {
+                Console.WriteLine();
+            }
+            else
+            {
+                Console.WriteLine($"  Delta: {core.GetPlyOutcome(depth, PlyOutcome.Capture) - ExpectedOutcomes[(depth, PlyOutcome.Capture)],13:N0}");
+            }
 
-            Console.WriteLine();
+            Console.Write($"      En Passant: {core.GetPlyOutcome(depth, PlyOutcome.EnPassant),13:N0}");
+            Console.Write($" {(ExpectedOutcomes[(depth, PlyOutcome.EnPassant)] == core.GetPlyOutcome(depth, PlyOutcome.EnPassant) ? "✓" : string.Empty)}");
+            if (ExpectedOutcomes[(depth, PlyOutcome.EnPassant)] == core.GetPlyOutcome(depth, PlyOutcome.EnPassant))
+            {
+                Console.WriteLine();
+            }
+            else
+            {
+                Console.WriteLine($"  Delta: {core.GetPlyOutcome(depth, PlyOutcome.EnPassant) - ExpectedOutcomes[(depth, PlyOutcome.EnPassant)],13:N0}");
+            }
+
+            Console.Write($"      Castle:     {core.GetPlyOutcome(depth, PlyOutcome.Castle),13:N0}");
+            Console.Write($" {(ExpectedOutcomes[(depth, PlyOutcome.Castle)] == core.GetPlyOutcome(depth, PlyOutcome.Castle) ? "✓" : string.Empty)}");
+            if (ExpectedOutcomes[(depth, PlyOutcome.Castle)] == core.GetPlyOutcome(depth, PlyOutcome.Castle))
+            {
+                Console.WriteLine();
+            }
+            else
+            {
+                Console.WriteLine($"  Delta: {core.GetPlyOutcome(depth, PlyOutcome.Castle) - ExpectedOutcomes[(depth, PlyOutcome.Castle)],13:N0}");
+            }
+
+            Console.Write($"      Promotion:  {core.GetPlyOutcome(depth, PlyOutcome.Promotion),13:N0}");
+            Console.Write($" {(ExpectedOutcomes[(depth, PlyOutcome.Promotion)] == core.GetPlyOutcome(depth, PlyOutcome.Promotion) ? "✓" : string.Empty)}");
+            if (ExpectedOutcomes[(depth, PlyOutcome.Promotion)] == core.GetPlyOutcome(depth, PlyOutcome.Promotion))
+            {
+                Console.WriteLine();
+            }
+            else
+            {
+                Console.WriteLine($"  Delta: {core.GetPlyOutcome(depth, PlyOutcome.Promotion) - ExpectedOutcomes[(depth, PlyOutcome.Promotion)],13:N0}");
+            }
+
+            Console.Write($"      Check:      {core.GetPlyOutcome(depth, PlyOutcome.Check),13:N0}");
+            Console.Write($" {(ExpectedOutcomes[(depth, PlyOutcome.Check)] == core.GetPlyOutcome(depth, PlyOutcome.Check) ? "✓" : string.Empty)}");
+            if (ExpectedOutcomes[(depth, PlyOutcome.Check)] == core.GetPlyOutcome(depth, PlyOutcome.Check))
+            {
+                Console.WriteLine();
+            }
+            else
+            {
+                Console.WriteLine($"  Delta: {core.GetPlyOutcome(depth, PlyOutcome.Check) - ExpectedOutcomes[(depth, PlyOutcome.Check)],13:N0}");
+            }
+
+            Console.Write($"      Check Mate: {core.GetPlyOutcome(depth, PlyOutcome.CheckMate),13:N0}");
+            Console.Write($" {(ExpectedOutcomes[(depth, PlyOutcome.CheckMate)] == core.GetPlyOutcome(depth, PlyOutcome.CheckMate) ? "✓" : string.Empty)}");
+            if (ExpectedOutcomes[(depth, PlyOutcome.CheckMate)] == core.GetPlyOutcome(depth, PlyOutcome.CheckMate))
+            {
+                Console.WriteLine();
+            }
+            else
+            {
+                Console.WriteLine($"  Delta: {core.GetPlyOutcome(depth, PlyOutcome.CheckMate) - ExpectedOutcomes[(depth, PlyOutcome.CheckMate)],13:N0}");
+            }
+
+            Console.WriteLine($"      Best Score: {core.GetBestScore(depth)}    BestMoveCount: {core.GetBestMoveCount()}");
+
+            if (perft)
+            {
+                if (depth == maxDepth)
+                {
+                    Console.WriteLine();
+
+                    foreach (var node in core.PerftCounts.OrderBy(n => n.Key))
+                    {
+                        Console.WriteLine($"  {node.Key}: {node.Value:N0}");
+                    }
+                }
+            }
         }
+
+        Console.WriteLine();
+
+        Console.WriteLine($"  {maxDepth} depth{(maxDepth > 1 ? "s" : string.Empty)} explored in {(stopwatch.Elapsed.Hours > 0 ? $"{stopwatch.Elapsed.Hours}h " : string.Empty)}{stopwatch.Elapsed.Minutes}m {stopwatch.Elapsed.Seconds:N0}s {stopwatch.Elapsed.Milliseconds}ms");
+
+        Console.WriteLine();
     }
 }
