@@ -173,7 +173,7 @@ public sealed class Core : IDisposable
 
             _plyBestScores[i] = 0;
 
-            _bestPaths[i].Clear();
+            _bestPaths[i] = [];
 
             var outcomes = Enum.GetValuesAsUnderlyingType<PlyOutcome>();
 
