@@ -47,10 +47,7 @@ public sealed class Core : IDisposable
     {
         long count;
         
-        lock (_bestPaths)
-        {
-            count = _bestPaths.Count;
-        }
+        count = _bestPaths.Count;
 
         return count;
     }
@@ -140,18 +137,15 @@ public sealed class Core : IDisposable
 
         var result = "0000";
         
-        lock (_bestPaths)
+        if (_bestPaths.Count > 0)
         {
-            if (_bestPaths.Count > 0)
-            {
-                var path = Random.Shared.Next(_bestPaths.Count);
+            var path = Random.Shared.Next(_bestPaths.Count);
 
-                result = _bestPaths[path][..4];
-            }
-            else if (_lastLegalMove > -1)
-            {
-                result = _lastLegalMove.ToStandardNotation();
-            }
+            result = _bestPaths[path][..4];
+        }
+        else if (_lastLegalMove > -1)
+        {
+            result = _lastLegalMove.ToStandardNotation();
         }
 
         _cancellationTokenSource.Dispose();
@@ -175,10 +169,7 @@ public sealed class Core : IDisposable
 
         _lastLegalMove = -1;
 
-        lock (_bestPaths)
-        {
-            _bestPaths.Clear();
-        }
+        _bestPaths.Clear();
 
         for (var i = 1; i <= depth; i++)
         {
@@ -195,14 +186,11 @@ public sealed class Core : IDisposable
 
         if (GetMoveInternal(_board, Player, depth, depth, string.Empty, DateTime.UtcNow, moveTime))
         {
-            lock (_bestPaths)
+            if (_bestPaths.Count > 0)
             {
-                if (_bestPaths.Count > 0)
-                {
-                    var path = Random.Shared.Next(_bestPaths.Count);
+                var path = Random.Shared.Next(_bestPaths.Count);
 
-                    result = _bestPaths[path][..4];
-                }
+                result = _bestPaths[path][..4];
             }
         }
 
@@ -282,15 +270,12 @@ public sealed class Core : IDisposable
                 {
                     if (depth == 1)
                     {
-                        lock (_bestPaths)
+                        if (score > _plyBestScores[ply])
                         {
-                            if (score > _plyBestScores[ply])
-                            {
-                                _bestPaths.Clear();
-                            }
-
-                            _bestPaths.Add($"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}".Trim());
+                            _bestPaths.Clear();
                         }
+
+                        _bestPaths.Add($"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}".Trim());
                     }
                     
                     if (score > _plyBestScores[ply])
