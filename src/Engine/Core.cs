@@ -71,20 +71,18 @@ public sealed class Core : IDisposable
         _board.InitialisePieces(parts[0]);
     }
 
-    public PlyOutcome MakeMove(string move)
+    public void MakeMove(string move)
     {
-        return MakeMove(move[..2].CellFromStandardNotation(), move[2..].CellFromStandardNotation());
+        MakeMove(move[..2].CellFromStandardNotation(), move[2..].CellFromStandardNotation());
     }
 
-    public PlyOutcome MakeMove(int position, int target)
+    public void MakeMove(int position, int target)
     {
-        var outcome = _board.MakeMove(position, target, _ply);
+        _board.MakeMove(position, target, _ply);
         
         Player = Player.Invert();
 
         _ply++;
-
-        return outcome.Outcome;
     }
 
     public (MoveOutcome Outcome, string Move) GetMove(int depth)
