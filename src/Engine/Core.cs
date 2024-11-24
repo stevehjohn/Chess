@@ -43,11 +43,6 @@ public sealed class Core : IDisposable
 
     public bool IsBusy => _cancellationTokenSource != null;
 
-    public long GetBestMoveCount(int ply)
-    {
-        return _bestPaths[ply].Count;
-    }
-
     public IReadOnlyDictionary<string, long> PerftCounts => _perftCounts;
 
     public Colour Player { get; private set; }
@@ -122,6 +117,25 @@ public sealed class Core : IDisposable
         return _getMoveTask;
     }
 
+    public long GetBestMoveCount()
+    {
+        var bestScore = 0;
+
+        var bestPly = 1;
+            
+        for (var i = 1; i < _plyBestScores.Length; i++)
+        {
+            if (_plyBestScores[i] > bestScore)
+            {
+                bestScore = _plyBestScores[i];
+
+                bestPly = i;
+            }
+        }
+
+        return _bestPaths[bestPly].Count;
+    }
+    
     public string Interrupt()
     {
         if (_cancellationTokenSource == null)
@@ -131,26 +145,13 @@ public sealed class Core : IDisposable
 
         _cancellationTokenSource.Cancel();
 
-        var result = "0000";
-        
-        if (_bestPaths[^1].Count > 0)
-        {
-            var path = Random.Shared.Next(_bestPaths[^1].Count);
-
-            result = _bestPaths[^1][path][..4];
-        }
-        else if (_lastLegalMove > -1)
-        {
-            result = _lastLegalMove.ToStandardNotation();
-        }
-
         _cancellationTokenSource.Dispose();
         
         _cancellationTokenSource = null;
 
         _getMoveTask = null;
 
-        return result;
+        return GetBestMove();
     }
     
     private string GetMoveInternal(int depth, Action<string> callback = null, int moveTime = 0)
@@ -184,17 +185,38 @@ public sealed class Core : IDisposable
 
         if (GetMoveInternal(_board, Player, depth, depth, string.Empty, DateTime.UtcNow, moveTime))
         {
-            if (_bestPaths[depth].Count > 0)
-            {
-                var path = Random.Shared.Next(_bestPaths[depth].Count);
-
-                result = _bestPaths[depth][path][..4];
-            }
+            result = GetBestMove();
         }
 
         callback?.Invoke(result);
 
         return result;
+    }
+
+    private string GetBestMove()
+    {
+        var bestScore = 0;
+
+        var bestPly = 1;
+            
+        for (var i = 1; i < _plyBestScores.Length; i++)
+        {
+            if (_plyBestScores[i] > bestScore)
+            {
+                bestScore = _plyBestScores[i];
+
+                bestPly = i;
+            }
+        }
+
+        if (_bestPaths[bestPly].Count > 0)
+        {
+            var path = Random.Shared.Next(_bestPaths[bestPly].Count);
+
+            return _bestPaths[bestPly][path][..4];
+        }
+
+        return _lastLegalMove.ToStandardNotation();
     }
 
     private bool GetMoveInternal(Board board, Colour colour, int maxDepth, int depth, string path, DateTime startTime, int moveTime, string perftNode = null)
@@ -266,20 +288,14 @@ public sealed class Core : IDisposable
                 
                 if (score >= _plyBestScores[ply])
                 {
-                    if (depth == 1)
-                    {
-                        if (score > _plyBestScores[ply])
-                        {
-                            _bestPaths[depth].Clear();
-                        }
-
-                        _bestPaths[depth].Add($"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}".Trim());
-                    }
-                    
                     if (score > _plyBestScores[ply])
                     {
                         _plyBestScores[ply] = score;
+
+                        _bestPaths[depth].Clear();
                     }
+
+                    _bestPaths[depth].Add($"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}".Trim());
                 }
                 
                 if (perftNode == null)
