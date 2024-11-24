@@ -41,7 +41,7 @@ Number of possible board combinations after each move (without pruning).
 ### The Rest
 
 - Stalemate detection
-- Fix crash on (or near) checkmate
+- Fix crash on (or near) checkmate - still an issue?
 - Threefold repetition
 - Ranking move quality
 - Pruning

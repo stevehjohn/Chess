@@ -56,6 +56,17 @@ public class CoreTests
         }
     }
 
+    [Theory]
+    [InlineData("4BR2/3N4/2R2Q2/Q7/Q7/2K1k3/PP6/8 w", "f6e6")]
+    public void TakesCheckmateMoveIfAvailable(string fen, string expectedMove)
+    {
+        _core.Initialise(fen);
+
+        var move = _core.GetMove(5);
+        
+        Assert.Equal(expectedMove, move.Move);
+    }
+
     [Fact]
     public void PicksRandomMove()
     {
