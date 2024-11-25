@@ -17,7 +17,7 @@ public sealed class Core : IDisposable
 
     private long[] _depthCounts;
 
-    private int[] _plyBestScores;
+    private int?[] _plyBestScores;
 
     private long[][] _outcomes;
     
@@ -39,7 +39,7 @@ public sealed class Core : IDisposable
 
     public long GetPlyOutcome(int ply, PlyOutcome outcome) => _outcomes[ply][(int) outcome];
 
-    public int GetBestScore(int ply) => _plyBestScores[ply];
+    public int? GetBestScore(int ply) => _plyBestScores[ply] ?? 0;
 
     public bool IsBusy => _cancellationTokenSource != null;
 
@@ -137,7 +137,7 @@ public sealed class Core : IDisposable
     {
         _depthCounts = new long[depth + 1];
         
-        _plyBestScores = new int[depth + 1];
+        _plyBestScores = new int?[depth + 1];
 
         _outcomes = new long[depth + 1][];
 
@@ -151,7 +151,7 @@ public sealed class Core : IDisposable
         {
             _depthCounts[i] = 0;
 
-            _plyBestScores[i] = 0;
+            _plyBestScores[i] = null;
 
             _bestPaths[i] = [];
 
@@ -177,11 +177,14 @@ public sealed class Core : IDisposable
             
         for (var i = 1; i < _plyBestScores.Length; i++)
         {
-            if (_plyBestScores[i] > bestScore)
+            if (_plyBestScores[i].HasValue)
             {
-                bestScore = _plyBestScores[i];
+                if (_plyBestScores[i].Value > bestScore)
+                {
+                    bestScore = _plyBestScores[i].Value;
 
-                bestPly = i;
+                    bestPly = i;
+                }
             }
         }
 
@@ -201,9 +204,12 @@ public sealed class Core : IDisposable
                 break;
             }
 
-            bestScore = _plyBestScores[i];
+            if (_plyBestScores[i].HasValue)
+            {
+                bestScore = _plyBestScores[i].Value;
 
-            bestPly = i;
+                bestPly = i;
+            }
         }
 
         if (_bestPaths[bestPly].Count > 0)
@@ -407,13 +413,15 @@ public sealed class Core : IDisposable
                         ? copy.BlackScore - copy.WhiteScore
                         : copy.WhiteScore - copy.BlackScore;
 
-                    if (score >= _plyBestScores[ply])
+                    if (step.StartsWith("g2g3") && ply == 1)
+                    {
+                    }
+
+                    if (_plyBestScores[ply] == null || score >= _plyBestScores[ply])
                     {
                         if (score > _plyBestScores[ply])
                         {
                             _plyBestScores[ply] = score;
-                            
-                            _bestPaths[ply].Clear();
                         }
 
                         _bestPaths[ply].Add((outcome, step));
