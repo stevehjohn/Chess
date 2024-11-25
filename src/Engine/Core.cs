@@ -160,11 +160,9 @@ public sealed class Core : IDisposable
             _outcomes[i] = new long[outcomes.Length];
         }
 
-        (MoveOutcome Outcome, string Move) move = (MoveOutcome.Move, "0000");
-
         GetMoveInternal(_board, Player, depth, depth, string.Empty, DateTime.UtcNow, moveTime); 
 
-        move = GetBestMove();
+        var move = GetBestMove();
 
         callback?.Invoke(move.Move);
 

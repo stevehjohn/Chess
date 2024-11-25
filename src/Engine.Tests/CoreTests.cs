@@ -66,7 +66,7 @@ public class CoreTests
     {
         _core.Initialise(fen);
 
-        var move = _core.GetMove(3);
+        var move = _core.GetMove(1);
 
         var moves = expectedMoves.Split('|');
         
