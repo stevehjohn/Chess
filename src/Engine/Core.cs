@@ -130,7 +130,7 @@ public sealed class Core : IDisposable
 
         _getMoveTask = null;
 
-        return GetBestMove();
+        return GetBestMove().Move;
     }
     
     private (MoveOutcome Outcome, string Move) GetMoveInternal(int depth, Action<string> callback = null, int moveTime = 0)
@@ -160,7 +160,7 @@ public sealed class Core : IDisposable
             _outcomes[i] = new long[outcomes.Length];
         }
 
-        string move = null;
+        (MoveOutcome Outcome, string Move) move = (MoveOutcome.Move, "0000");
 
         var outcome = GetMoveInternal(_board, Player, depth, depth, string.Empty, DateTime.UtcNow, moveTime); 
 
@@ -169,9 +169,9 @@ public sealed class Core : IDisposable
             move = GetBestMove();
         }
 
-        callback?.Invoke(move);
+        callback?.Invoke(move.Move);
 
-        return (outcome, move);
+        return move;
     }
 
     public long GetBestMoveCount()
@@ -193,7 +193,7 @@ public sealed class Core : IDisposable
         return _bestPaths[bestPly].Count;
     }
     
-    private string GetBestMove()
+    private (MoveOutcome Outcome, string Move) GetBestMove()
     {
         var bestScore = 0;
 
@@ -221,12 +221,18 @@ public sealed class Core : IDisposable
                 {
                     var path = Random.Shared.Next(paths.Count);
 
-                    return paths[path].Path[..4];
+                    var moveOutcome = (PlyOutcome) i == PlyOutcome.CheckMate
+                        ? i % 2 == 1
+                            ? MoveOutcome.EngineInCheckmate
+                            : MoveOutcome.OpponentInCheckmate
+                        : MoveOutcome.Move;
+
+                    return (moveOutcome, paths[path].Path[..4]);
                 }
             }
         }
 
-        return _lastLegalMove.ToStandardNotation();
+        return (MoveOutcome.Move, _lastLegalMove.ToStandardNotation());
     }
 
     private MoveOutcome GetMoveInternal(Board board, Colour colour, int maxDepth, int depth, string path, DateTime startTime, int moveTime, string perftNode = null)
