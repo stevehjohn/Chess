@@ -365,8 +365,6 @@ public sealed class Core : IDisposable
                         if (score > _plyBestScores[ply])
                         {
                             _plyBestScores[ply] = score;
-
-                            _bestPaths[ply].Clear();
                         }
 
                         _bestPaths[ply].Add((outcome, $"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}".Trim()));

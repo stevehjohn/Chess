@@ -76,7 +76,8 @@ public class CoreTests
     }
     
     [Theory]
-    [InlineData("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w", "g2g4")]
+    // [InlineData("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w", "g2g4")]
+    [InlineData("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w", "e2e3|b7b5")]
     public void DoesNotHallucinateCheckmate(string fen, string playedMoves)
     {
         _core.Initialise(fen);
