@@ -218,8 +218,15 @@ public sealed class Core : IDisposable
 
                     var path = paths[pathIndex];
 
+                    if (! VerifyIsValidPath(path.Path))
+                    {
+                        paths.Remove(path);
+                        
+                        continue;
+                    }
+
                     var step = path.Path[..4];
-                    
+
                     var stepOutcome = (PlyOutcome) i;
                     
                     if (bestPly > 1)
@@ -239,6 +246,37 @@ public sealed class Core : IDisposable
         }
 
         return (_lastLegalMove == null ? MoveOutcome.Stalemate : MoveOutcome.Move, _lastLegalMove);
+    }
+
+    private bool VerifyIsValidPath(string path)
+    {
+        var parts = path.Split(' ');
+
+        var ply = parts.Length;
+
+        while (ply > 1)
+        {
+            var found = false;
+            
+            foreach (var item in _bestPaths[ply - 1])
+            {
+                if (item.Path.EndsWith(parts[^2]))
+                {
+                    found = true;
+                    
+                    break;
+                }
+            }
+
+            if (! found)
+            {
+                return false;
+            }
+
+            ply--;
+        }
+
+        return true;
     }
 
     private void GetMoveInternal(Board board, Colour colour, int maxDepth, int depth, string path, DateTime startTime, int moveTime, string perftNode = null)
