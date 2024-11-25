@@ -59,6 +59,7 @@ public class CoreTests
 
     [Theory]
     [InlineData("K7/8/8/8/8/8/5Q2/7k b")]
+    [InlineData("k7/7R/8/7p/5p1P/b4N2/8/RQ5K b")]
     public void CoreDetectsStalemate(string fen)
     {
         _core.Initialise(fen);
