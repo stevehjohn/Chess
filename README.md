@@ -51,7 +51,7 @@ Number of possible board combinations after each move (without pruning).
 - LiChessClient thinks opponent wins when it did
 - LiChessClient thinks opponent wins when opponent did (at least that's correct)
 
-## Useful L~~~~inks
+## Useful Links
 
 - https://www.chessprogramming.org/Perft_Results
 - https://database.lichess.org/
