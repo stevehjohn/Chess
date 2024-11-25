@@ -31,7 +31,7 @@ public sealed class Core : IDisposable
     
     private readonly Dictionary<string, long> _perftCounts = new();
 
-    private int _lastLegalMove;
+    private string _lastLegalMove;
     
     public int MoveCount => _ply - 1;
 
@@ -145,7 +145,7 @@ public sealed class Core : IDisposable
         
         _perftCounts.Clear();
 
-        _lastLegalMove = -1;
+        _lastLegalMove = null;
 
         for (var i = 1; i <= depth; i++)
         {
@@ -238,7 +238,7 @@ public sealed class Core : IDisposable
             }
         }
 
-        return (MoveOutcome.Move, _lastLegalMove.ToStandardNotation());
+        return (_lastLegalMove == null ? MoveOutcome.Stalemate : MoveOutcome.Move, _lastLegalMove);
     }
 
     private void GetMoveInternal(Board board, Colour colour, int maxDepth, int depth, string path, DateTime startTime, int moveTime, string perftNode = null)
@@ -306,9 +306,11 @@ public sealed class Core : IDisposable
 
                 moved = true;
 
+                var step = $"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}".Trim();
+                    
                 if (depth == maxDepth)
                 {
-                    _lastLegalMove= move;
+                    _lastLegalMove= step;
                 }
                 
                 if (perftNode == null)
@@ -348,7 +350,7 @@ public sealed class Core : IDisposable
                     {
                         _outcomes[ply][(int) PlyOutcome.CheckMate]++;
 
-                        _bestPaths[ply].Add((PlyOutcome.CheckMate, $"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}".Trim()));
+                        _bestPaths[ply].Add((PlyOutcome.CheckMate, step));
 
                         mateFound = true;
                     }
@@ -367,7 +369,7 @@ public sealed class Core : IDisposable
                             _plyBestScores[ply] = score;
                         }
 
-                        _bestPaths[ply].Add((outcome, $"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}".Trim()));
+                        _bestPaths[ply].Add((outcome, step));
                     }
                 }
 
