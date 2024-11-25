@@ -430,8 +430,8 @@ public sealed class Core : IDisposable
                         if (_plyBestScores[ply] == null || score > _plyBestScores[ply])
                         {
                             _plyBestScores[ply] = score;
-                            
-                            // TODO: Clear _bestPaths[ply]?
+
+                            _bestPaths[ply].Clear();
                         }
 
                         _bestPaths[ply].Add((outcome, step));
