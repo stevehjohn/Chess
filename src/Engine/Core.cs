@@ -456,7 +456,10 @@ public sealed class Core : IDisposable
 
         if (board.IsKingInCheck(colour, colour == Colour.Black ? board.BlackKingCell : board.WhiteKingCell) && ! moved)
         {
-            _outcomes[ply - 1][(int) PlyOutcome.CheckMate]++;
+            if (ply > 1)
+            {
+                _outcomes[ply - 1][(int) PlyOutcome.CheckMate]++;
+            }
         }
     }
 

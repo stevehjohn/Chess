@@ -121,13 +121,24 @@ public class CoreTests
 
     [Theory]
     [InlineData("rnb3nr/pp2kp1p/3bp1p1/1Bp5/5P1N/8/PPPP2PP/RNBQK2R w", "e1g1", "rnb   nr|pp  kp p|   bp p | Bp     |     P N|        |PPPP  PP|RNBQ RK ")]
-    public void SpecialMovesAreRecognisedFromOpponent(string start, string move, string expected)
+    public void SpecialMovesAreRecognisedFromOpponent(string fen, string move, string expected)
     {
-        _core.Initialise(start);
+        _core.Initialise(fen);
         
         _core.MakeMove(move);
         
         Assert.Equal(expected, _core.ToString());
+    }
+
+    [Theory]
+    [InlineData("5Q1k/r1p1Np1p/np6/p3N1p1/4P3/3P4/PPP2PPP/R4RK1 b")]
+    public void RecognisesCheckmateFromOpponent(string fen)
+    {
+        _core.Initialise(fen);
+
+        var move = _core.GetMove(2);
+        
+        Assert.Equal(MoveOutcome.EngineInCheckmate, move.Outcome);
     }
 
     [Fact]
