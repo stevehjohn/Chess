@@ -154,7 +154,7 @@ public static class EntryPoint
 
                     var timeRemaining = TimeSpan.FromSeconds(remaining * averagePerSecond);
 
-                    var etr = $"{(timeRemaining.Days > 0 ? $"{timeRemaining.Days:N0}d" : string.Empty)}{timeRemaining.Hours,2:00}:{timeRemaining.Minutes,2:00}.{timeRemaining.Seconds % 60,2:00}";
+                    var etr = $"{(timeRemaining.Days > 0 ? $"{timeRemaining.Days:N0}d " : string.Empty)}{timeRemaining.Hours,2:00}:{timeRemaining.Minutes,2:00}.{timeRemaining.Seconds % 60,2:00}";
                     
                     Console.Write($"  {DateTime.Now:HH:mm:ss} {percent:N2}% {depthCount:N0} / {ExpectedCombinations[maxDepth - 1]:N0} ETR: {etr}");
 
@@ -272,7 +272,7 @@ public static class EntryPoint
             }
         }
 
-        Console.WriteLine($"      Best Score: {core.GetBestScore(maxDepth)}    BestMoveCount: {core.GetBestMoveCount()}");
+        Console.WriteLine($"      Best Score: {core.GetBestScore(maxDepth):N0}    BestMoveCount: {core.GetBestMoveCount():N0}");
 
         Console.WriteLine();
 

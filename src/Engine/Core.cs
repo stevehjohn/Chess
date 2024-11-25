@@ -311,6 +311,8 @@ public sealed class Core : IDisposable
                     _perftCounts[perftNode]++;
                 }
 
+                var mateFound = false;
+                
                 if (copy.IsKingInCheck(colour.Invert(), colour == Colour.White ? copy.BlackKingCell : copy.WhiteKingCell))
                 {
                     // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
@@ -336,23 +338,28 @@ public sealed class Core : IDisposable
                         _outcomes[ply][(int) PlyOutcome.CheckMate]++;
 
                         _bestPaths[ply].Add((PlyOutcome.CheckMate, $"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}".Trim()));
+
+                        mateFound = true;
                     }
                 }
-                
-                var score = colour == Colour.Black 
-                    ? copy.BlackScore - copy.WhiteScore
-                    : copy.WhiteScore - copy.BlackScore;
-                
-                if (score >= _plyBestScores[ply])
+
+                if (! mateFound)
                 {
-                    if (score > _plyBestScores[ply])
+                    var score = colour == Colour.Black
+                        ? copy.BlackScore - copy.WhiteScore
+                        : copy.WhiteScore - copy.BlackScore;
+
+                    if (score >= _plyBestScores[ply])
                     {
-                        _plyBestScores[ply] = score;
+                        if (score > _plyBestScores[ply])
+                        {
+                            _plyBestScores[ply] = score;
 
-                        _bestPaths[ply].Clear();
+                            _bestPaths[ply].Clear();
+                        }
+
+                        _bestPaths[ply].Add((outcome, $"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}".Trim()));
                     }
-
-                    _bestPaths[ply].Add((outcome, $"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}".Trim()));
                 }
 
                 _outcomes[ply][(int) outcome]++;
