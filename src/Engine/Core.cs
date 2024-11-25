@@ -263,6 +263,16 @@ public sealed class Core : IDisposable
             }
         }
 
+        if (_board.IsKingInCheck(Player, Player == Colour.White ? _board.WhiteKingCell : _board.BlackKingCell))
+        {
+            return (MoveOutcome.EngineInCheckmate, null);
+        }
+
+        if (_board.IsKingInCheck(Player.Invert(), Player == Colour.Black ? _board.WhiteKingCell : _board.BlackKingCell))
+        {
+            return (MoveOutcome.OpponentInCheckmate, null);
+        }
+
         return (MoveOutcome.Stalemate, null);
     }
 

@@ -341,64 +341,104 @@ public sealed class LiChessClient : IDisposable
 
     private async Task<TResponse> Post<TRequest, TResponse>(string path, TRequest content) where TRequest : class
     {
-        if (_logCommunications)
-        {
-            OutputLine($"&NL;&Gray;POST: api/{path}");
-        }
+        var tries = 3;
+
+        Exception lastException = null;
         
-        using var response = await _client.PostAsync($"api/{path}", content is NullRequest ? new StringContent(string.Empty) : JsonContent.Create(content));
-
-        if (_logCommunications)
+        while (tries > 0)
         {
-            OutputLine($"&NL;{response.StatusCode}");
+            try
+            {
+                if (_logCommunications)
+                {
+                    OutputLine($"&NL;&Gray;POST: api/{path}");
+                }
+
+                using var response = await _client.PostAsync($"api/{path}", content is NullRequest ? new StringContent(string.Empty) : JsonContent.Create(content));
+
+                if (_logCommunications)
+                {
+                    OutputLine($"&NL;{response.StatusCode}");
+                }
+
+                var responseString = await response.Content.ReadAsStringAsync();
+
+                if (! response.IsSuccessStatusCode)
+                {
+                    OutputLine($"&NL;&Magenta;{response.StatusCode}");
+                    OutputLine($"&Gray;{JsonSerializer.Serialize(JsonSerializer.Deserialize<JsonElement>(responseString), _serializerOptions)}");
+                }
+
+                var responseObject = JsonSerializer.Deserialize<TResponse>(responseString);
+
+                if (_logCommunications)
+                {
+                    OutputLine($"&Gray;{JsonSerializer.Serialize(JsonSerializer.Deserialize<JsonElement>(responseString), _serializerOptions)}");
+                }
+
+                return responseObject;
+            }
+            catch (Exception exception)
+            {
+                lastException = exception;
+                
+                tries--;
+                
+                Thread.Sleep(1_000);
+            }
         }
 
-        var responseString = await response.Content.ReadAsStringAsync();
-        
-        if (! response.IsSuccessStatusCode)
-        {
-            OutputLine($"&NL;&Magenta;{response.StatusCode}");
-            OutputLine($"&Gray;{JsonSerializer.Serialize(JsonSerializer.Deserialize<JsonElement>(responseString), _serializerOptions)}");
-        }
-
-        var responseObject = JsonSerializer.Deserialize<TResponse>(responseString);
-        
-        if (_logCommunications)
-        {
-            OutputLine($"&Gray;{JsonSerializer.Serialize(JsonSerializer.Deserialize<JsonElement>(responseString), _serializerOptions)}");
-        }
-
-        return responseObject;
+        throw lastException ?? new Exception("Something has gone wrong.");
     }
 
     private async Task<TResponse> Get<TResponse>(string path)
     {
-        if (_logCommunications)
+        var tries = 3;
+
+        Exception lastException = null;
+
+        while (tries > 0)
         {
-            OutputLine();
-            
-            OutputLine($"&Gray;GET: api/{path}");
+            try
+            {
+                if (_logCommunications)
+                {
+                    OutputLine();
+
+                    OutputLine($"&Gray;GET: api/{path}");
+                }
+
+                using var response = await _client.GetAsync($"api/{path}");
+
+                if (_logCommunications)
+                {
+                    OutputLine($"&NL;{response.StatusCode}");
+                }
+
+                var responseString = await response.Content.ReadAsStringAsync();
+
+                var responseObject = JsonSerializer.Deserialize<TResponse>(responseString);
+
+                if (_logCommunications)
+                {
+                    OutputLine($"&Gray;{JsonSerializer.Serialize(JsonSerializer.Deserialize<JsonElement>(responseString), _serializerOptions)}");
+
+                    OutputLine();
+                }
+
+                return responseObject;
+            }
+            catch (Exception exception)
+            {
+                lastException = exception;
+
+                tries--;
+
+                Thread.Sleep(1_000);
+            }
         }
 
-        using var response = await _client.GetAsync($"api/{path}");
-
-        if (_logCommunications)
-        {
-            OutputLine($"&NL;{response.StatusCode}");
-        }
-        
-        var responseString = await response.Content.ReadAsStringAsync();
-
-        var responseObject = JsonSerializer.Deserialize<TResponse>(responseString);
-        
-        if (_logCommunications)
-        {
-            OutputLine($"&Gray;{JsonSerializer.Serialize(JsonSerializer.Deserialize<JsonElement>(responseString), _serializerOptions)}");
-            
-            OutputLine();
-        }
-
-        return responseObject;
+        throw lastException ?? new Exception("Something has gone wrong.");
     }
 
     public void Dispose()
