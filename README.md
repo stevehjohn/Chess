@@ -35,7 +35,6 @@ Number of possible board combinations after each move (without pruning).
 
 ### WIP / Priority
 
-- Do we need to store the paths after the first ply?
 - Possibly fixed: Engine generates moves like "e1f-" sometimes
 - Tidy up the whole outcome logic in Core
 - Engine modes - explore all (for testing), or prune
