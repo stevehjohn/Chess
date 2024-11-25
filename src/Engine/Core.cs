@@ -162,12 +162,9 @@ public sealed class Core : IDisposable
 
         (MoveOutcome Outcome, string Move) move = (MoveOutcome.Move, "0000");
 
-        var outcome = GetMoveInternal(_board, Player, depth, depth, string.Empty, DateTime.UtcNow, moveTime); 
+        GetMoveInternal(_board, Player, depth, depth, string.Empty, DateTime.UtcNow, moveTime); 
 
-        if (outcome is MoveOutcome.Move or MoveOutcome.OpponentInCheckmate)
-        {
-            move = GetBestMove();
-        }
+        move = GetBestMove();
 
         callback?.Invoke(move.Move);
 
@@ -235,19 +232,19 @@ public sealed class Core : IDisposable
         return (MoveOutcome.Move, _lastLegalMove.ToStandardNotation());
     }
 
-    private MoveOutcome GetMoveInternal(Board board, Colour colour, int maxDepth, int depth, string path, DateTime startTime, int moveTime, string perftNode = null)
+    private void GetMoveInternal(Board board, Colour colour, int maxDepth, int depth, string path, DateTime startTime, int moveTime, string perftNode = null)
     {
         if (moveTime > 0)
         {
             if ((DateTime.UtcNow - startTime).TotalMilliseconds > moveTime)
             {
-                return MoveOutcome.Move;
+                return;
             }
         }
 
         if (_cancellationToken.IsCancellationRequested)
         {
-            return MoveOutcome.Move;
+            return;
         }
 
         var moved = false;
@@ -374,12 +371,7 @@ public sealed class Core : IDisposable
 
                 if (depth > 1)
                 {
-                    var result = GetMoveInternal(copy, colour.Invert(), maxDepth, depth - 1, $"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}", startTime, moveTime, perftNode);
-
-                    if (result == MoveOutcome.OpponentInCheckmate)
-                    {
-                        return result;
-                    }
+                    GetMoveInternal(copy, colour.Invert(), maxDepth, depth - 1, $"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}", startTime, moveTime, perftNode);
 
                     _perftCounts[perftNode]--;
                 }
@@ -395,15 +387,8 @@ public sealed class Core : IDisposable
 
         if (board.IsKingInCheck(colour, colour == Colour.Black ? board.BlackKingCell : board.WhiteKingCell) && ! moved)
         {
-            if (ply == 1)
-            {
-                return colour == Player ? MoveOutcome.EngineInCheckmate : MoveOutcome.OpponentInCheckmate;
-            }
-
             _outcomes[ply - 1][(int) PlyOutcome.CheckMate]++;
         }
-
-        return MoveOutcome.Move;
     }
 
     private static int TranslateSpecialMoveCode(int cell, int moveCode)
