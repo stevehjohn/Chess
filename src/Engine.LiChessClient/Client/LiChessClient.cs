@@ -257,6 +257,11 @@ public sealed class LiChessClient : IDisposable
                     OutputLine("&NL;  &Green;Checkmate :)&White;...");
 
                     return 1;
+                
+                case MoveOutcome.Stalemate:
+                    OutputLine("&NL;  &Gray;Stalemate...");
+
+                    return 0;
             }
 
             OutputLine($"&NL;  &Green;Engine&White;: {engineMove}");
@@ -308,6 +313,11 @@ public sealed class LiChessClient : IDisposable
                     OutputLine("&NL;  &Green;Checkmate :)&White;...");
 
                     return 1;
+                
+                case MoveOutcome.Stalemate:
+                    OutputLine("&NL;  &Gray;Stalemate...");
+
+                    return 0;
             }
 
             OutputLine($"&NL;  &Green;Engine&White;: {engineMove}");
