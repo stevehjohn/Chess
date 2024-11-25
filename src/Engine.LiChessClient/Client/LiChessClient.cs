@@ -282,8 +282,12 @@ public sealed class LiChessClient : IDisposable
             }
 
             _core.MakeMove(lastMove);
-            
+
             OutputLine($"&NL;  &Green;Opponent&White;: {lastMove}");
+                        
+            OutputLine();
+            
+            _core.OutputBoard(! engineIsWhite);
 
             OutputLine("&NL;  &Cyan;Thinking&White;...");
             

@@ -78,6 +78,11 @@ public sealed class Core : IDisposable
 
     public void MakeMove(int position, int target)
     {
+        if (_board.CellKind(position) == Kind.King && Math.Abs(target - position) == 2)
+        {
+            _board.MakeMove(position, target - position == 2 ? SpecialMoveCodes.CastleKingSide : SpecialMoveCodes.CastleQueenSide, _ply);
+        }
+
         _board.MakeMove(position, target, _ply);
         
         Player = Player.Invert();

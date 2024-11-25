@@ -44,6 +44,7 @@ Number of possible board combinations after each move (without pruning).
 
 ### WIP / Priority
 
+- Translate an opponent castle move
 - Possibly fixed: Engine generates moves like "e1f-" sometimes
 - Tidy up the whole outcome logic in Core
 - Engine modes - explore all (for testing), or prune
