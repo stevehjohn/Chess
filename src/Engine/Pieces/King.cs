@@ -19,7 +19,7 @@ public class King : Piece
 
     public override Kind Kind => Kind.King;
 
-    public override int Value => 100_000;
+    public override int Value => 0;
 
     public King(Colour colour) : base(colour)
     {

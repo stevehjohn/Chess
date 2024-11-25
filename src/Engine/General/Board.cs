@@ -475,11 +475,11 @@ public class Board
 
                 if (playerIsBlack)
                 {
-                    _state.BlackScore += new Queen(Colour.Black).Value;
+                    _state.BlackScore += new Queen(Colour.Black).Value - new Pawn(Colour.Black).Value;
                 }
                 else
                 {
-                    _state.WhiteScore += new Queen(Colour.White).Value;
+                    _state.WhiteScore += new Queen(Colour.White).Value - new Pawn(Colour.White).Value;
                 }
 
                 promoted = true;

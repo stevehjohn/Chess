@@ -141,6 +141,36 @@ public class CoreTests
         Assert.Equal(MoveOutcome.EngineInCheckmate, move.Outcome);
     }
 
+    [Theory]
+    [InlineData("r1bqkbnr/p1pp1ppp/p3p3/8/3PP3/5N2/PPP2PPP/RNBQK2R b", "d8g5|d8h4")]
+    public void ScoresAreEvaluatedToThePlayersBestInterests(string fen, string notExpected)
+    {
+        _core.Initialise(fen);
+
+        var move = _core.GetMove(5);
+
+        Assert.DoesNotContain(move.Move, notExpected.Split('|'));
+    }
+
+    [Theory]
+    [InlineData("p7/1P6/8/8/8/8/8/8 b", 1, "10")]
+    [InlineData("8/p7/1P6/8/8/8/8/8 w", 1, "10")]
+    [InlineData("p7/1P6/8/8/8/8/8/8 w", 1, "90")]
+    [InlineData("p7/8/1P6/8/8/8/8/8 w", 1, "0,10")]
+    public void CalculatesExpectedPlyScores(string fen, int depth, string expectedScores)
+    {
+        _core.Initialise(fen);
+
+        _core.GetMove(depth);
+
+        var scores = expectedScores.Split(",").Select(int.Parse).ToList();
+
+        for (var i = 0; i < depth; i++)
+        {
+            Assert.Equal(scores[i], _core.GetBestScore(i + 1));
+        }        
+    }
+
     [Fact]
     public void PicksRandomMove()
     {

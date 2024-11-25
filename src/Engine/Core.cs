@@ -433,9 +433,12 @@ public sealed class Core : IDisposable
                 if (! mateFound)
                 {
                     // TODO: Check the logic here - it's crucial to good moves
-                    var score = colour == Colour.Black
-                        ? copy.BlackScore - copy.WhiteScore
-                        : copy.WhiteScore - copy.BlackScore;
+                    var score = Math.Abs(copy.BlackScore - copy.WhiteScore);
+
+                    if (colour != Player)
+                    {
+                        score = -score;
+                    }
 
                     if (_plyBestScores[ply] == null || score >= _plyBestScores[ply])
                     {
