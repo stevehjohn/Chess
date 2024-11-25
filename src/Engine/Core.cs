@@ -432,6 +432,7 @@ public sealed class Core : IDisposable
 
                 if (! mateFound)
                 {
+                    // TODO: Check the logic here - it's crucial to good moves
                     var score = colour == Colour.Black
                         ? copy.BlackScore - copy.WhiteScore
                         : copy.WhiteScore - copy.BlackScore;
