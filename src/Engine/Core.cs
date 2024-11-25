@@ -214,15 +214,26 @@ public sealed class Core : IDisposable
                 
                 if (paths.Count > 0)
                 {
-                    var path = Random.Shared.Next(paths.Count);
+                    var pathIndex = Random.Shared.Next(paths.Count);
 
-                    var moveOutcome = (PlyOutcome) i == PlyOutcome.CheckMate
+                    var path = paths[pathIndex];
+
+                    var step = path.Path[..4];
+                    
+                    var stepOutcome = (PlyOutcome) i;
+                    
+                    if (bestPly > 1)
+                    {
+                        stepOutcome = _bestPaths[1].Single(m => m.Path == step).Outcome;
+                    }
+
+                    var moveOutcome = stepOutcome == PlyOutcome.CheckMate
                         ? i % 2 == 1
                             ? MoveOutcome.EngineInCheckmate
                             : MoveOutcome.OpponentInCheckmate
                         : MoveOutcome.Move;
 
-                    return (moveOutcome, paths[path].Path[..4]);
+                    return (moveOutcome, step);
                 }
             }
         }

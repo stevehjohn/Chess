@@ -74,6 +74,24 @@ public class CoreTests
         
         Assert.Equal(MoveOutcome.OpponentInCheckmate, move.Outcome);
     }
+    
+    [Theory]
+    [InlineData("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w", "g2g4")]
+    public void DoesNotHallucinateCheckmate(string fen, string playedMoves)
+    {
+        _core.Initialise(fen);
+
+        var moves = playedMoves.Split('|');
+
+        foreach (var move in moves)
+        {
+            _core.MakeMove(move);
+        }
+
+        var nextMove = _core.GetMove(5);
+        
+        Assert.NotEqual(MoveOutcome.OpponentInCheckmate, nextMove.Outcome);
+    }
 
     [Fact]
     public void PicksRandomMove()
