@@ -47,7 +47,7 @@ public sealed class LiChessClient : IDisposable
         };
     }
 
-    public async Task<int> ChallengeLiChess(string username)
+    public async Task<int> ChallengeLiChess(string username, bool rated)
     {
         OutputLine($"&NL;  &Cyan;Challenging &White;{username}");
 
@@ -59,7 +59,7 @@ public sealed class LiChessClient : IDisposable
                 Linit = 900
             },
             KeepAliveStream = false,
-            Rated = false,
+            Rated = rated,
             Variant = "standard"
         });
 

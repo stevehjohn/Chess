@@ -5,6 +5,8 @@ public static class EntryPoint
 {
     // Useful bots: KateFish, WorstFish, maia1
     private const string OpponentBot = "maia1";
+
+    private const bool Rated = true;
     
     private const int Games = 1;
     
@@ -51,7 +53,7 @@ public static class EntryPoint
 
             try
             {
-                var result = await client.ChallengeLiChess(OpponentBot);
+                var result = await client.ChallengeLiChess(OpponentBot, Rated);
                 
                 results.Add(result);
 
