@@ -130,7 +130,7 @@ public sealed class Core : IDisposable
 
         _getMoveTask = null;
 
-        return GetBestMove().Move;
+        return GetBestMove().Move ?? _lastLegalMove;
     }
     
     private (MoveOutcome Outcome, string Move) GetMoveInternal(int depth, Action<string> callback = null, int moveTime = 0)
@@ -250,7 +250,7 @@ public sealed class Core : IDisposable
             }
         }
 
-        return (_lastLegalMove == null ? MoveOutcome.Stalemate : MoveOutcome.Move, _lastLegalMove);
+        return (MoveOutcome.Stalemate, null);
     }
 
     private bool VerifyIsValidPath(string path)

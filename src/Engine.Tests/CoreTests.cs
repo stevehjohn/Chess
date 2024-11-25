@@ -108,7 +108,8 @@ public class CoreTests
     }
 
     [Theory]
-    [InlineData("rn1qkbnr/ppp2ppp/8/3pp3/8/7b/PPPPPPPP/RNBQKB1R w", "g2h3")]
+    // [InlineData("rn1qkbnr/ppp2ppp/8/3pp3/8/7b/PPPPPPPP/RNBQKB1R w", "g2h3")]
+    [InlineData("rn1qkbnr/ppp1pp1p/7p/3p4/8/3P3b/PPP1PPPP/RN1QKB1R w", "g2g3")]
     public void ShouldPickDecentMove(string fen, string expectedMove)
     {
         _core.Initialise(fen);
