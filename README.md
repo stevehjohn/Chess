@@ -47,10 +47,10 @@ Number of possible board combinations after each move (without pruning).
 - Possibly fixed: Engine generates moves like "e1f-" sometimes
 - Tidy up the whole outcome logic in Core
 - Engine modes - explore all (for testing), or prune
+- Stalemate detection - done?
 
 ### The Rest
 
-- Stalemate detection
 - Fix crash on (or near) checkmate - still an issue?
 - Threefold repetition
 - Ranking move quality
