@@ -355,14 +355,9 @@ public sealed class Core : IDisposable
                 
                 var newCell = move > 99 ? TranslateSpecialMoveCode(cell, move) : move;
 
-                if (newCell> 99)
-                {
-                    newCell= TranslateSpecialMoveCode(cell, move);
-                }
-
                 moved = true;
 
-                var step = $"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}".Trim();
+                var step = $"{path} {(rank, file).ToStandardNotation()}{newCell.ToStandardNotation()}".Trim();
                     
                 if (depth == maxDepth)
                 {
@@ -418,10 +413,6 @@ public sealed class Core : IDisposable
                         ? copy.BlackScore - copy.WhiteScore
                         : copy.WhiteScore - copy.BlackScore;
 
-                    if (step.StartsWith("g2g3") && ply == 1)
-                    {
-                    }
-
                     if (_plyBestScores[ply] == null || score >= _plyBestScores[ply])
                     {
                         if (score > _plyBestScores[ply])
@@ -447,7 +438,7 @@ public sealed class Core : IDisposable
 
                 if (depth > 1)
                 {
-                    GetMoveInternal(copy, colour.Invert(), maxDepth, depth - 1, $"{path} {(rank, file).ToStandardNotation()}{move.ToStandardNotation()}", startTime, moveTime, perftNode);
+                    GetMoveInternal(copy, colour.Invert(), maxDepth, depth - 1, $"{path} {(rank, file).ToStandardNotation()}{newCell.ToStandardNotation()}", startTime, moveTime, perftNode);
 
                     _perftCounts[perftNode]--;
                 }
