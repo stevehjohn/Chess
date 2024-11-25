@@ -119,6 +119,17 @@ public class CoreTests
         Assert.Equal(expectedMove, nextMove.Move);
     }
 
+    [Theory]
+    [InlineData("rnb3nr/pp2kp1p/3bp1p1/1Bp5/5P1N/8/PPPP2PP/RNBQK2R w", "e1g1", "rnb   nr|pp  kp p|   bp p | Bp     |     P N|        |PPPP  PP|RNBQ RK ")]
+    public void SpecialMovesAreRecognisedFromOpponent(string start, string move, string expected)
+    {
+        _core.Initialise(start);
+        
+        _core.MakeMove(move);
+        
+        Assert.Equal(expected, _core.ToString());
+    }
+
     [Fact]
     public void PicksRandomMove()
     {
