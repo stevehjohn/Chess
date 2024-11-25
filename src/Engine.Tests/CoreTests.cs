@@ -107,6 +107,17 @@ public class CoreTests
         Assert.NotEqual(MoveOutcome.OpponentInCheckmate, nextMove.Outcome);
     }
 
+    [Theory]
+    [InlineData("rn1qkbnr/ppp2ppp/8/3pp3/8/7b/PPPPPPPP/RNBQKB1R w", "g2h3")]
+    public void ShouldPickDecentMove(string fen, string expectedMove)
+    {
+        _core.Initialise(fen);
+
+        var nextMove = _core.GetMove(5);
+        
+        Assert.Equal(expectedMove, nextMove.Move);
+    }
+
     [Fact]
     public void PicksRandomMove()
     {

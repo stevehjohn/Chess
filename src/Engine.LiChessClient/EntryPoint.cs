@@ -4,7 +4,7 @@ using static Engine.LiChessClient.Infrastructure.Console;
 public static class EntryPoint
 {
     // Useful bots: KateFish, WorstFish, maia1
-    private const string OpponentBot = "WorstFish";
+    private const string OpponentBot = "maia1";
     
     private const int Games = 3;
     

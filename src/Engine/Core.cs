@@ -208,40 +208,45 @@ public sealed class Core : IDisposable
 
         if (_bestPaths[bestPly].Count > 0)
         {
-            for (var i = (int) PlyOutcome.CheckMate; i >= 0; i--)
+            while (bestPly > 0)
             {
-                var paths = _bestPaths[bestPly].Where(p => p.Outcome == (PlyOutcome) i).ToList();
-                
-                if (paths.Count > 0)
+                for (var i = (int) PlyOutcome.CheckMate; i >= 0; i--)
                 {
-                    var pathIndex = Random.Shared.Next(paths.Count);
+                    var paths = _bestPaths[bestPly].Where(p => p.Outcome == (PlyOutcome) i).ToList();
 
-                    var path = paths[pathIndex];
-
-                    if (! VerifyIsValidPath(path.Path))
+                    if (paths.Count > 0)
                     {
-                        paths.Remove(path);
-                        
-                        continue;
+                        var pathIndex = Random.Shared.Next(paths.Count);
+
+                        var path = paths[pathIndex];
+
+                        if (! VerifyIsValidPath(path.Path))
+                        {
+                            paths.Remove(path);
+
+                            continue;
+                        }
+
+                        var step = path.Path[..4];
+
+                        var stepOutcome = (PlyOutcome) i;
+
+                        if (bestPly > 1)
+                        {
+                            stepOutcome = _bestPaths[1].Single(m => m.Path == step).Outcome;
+                        }
+
+                        var moveOutcome = stepOutcome == PlyOutcome.CheckMate
+                            ? i % 2 == 1
+                                ? MoveOutcome.EngineInCheckmate
+                                : MoveOutcome.OpponentInCheckmate
+                            : MoveOutcome.Move;
+
+                        return (moveOutcome, step);
                     }
-
-                    var step = path.Path[..4];
-
-                    var stepOutcome = (PlyOutcome) i;
-                    
-                    if (bestPly > 1)
-                    {
-                        stepOutcome = _bestPaths[1].Single(m => m.Path == step).Outcome;
-                    }
-
-                    var moveOutcome = stepOutcome == PlyOutcome.CheckMate
-                        ? i % 2 == 1
-                            ? MoveOutcome.EngineInCheckmate
-                            : MoveOutcome.OpponentInCheckmate
-                        : MoveOutcome.Move;
-
-                    return (moveOutcome, step);
                 }
+
+                bestPly--;
             }
         }
 
