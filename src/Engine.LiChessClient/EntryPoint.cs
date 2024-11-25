@@ -3,7 +3,7 @@ using static Engine.LiChessClient.Infrastructure.Console;
 
 public static class EntryPoint
 {
-    // Useful bots: KateFish, WorstFish, maia1
+    // Useful bots: KateFish, WorstFish, maia1, halcyonbot
     private const string OpponentBot = "maia1";
 
     private const bool Rated = true;

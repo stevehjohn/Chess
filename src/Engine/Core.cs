@@ -82,6 +82,17 @@ public sealed class Core : IDisposable
         {
             _board.MakeMove(position, target - position == 2 ? SpecialMoveCodes.CastleKingSide : SpecialMoveCodes.CastleQueenSide, _ply);
         }
+        else if (_board.CellKind(position) == Kind.Pawn && _board.IsEmpty(target) && (position - target) % 8 != 0)
+        {
+            if (target / 8 == 2)
+            {
+                _board.MakeMove(position, target == position - 9 ? SpecialMoveCodes.EnPassantUpLeft : SpecialMoveCodes.EnPassantUpRight, _ply);
+            }
+            else
+            {
+                _board.MakeMove(position, target == position + 7 ? SpecialMoveCodes.EnPassantDownLeft : SpecialMoveCodes.EnPassantDownRight, _ply);
+            }
+        }
         else
         {
             _board.MakeMove(position, target, _ply);

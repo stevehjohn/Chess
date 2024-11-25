@@ -44,7 +44,7 @@ Number of possible board combinations after each move (without pruning).
 
 ### WIP / Priority
 
-- Translate an opponent castle or en passant into a move
+- Translate opponent en passant into a move - WIP - add unit test
 - Maybe ditch special move codes and get board to detect them?
 - Possibly fixed: Engine generates moves like "e1f-" sometimes
 - Tidy up the whole outcome logic in Core
