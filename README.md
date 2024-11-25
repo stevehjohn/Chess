@@ -2,6 +2,15 @@
 
 Second attempt at creating a chess engine.
 
+## General State
+
+A lot of the supporting code is sound, having been checked against perft.
+
+The class `Core` could do with a major refactor though, ideally using a move tree.
+
+Would be good for it to operate in 'efficient' and 'thorough' modes. Thorough to run against pert
+and efficient to enable pruning.
+
 ## Notes
 
 - Copying boards is faster than move/undo. It can also be parallelised.
