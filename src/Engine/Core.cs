@@ -257,10 +257,12 @@ public sealed class Core : IDisposable
         while (ply > 1)
         {
             var found = false;
+
+            var check = parts[ply - 2];
             
             foreach (var item in _bestPaths[ply - 1])
             {
-                if (item.Path.EndsWith(parts[^2]))
+                if (item.Path.EndsWith(check))
                 {
                     found = true;
                     
