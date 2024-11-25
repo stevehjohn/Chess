@@ -6,7 +6,7 @@ public static class EntryPoint
     // Useful bots: KateFish, WorstFish, maia1
     private const string OpponentBot = "maia1";
     
-    private const int Games = 3;
+    private const int Games = 9;
     
     public static async Task Main()
     {

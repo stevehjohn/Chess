@@ -52,6 +52,7 @@ Number of possible board combinations after each move (without pruning).
 
 ### The Rest
 
+- If king is in check and can take the piece without going into check - do that
 - Fix crash on (or near) checkmate - still an issue?
 - Threefold repetition
 - Ranking move quality
