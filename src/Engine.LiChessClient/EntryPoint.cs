@@ -8,9 +8,9 @@ public static class EntryPoint
 
     private const bool Rated = true;
     
-    private const int Games = 1;
+    private static int _games = 1;
     
-    public static async Task Main()
+    public static async Task Main(string[] arguments)
     {
         var colour = ForegroundColor;
         
@@ -18,7 +18,15 @@ public static class EntryPoint
         
         Clear();
 
-        for (var i = 0; i < Games; i++)
+        if (arguments.Length > 0)
+        {
+            if (! int.TryParse(arguments[0], out _games))
+            {
+                _games = 1;
+            }
+        }
+
+        for (var i = 0; i < _games; i++)
         {
             if (results.Count > 0)
             {
